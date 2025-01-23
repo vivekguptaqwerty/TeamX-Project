@@ -5,14 +5,31 @@
 @tailwind utilities;
 
 
-*{
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+}
+
+
+* {
   font-family: "Noto Sans";
   color: #ffffff;
   padding: 0;
   margin: 0;
 }
 
-body{
+body {
   background-color: #0E0E0E;
 }
 
+.hide-scroll:-webkit-scrollbar {
+  display: none;
+}
