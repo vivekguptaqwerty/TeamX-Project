@@ -10,10 +10,10 @@ const terms: React.FC = () => {
         <br />
         <strong>Introduction</strong>
         <br />
-        These Terms of Use (hereinafter referred to as the “Terms of Use") apply
-        when customers (hereinafter referred to as “users”, “user”) visit the
+        These Terms of Use (hereinafter referred to as the &quot;Terms of Use&quot;) apply
+        when customers (hereinafter referred to as &quot;users&quot;, &quot;user&quot;) visit the
         EveryX website at https://everyx.io and use the services provided
-        therein (hereinafter referred to as “services”).
+        therein (hereinafter referred to as &quot;services&quot;).
         <br />
         <br />
         <strong>Scope</strong>

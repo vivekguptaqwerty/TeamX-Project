@@ -7,7 +7,7 @@ export default function CategoryInfo() {
                 <p className="text-[15px] text-[#2DC198] pr-5">Jan 20, 2025</p>
             </div>
             <p className="text-xl text-[#CECECE]">Who will make it to the Asutralian 
-            OpenMen's Singles semifinals ?</p>
+            OpenMen&apos;s Singles semifinals ?</p>
             <div className="flex gap-3 mt-5">
                 <div className="w-1/2 p-4 border border-[#323232] rounded-md">
                     <p className="text-[#2DC198]">1x</p>

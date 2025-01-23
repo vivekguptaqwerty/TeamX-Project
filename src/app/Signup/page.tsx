@@ -32,7 +32,7 @@ const Page = () => {
 
   return (
     <div className="h-screen w-screen bg-black flex flex-col max-w-[430px] mx-auto">
-      <Navbar />
+      <Navbar home={"Signup"} />
 
       {/* SVGs below Navbar */}
       <div className="flex justify-between items-center px-6 mt-4">

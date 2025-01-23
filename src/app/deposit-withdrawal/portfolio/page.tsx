@@ -16,7 +16,7 @@ interface BetEntry {
   status: "failed" | "success";
 }
 
-const portfolio: React.FC = () => {
+const Portfolio: React.FC = () => {
   const router = useRouter();
   const bets: BetEntry[] = [
     {
@@ -107,4 +107,4 @@ const portfolio: React.FC = () => {
   );
 };
 
-export default portfolio;
+export default Portfolio;

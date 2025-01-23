@@ -18,7 +18,7 @@ export default function LoadingPage() {
   return (
     <div className="h-screen w-screen bg-black flex flex-col max-w-[430px] mx-auto">
       {/* Status Bar */}
-      <Navbar />
+      <Navbar home={"Home"} />
 
       {/* Logo */}
       <div className="flex-1 flex items-center justify-center">

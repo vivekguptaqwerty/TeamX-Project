@@ -2,16 +2,16 @@
 
 import CurrentCashBalanceCard from "@/components/CurrentCashBalance";
 import type React from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import styles from "../../../components/ProcessingIcon.module.css";
 
 const WithdrawalProcessing: React.FC = () => {
-  const [inputValue, setInputValue] = useState<string>("");
+  // const [inputValue, setInputValue] = useState<string>("");
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^0-9.]/g, ""); // Allow only numbers and decimal points
-    setInputValue(`$${value}`);
-  };
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value.replace(/[^0-9.]/g, ""); // Allow only numbers and decimal points
+  //   setInputValue(`$${value}`);
+  // };
 
   return (
     <div className="bg-[#0E0E0E] w-full min-h-screen text-white pt-5 flex flex-col">

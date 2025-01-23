@@ -3,7 +3,7 @@
 import CurrentCashBalanceCard from "@/components/CurrentCashBalance";
 import React, { useState } from "react";
 
-const withdrawal: React.FC = () => {
+const Withdrawal: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,4 +45,4 @@ const withdrawal: React.FC = () => {
   );
 };
 
-export default withdrawal;
+export default Withdrawal;
