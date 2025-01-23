@@ -1,6 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+}
+
+
+* {
+  font-family: "Noto Sans";
+  color: #ffffff;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: #0E0E0E;
 
 :root {
   --font-noto-sans-jp: "Noto Sans JP", sans-serif;
@@ -60,4 +87,9 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(20px); /* Adjusted translateX for the smaller width */
+
+}
+
+.hide-scroll:-webkit-scrollbar {
+  display: none;
 }
