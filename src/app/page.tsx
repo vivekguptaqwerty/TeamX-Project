@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -13,3 +14,4 @@ export default function Page() {
 
   return null; // No UI since this is just for redirection
 }
+
