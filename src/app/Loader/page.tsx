@@ -10,7 +10,7 @@ export default function LoadingPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.push("/Signup");
-    }, 10000);
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, [router]);
