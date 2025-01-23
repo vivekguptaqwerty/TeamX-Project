@@ -10,7 +10,7 @@ import { useContext } from "react";
 import { AppContext } from '../../../Context/AppContext';
 
 export default function EventCategoryPageDetails() {
-    const { filter, setFilter } = useContext(AppContext);
+    const { filter,setFilter}:any = useContext(AppContext);
     return (
         <div>
             <Navbar home={"Home"}/>

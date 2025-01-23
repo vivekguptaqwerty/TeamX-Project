@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { AppContext } from './Context/AppContext';
 
 export default function Home() {
-  const { filter, setFilter } = useContext(AppContext);
+  const { filter, setFilter }:any = useContext(AppContext);
   
   return (
     <div className="w-full">
