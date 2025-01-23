@@ -1,15 +1,19 @@
 "use client"
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+
+import React, { createContext, useState, ReactNode } from 'react';
 
 interface AppContextProps {
-    filter: string;
-    setFilter: React.Dispatch<React.SetStateAction<string>>;
+    filter: string;  // Changed from String to string
+    setFilter: React.Dispatch<React.SetStateAction<string>>;  // Changed from String to string
 }
 
-export const AppContext = createContext<AppContextProps | undefined>(undefined);
+export const AppContext = createContext<AppContextProps>({  // Removed undefined, provided initial value
+    filter: 'Recommend',
+    setFilter: () => {}
+});
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-    const [filter, setFilter] = useState<string>('Recommend');
+    const [filter, setFilter] = useState('Recommend');
 
     return (
         <AppContext.Provider value={{ filter, setFilter }}>

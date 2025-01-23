@@ -18,7 +18,7 @@ const Setting: React.FC = () => {
     popCulture: false,
   });
 
-  const handleSwitchChange = (key: string) => {
+  const handleSwitchChange = (key: keyof typeof switchStates) => {
     setSwitchStates((prevState) => ({
       ...prevState,
       [key]: !prevState[key],

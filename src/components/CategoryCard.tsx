@@ -1,12 +1,19 @@
 import { useRouter } from "next/navigation";
-export default function CategoryCard() {
+
+type CategoryType = {
+    item: number
+}
+
+export default function CategoryCard({item}: CategoryType) {
     const router = useRouter();
+
     return (
         <div onClick={()=>{router.push("/event/category/1")}} className="rounded-xl bg-[#161616] overflow-hidden">
             <div className="flex gap-3 items-center pt-3 px-3">
                 <img src="/images/image.png" alt="" />
+                <div className="hidden">{item.toString()}</div>
                 <p className="text-sm">Who will make it to the Asutralian
-                    OpenMen's Singles semifinals ?</p>
+                    OpenMen&apos;s Singles semifinals ?</p>
             </div>
             <div className="flex mt-3 justify-between pl-3 pr-5">
                 <div className="flex gap-3 items-center"><img className="w-4" src="/images/clock.svg" alt="" />1d11h</div>

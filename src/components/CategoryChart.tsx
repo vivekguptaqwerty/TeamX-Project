@@ -13,14 +13,14 @@ export default function CategoryChart() {
             <div className="flex justify-between mt-3">
                 {[1, 2, 3, 4, 5, 6, 7].map((item, index) => {
                     return (
-                        <p className="text-[11px] text-[#9A9A9A]">Jan 18</p>
+                        <p key={index} className="text-[11px] text-[#9A9A9A]">Jan {item}</p>
                     )
                 })}
             </div>
             <div className="flex mt-4 justify-between">
                 {["ALL", "1M", "1W", "1D","6H","1H"].map((item,index)=>{
                     return(
-                        <button className="text-xs px-[16px] py-[6px] border border-[#00FFB8] text-[#00FFB8] rounded-full">{item}</button>
+                        <button key={index} className="text-xs px-[16px] py-[6px] border border-[#00FFB8] text-[#00FFB8] rounded-full">{item}</button>
                     )
                 })}
             </div>

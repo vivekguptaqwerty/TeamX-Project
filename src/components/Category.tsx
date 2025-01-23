@@ -1,6 +1,6 @@
 import CategoryCard from "./CategoryCard"
 
-export default function Category({ item }: { item: String }) {
+export default function Category({ item }: { item: string }) {
     return (
         <div className="px-5 py-8">
             <div className="flex justify-between">
@@ -10,7 +10,7 @@ export default function Category({ item }: { item: String }) {
             <div className="flex flex-col gap-6">
                 {[1, 2, 3, 4, 5].map((item, index) => {
                     return (
-                        <CategoryCard key={index} />
+                        <CategoryCard key={index} item={item} />
                     )
                 })}
             </div>

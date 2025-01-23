@@ -15,6 +15,31 @@ interface Transaction {
   type: "deposit" | "withdrawal";
 }
 
+interface TransactionButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  type: Transaction['type'];
+  variant?: "outline" | "default";
+}
+
+const TransactionButton: React.FC<TransactionButtonProps> = ({ 
+  type,
+  className = "",
+  ...props 
+}) => {
+  const baseClasses = "p-2 rounded w-20 text-[11px]";
+  const variantClasses = type === "deposit" 
+    ? "border border-[#5DFF00] text-[#5DFF00]" 
+    : "bg-[#5DFF00] text-black";
+
+  return (
+    <button
+      className={`${baseClasses} ${variantClasses} ${className}`}
+      {...props}
+    >
+      {type === "deposit" ? "Deposit" : "Withdrawal"}
+    </button>
+  );
+};
+
 const History: React.FC = () => {
   const router = useRouter();
   const transactions: Transaction[] = [
@@ -27,10 +52,13 @@ const History: React.FC = () => {
     { id: "7", date: "Nov 2 2024 14:05", amount: 50.0, type: "withdrawal" },
   ];
 
+  const handleSettingsClick = () => {
+    router.push("/profile");
+  };
+
   return (
     <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4 pb-5">
       <div className="flex justify-center items-center mt-5 relative">
-        {/* Parent container with relative positioning */}
         <Image
           src={ProfileImage}
           alt="User Profile Pic"
@@ -40,9 +68,7 @@ const History: React.FC = () => {
           src={settingIcon}
           alt="Setting icon"
           className="absolute top-1 left-[65%]"
-          onClick={() => {
-            router.push("/profile");
-          }}
+          onClick={handleSettingsClick}
         />
       </div>
       <CurrentCashBalanceCard />
@@ -68,20 +94,7 @@ const History: React.FC = () => {
                 <span className="text-sm text-gray-400 ml-1">(USDT)</span>
               </p>
             </div>
-            <button
-              variant={transaction.type === "deposit" ? "outline" : "default"}
-              className={`
-                p-2 rounded w-20 text-[11px]
-                ${
-                  transaction.type === "deposit"
-                    ? "border border-[#5DFF00] text-[#5DFF00]"
-                    : "bg-[#5DFF00] text-black"
-                }
-
-              `}
-            >
-              {transaction.type === "deposit" ? "Deposit" : "Withdrawal"}
-            </button>
+            <TransactionButton type={transaction.type} />
           </div>
         ))}
       </div>

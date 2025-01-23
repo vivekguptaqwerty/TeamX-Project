@@ -41,7 +41,7 @@ const privacy: React.FC = () => {
         maintaining control over their risk exposure. This feature is
         meticulously designed to cater to the diverse needs of our global user
         base, enabling them to tailor their trading strategies to their unique
-        goals and risk appetites. Whether it's a hedge fund exploring
+        goals and risk appetites. Whether it&apos;s a hedge fund exploring
         macroeconomic trends or an individual predicting the outcome of a major
         sporting event, EveryX provides the tools and support necessary to
         succeed.
@@ -52,14 +52,14 @@ const privacy: React.FC = () => {
         market landscape. Our team of experts is dedicated to developing new
         features, expanding our range of tradable events, and enhancing the
         overall user experience. By staying at the forefront of technology and
-        market trends, EveryX continues to solidify its position as the world's
+        market trends, EveryX continues to solidify its position as the world&apos;s
         leading prediction market platform.
         <br />
         <br />
         Join the growing community of traders who trust EveryX to provide the
         ultimate prediction market experience. With real money trading, leverage
         options, and a steadfast commitment to quality, EveryX is more than a
-        platform—it's a gateway to unlocking the potential of informed
+        platform—it&apos;s a gateway to unlocking the potential of informed
         predictions and strategic decision-making.
         <br />
         <br />

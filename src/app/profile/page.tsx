@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { MdCamera, MdCheck, MdArrowBack } from "react-icons/md";
+// import { MdCamera, MdCheck, MdArrowBack } from "react-icons/md";
+import { MdCamera } from "react-icons/md";
 import { FiLock } from "react-icons/fi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const profile: React.FC = () => {
+const Profile: React.FC = () => {
   const router = useRouter();
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,4 +137,4 @@ const profile: React.FC = () => {
   );
 };
 
-export default profile;
+export default Profile;
