@@ -17,6 +17,7 @@ export default function Navbar({ home }: { home: string }) {
         "Terms",
         "Setting",
         "Help",
+        "Verification"
       ].includes(home) ? (
         <Image
           onClick={() => {
@@ -41,6 +42,7 @@ export default function Navbar({ home }: { home: string }) {
     </div>
   );
 }
+
 // import React from 'react'
 // import { FaWifi } from "react-icons/fa" // Wi-Fi Icon
 // import { MdSignalCellular4Bar } from "react-icons/md" // Network Signal Icon
