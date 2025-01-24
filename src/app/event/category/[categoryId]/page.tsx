@@ -20,7 +20,7 @@ export default function EventCategoryPageDetails() {
   return (
     <div>
       <Navbar home="Home" />
-      <HeadingSlider filter="Recommend" setFilter={setFilter} />{" "}
+      <HeadingSlider filter={filter} setFilter={setFilter} />{" "}
       {/* Fixed typo in "Recommend" */}
       <CategoryInfo />
       <CategoryGraph />
