@@ -1,52 +1,39 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import { useContext, useState } from "react";
+import { AppContext } from "../Context/AppContext";
 
 export default function Menu() {
+  const { selectedMenu, setSelectedMenu } = useContext(AppContext);
+  const navbarItems = [
+    { name: "Home", link: "/" },
+    { name: "Portfolio", link: "/deposit-withdrawal/history" },
+    { name: "Profile", link: "/profile" },
+    { name: "Setting", link: "/setting" },
+    { name: "Help", link: "/help" }
+  ];
+
+
   return (
     <div>
-      <Navbar home={"Menu"} />
+      <Navbar home="Menu" />
       <div className="mt-5 flex flex-row-reverse">
         <ul className="flex flex-col w-[42%]">
-          {/* Home */}
-          <Link
-            href="/"
-            className="pl-4 py-3 flex items-center gap-4 bg-[#151515] text-white hover:bg-white hover:bg-opacity-[10%] hover:text-black transition"
-          >
-            <div className="bg-white w-[2px] h-4"></div>Home
-          </Link>
-
-          {/* Portfolio */}
-          <Link
-            href="/deposit-withdrawal/history"
-            className="pl-4 py-3 flex items-center gap-4 bg-[#151515] text-[#707070] hover:bg-white hover:bg-opacity-[10%]  hover:text-black transition"
-          >
-            <div className="bg-white w-[2px] h-4"></div>Portfolio
-          </Link>
-
-          {/* Profile */}
-          <Link
-            href="/profile"
-            className="pl-4 py-3 flex items-center gap-4 bg-[#151515] text-[#707070] hover:bg-white hover:bg-opacity-[10%]  hover:text-black transition"
-          >
-            <div className="bg-white w-[2px] h-4"></div>Profile
-          </Link>
-
-          {/* Setting */}
-          <Link
-            href="/setting"
-            className="pl-4 py-3 flex items-center gap-4 bg-[#151515] text-[#707070] hover:bg-white hover:bg-opacity-[10%]  hover:text-black transition"
-          >
-            <div className="bg-white w-[2px] h-4"></div>Setting
-          </Link>
-
-          {/* Help */}
-          <Link
-            href="/help"
-            className="pl-4 py-3 flex items-center gap-4 bg-[#151515] text-[#707070] hover:bg-white hover:bg-opacity-[10%]  hover:text-black transition"
-          >
-            <div className="bg-white w-[2px] h-4"></div>Help
-          </Link>
+          {navbarItems.map((item, index) => (
+            <Link
+              key={index}
+              href={`${item.link}`}
+              className={`pl-8 py-3 relative ${selectedMenu === item.name
+                  ? "bg-[#151515] text-white"
+                  : "text-white hover:bg-white hover:bg-opacity-[10%] hover:text-black"
+                }`}
+              onClick={() => setSelectedMenu(item.name)}
+            >
+              {selectedMenu === item.name && <div className="bg-white w-[2px] h-4 absolute top-4 left-4"></div>}
+              {item.name}
+            </Link>
+          ))}
         </ul>
       </div>
       <div className="p-5">

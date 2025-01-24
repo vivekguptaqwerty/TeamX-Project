@@ -1,23 +1,28 @@
-"use client"
+"use client";
 
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, ReactNode } from "react";
 
 interface AppContextProps {
-    filter: string;  // Changed from String to string
-    setFilter: React.Dispatch<React.SetStateAction<string>>;  // Changed from String to string
+  filter: string;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
+  selectedMenu: string;
+  setSelectedMenu: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const AppContext = createContext<AppContextProps>({  // Removed undefined, provided initial value
-    filter: 'Recommend',
-    setFilter: () => {}
+export const AppContext = createContext<AppContextProps>({
+  filter: "Recommend",
+  setFilter: () => {},
+  selectedMenu: "Home",
+  setSelectedMenu: () => {},
 });
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-    const [filter, setFilter] = useState('Recommend');
+  const [filter, setFilter] = useState("Reccomend");
+  const [selectedMenu, setSelectedMenu] = useState("Home");
 
-    return (
-        <AppContext.Provider value={{ filter, setFilter }}>
-            {children}
-        </AppContext.Provider>
-    );
+  return (
+    <AppContext.Provider value={{ filter, setFilter, selectedMenu, setSelectedMenu }}>
+      {children}
+    </AppContext.Provider>
+  );
 };

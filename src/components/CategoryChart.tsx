@@ -15,12 +15,16 @@ export default function CategoryChart() {
               className="h-6 pb-[2px]"
               src="/images/downarrow.png"
               alt=""
+              height={10}
+              width={10}
             />
             53%
           </p>
         </div>
       </div>
-      <Image src="/images/chart.png" alt="" />
+      <div className="rounded-lg overflow-hidden" style={{ position: "relative", width: "100%", height: "150px" }}>
+        <Image src="/images/chart.png" alt="" fill style={{ objectFit: "cover" }} />
+      </div>
       <div className="flex justify-between mt-3">
         {[1, 2, 3, 4, 5, 6, 7].map((item, index) => {
           return (
