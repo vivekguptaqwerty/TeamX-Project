@@ -6,7 +6,7 @@ export default function Navbar({ home }: { home: string }) {
   const router = useRouter();
   return (
     <div className="flex justify-between items-center p-5 bg-[#0E0E0E]">
-      <Image src="/Images/logo.png" alt="Logo image" width={20} height={20} />
+      <Image src="/images/logo.png" alt="Logo image" width={20} height={20} />
       {home && <p>{home}</p>}
       {[
         "Home",
@@ -22,7 +22,7 @@ export default function Navbar({ home }: { home: string }) {
           onClick={() => {
             router.push("/menu");
           }}
-          src="/Images/menu.svg"
+          src="/images/menu.svg"
           alt=""
           width={20}
           height={20}
@@ -32,7 +32,7 @@ export default function Navbar({ home }: { home: string }) {
           onClick={() => {
             router.back();
           }}
-          src="/Images/cross.svg"
+          src="/images/cross.svg"
           alt=""
           width={20}
           height={20}
