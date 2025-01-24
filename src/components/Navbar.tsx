@@ -1,15 +1,45 @@
-'use client';
-import { useRouter } from "next/navigation"
+"use client";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Navbar({ home }: { home: string }) {
-    const router = useRouter();
-    return (
-        <div className="flex justify-between items-center p-5">
-            <img src="/images/logo.png" alt="" />
-            {home && <p>{home}</p>}
-            {home === "Home"? <img onClick={()=>{router.push("/menu")}} src="/images/menu.svg" alt="" />:<img onClick={()=>{router.push("/")}} src="/images/cross.svg" alt="" />}
-        </div>
-    )
+  const router = useRouter();
+  return (
+    <div className="flex justify-between items-center p-5 bg-[#0E0E0E]">
+      <Image src="/Images/logo.png" alt="Logo image" width={20} height={20} />
+      {home && <p>{home}</p>}
+      {[
+        "Home",
+        "Portfolio",
+        "Deposit",
+        "Withdrawal",
+        "Profile",
+        "Terms",
+        "Setting",
+        "Help",
+      ].includes(home) ? (
+        <Image
+          onClick={() => {
+            router.push("/menu");
+          }}
+          src="/Images/menu.svg"
+          alt=""
+          width={20}
+          height={20}
+        />
+      ) : (
+        <Image
+          onClick={() => {
+            router.back();
+          }}
+          src="/Images/cross.svg"
+          alt=""
+          width={20}
+          height={20}
+        />
+      )}
+    </div>
+  );
 }
 // import React from 'react'
 // import { FaWifi } from "react-icons/fa" // Wi-Fi Icon
@@ -36,4 +66,3 @@ export default function Navbar({ home }: { home: string }) {
 //   )
 // }
 // export default Navbar
-

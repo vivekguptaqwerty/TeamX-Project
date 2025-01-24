@@ -4,8 +4,8 @@ import type React from "react";
 import { useState } from "react";
 // import { MdArrowBack } from "react-icons/md";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import {useRouter} from 'next/navigation'
-
+import { useRouter } from "next/navigation";
+import Navbar from "@/components/Navbar";
 
 const PasswordChange: React.FC = () => {
   const router = useRouter();
@@ -54,37 +54,46 @@ const PasswordChange: React.FC = () => {
   );
 
   return (
-    <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-5">
-      <p className="text-center text-[17px] font-medium">Change Password</p>
-      {/* Form Fields */}
-      <div className="space-y-6 px-5 my-32">
-        <PasswordInput
-          label="Old Password"
-          field="old"
-          placeholder=".........."
-        />
-        <PasswordInput
-          label="New Password"
-          field="new"
-          placeholder=".........."
-        />
-        <PasswordInput
-          label="Confirm New Password"
-          field="confirm"
-          placeholder=".........."
-        />
-      </div>
+    <>
+      <Navbar home="Profile" />
+      <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-5">
+        <p className="text-center text-[17px] font-medium">Change Password</p>
+        {/* Form Fields */}
+        <div className="space-y-6 px-5 my-32">
+          <PasswordInput
+            label="Old Password"
+            field="old"
+            placeholder=".........."
+          />
+          <PasswordInput
+            label="New Password"
+            field="new"
+            placeholder=".........."
+          />
+          <PasswordInput
+            label="Confirm New Password"
+            field="confirm"
+            placeholder=".........."
+          />
+        </div>
 
-      {/* Action Buttons */}
-      <div className="space-y-4 pt-6">
-        <button className="w-full py-3 px-4 border-[#2DC198] border-[0.25px] rounded-lg transition-colors text-[14px] text-[#2DC198]">
-          SAVE
-        </button>
-        <button className="w-full flex items-center justify-center transition-colors gap-2 underline text-white text-[12px]" type="button" onClick={()=>{router.push("/profile")}}>
-          Back
-        </button>
+        {/* Action Buttons */}
+        <div className="space-y-4 pt-6">
+          <button className="w-full py-3 px-4 border-[#2DC198] border-[0.25px] rounded-lg transition-colors text-[14px] text-[#2DC198]">
+            SAVE
+          </button>
+          <button
+            className="w-full flex items-center justify-center transition-colors gap-2 underline text-white text-[12px]"
+            type="button"
+            onClick={() => {
+              router.push("/profile");
+            }}
+          >
+            Back
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
