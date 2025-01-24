@@ -6,7 +6,12 @@ const Footer: React.FC = () => {
     <div className="bg-[#0E0E0E] w-full pt-20 px-5 pb-10">
       {/* Logo Section */}
       <div className="flex justify-center">
-        <Image src="/Images/Logo_footer.png" alt="EveryX Logo" />
+        <Image
+          src="/Images/Logo_footer.png"
+          alt="EveryX Logo"
+          width={200} // Adjust width and height as needed
+          height={100}
+        />
       </div>
 
       {/* Footer Links */}
@@ -32,7 +37,12 @@ const Footer: React.FC = () => {
 
       {/* Bottom Logo Section */}
       <div className="flex justify-center mt-20">
-        <Image src="/Images/Logo_footer_bottom.png" alt="Footer Bottom Logo" />
+        <Image
+          src="/Images/Logo_footer_bottom.png"
+          alt="Footer Bottom Logo"
+          width={200} // Adjust width and height as needed
+          height={100}
+        />
       </div>
 
       {/* Copyright */}
@@ -43,6 +53,4 @@ const Footer: React.FC = () => {
   );
 };
 
-
 export default Footer;
-

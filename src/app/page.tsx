@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useContext } from "react";
@@ -43,5 +44,3 @@ export default function Home() {
 
 //   return null; // No UI since this is just for redirection
 // }
-
-
