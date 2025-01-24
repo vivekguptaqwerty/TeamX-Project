@@ -24,7 +24,7 @@ export default function Pay() {
                 <p className="text-[47px] font-medium">$10.<span className="text-[37px]">00</span></p>
                 <p className="text-[15px] mt-9 mb-3 font-light">leverage</p>
                 <p className="text-[47px] mb-9"><span className="text-[26px]">x</span>1</p>
-                <p className="text-xs font-extralight">WARNING YOU DON'T HAVE SUFFICIENT FUNDS</p>
+                <p className="text-xs font-extralight">WARNING YOU DON&aposT HAVE SUFFICIENT FUNDS</p>
                 <button className="text-[#00FFB8] w-full border border-[#00FFB8] mt-6 py-4 rounded-2xl">Proceed</button>
             </div>
         </div>

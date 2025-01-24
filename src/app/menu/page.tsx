@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 
 export default function Menu() {
