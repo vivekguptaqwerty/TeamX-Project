@@ -13,7 +13,7 @@ const VerifyIdentity: React.FC = () => {
 
     return (
         <div className="h-screen w-screen bg-black flex flex-col max-w-[430px] mx-auto">
-            <Navbar home={true} />
+            <Navbar home="Verification" />
             <div className="flex flex-col items-center justify-center flex-1">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -66,6 +66,44 @@ const VerifyIdentity: React.FC = () => {
                                 personal data will be processed
                             </tspan>
                         </text>
+                        <circle
+                            id="Ellipse_295"
+                            data-name="Ellipse 295"
+                            cx="9.5"
+                            cy="9.5"
+                            r="9.5"
+                            transform="translate(56 312)"
+                            fill="#00ffb8"
+                        />
+                        <line
+                            id="Line_155"
+                            data-name="Line 155"
+                            x2="281"
+                            transform="translate(75.5 321.5)"
+                            fill="none"
+                            stroke="#707070"
+                            strokeWidth="1"
+                            opacity="0.19"
+                        />
+                        <circle
+                            id="Ellipse_296"
+                            data-name="Ellipse 296"
+                            cx="9.5"
+                            cy="9.5"
+                            r="9.5"
+                            transform="translate(206 312)"
+                            fill="#585858"
+                        />
+                        
+                        <circle
+                            id="Ellipse_297"
+                            data-name="Ellipse 297"
+                            cx="9.5"
+                            cy="9.5"
+                            r="9.5"
+                            transform="translate(337 312)" // Fixed position
+                            fill="#585858"
+                        />
 
                         {/* Country Selection Label */}
                         <text
@@ -135,7 +173,7 @@ const VerifyIdentity: React.FC = () => {
                         >
                             United States of America
                         </text>
-                        
+
 
                         {/* Next Button */}
                         <g transform="translate(20 673)">

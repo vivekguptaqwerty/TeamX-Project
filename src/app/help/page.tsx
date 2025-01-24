@@ -1,5 +1,7 @@
 "use client";
 
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 import React, { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
@@ -95,44 +97,48 @@ const Help: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4">
-      <h1 className="font-medium text-[29px] text-center">Q & A</h1>
-      <div className="mt-5 font-normal mb-10">
-        <p className="text-[14px]">Event Trading</p>
+    <>
+      <Navbar home="Help" />
+      <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4">
+        <h1 className="font-medium text-[29px] text-center">Q & A</h1>
+        <div className="mt-5 font-normal mb-10">
+          <p className="text-[14px]">Event Trading</p>
 
-        {/* Map through the questions and render each */}
-        {questions.map((item, index) => (
-          <div key={index} className="my-5">
-            <div className="flex justify-between align-center">
-              <p className="text-[13px]">{item.question}</p>
-              {openQuestions[index] ? (
-                <FaChevronUp
-                  size={15}
-                  color="#fff"
-                  onClick={() => toggleOpen(index)} // Toggle the state for the clicked question
-                />
-              ) : (
-                <FaChevronDown
-                  size={15}
-                  color="#fff"
-                  onClick={() => toggleOpen(index)} // Toggle the state for the clicked question
-                />
+          {/* Map through the questions and render each */}
+          {questions.map((item, index) => (
+            <div key={index} className="my-5">
+              <div className="flex justify-between align-center">
+                <p className="text-[13px]">{item.question}</p>
+                {openQuestions[index] ? (
+                  <FaChevronUp
+                    size={15}
+                    color="#fff"
+                    onClick={() => toggleOpen(index)} // Toggle the state for the clicked question
+                  />
+                ) : (
+                  <FaChevronDown
+                    size={15}
+                    color="#fff"
+                    onClick={() => toggleOpen(index)} // Toggle the state for the clicked question
+                  />
+                )}
+              </div>
+
+              {openQuestions[index] && (
+                <div className="mt-3">
+                  {item.answer.split("\n").map((para, i) => (
+                    <p key={i} className="text-[13px] mb-3 opacity-[38%]">
+                      {para}
+                    </p> // Add spacing between paragraphs
+                  ))}
+                </div>
               )}
             </div>
-
-            {openQuestions[index] && (
-              <div className="mt-3">
-                {item.answer.split("\n").map((para, i) => (
-                  <p key={i} className="text-[13px] mb-3 opacity-[38%]">
-                    {para}
-                  </p> // Add spacing between paragraphs
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

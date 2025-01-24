@@ -3,7 +3,7 @@ import Navbar from '@/components/Navbar';
 const Verification: React.FC = () => {
     return (
         <div className="h-screen w-screen bg-black flex flex-col max-w-[430px] mx-auto">
-            <Navbar home={true} />
+            <Navbar home="Verification" />
             <div className="flex flex-col items-center justify-center flex-1">
                 {/* Tick Icon */}
                 <svg

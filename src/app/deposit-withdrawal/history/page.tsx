@@ -7,6 +7,8 @@ import settingIcon from "../../../../public/Icons/settingIcon.png";
 import CashWithdrawalCategories from "@/components/CashWithdrawalCategories";
 import { useRouter } from "next/navigation";
 import CurrentCashBalanceCard from "@/components/CurrentCashBalance";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 interface Transaction {
   id: string;
@@ -15,20 +17,22 @@ interface Transaction {
   type: "deposit" | "withdrawal";
 }
 
-interface TransactionButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
-  type: Transaction['type'];
+interface TransactionButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
+  type: Transaction["type"];
   variant?: "outline" | "default";
 }
 
-const TransactionButton: React.FC<TransactionButtonProps> = ({ 
+const TransactionButton: React.FC<TransactionButtonProps> = ({
   type,
   className = "",
-  ...props 
+  ...props
 }) => {
   const baseClasses = "p-2 rounded w-20 text-[11px]";
-  const variantClasses = type === "deposit" 
-    ? "border border-[#5DFF00] text-[#5DFF00]" 
-    : "bg-[#5DFF00] text-black";
+  const variantClasses =
+    type === "deposit"
+      ? "border border-[#5DFF00] text-[#5DFF00]"
+      : "bg-[#5DFF00] text-black";
 
   return (
     <button
@@ -57,48 +61,52 @@ const History: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4 pb-5">
-      <div className="flex justify-center items-center mt-5 relative">
-        <Image
-          src={ProfileImage}
-          alt="User Profile Pic"
-          className="relative rounded-full"
-        />
-        <Image
-          src={settingIcon}
-          alt="Setting icon"
-          className="absolute top-1 left-[65%]"
-          onClick={handleSettingsClick}
-        />
-      </div>
-      <CurrentCashBalanceCard />
+    <>
+      <Navbar home="Portfolio" />
+      <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4 pb-5">
+        <div className="flex justify-center items-center mt-5 relative">
+          <Image
+            src={ProfileImage}
+            alt="User Profile Pic"
+            className="relative rounded-full"
+          />
+          <Image
+            src={settingIcon}
+            alt="Setting icon"
+            className="absolute top-1 left-[65%]"
+            onClick={handleSettingsClick}
+          />
+        </div>
+        <CurrentCashBalanceCard />
 
-      <div className="my-10">
-        <CashWithdrawalCategories />
-      </div>
+        <div className="my-10">
+          <CashWithdrawalCategories />
+        </div>
 
-      <p className="text-[14px] text-center font-semibold">
-        Deposit ＆Withdrawal History:
-      </p>
+        <p className="text-[14px] text-center font-semibold">
+          Deposit ＆Withdrawal History:
+        </p>
 
-      <div className="mx-5 mt-10">
-        {transactions.map((transaction) => (
-          <div
-            key={transaction.id}
-            className="flex items-center justify-between text-white mb-10"
-          >
-            <div className="space-y-1">
-              <p className="text-sm text-gray-400">{transaction.date}</p>
-              <p className="text-lg font-medium">
-                $ {transaction.amount.toFixed(2)}
-                <span className="text-sm text-gray-400 ml-1">(USDT)</span>
-              </p>
+        <div className="mx-5 mt-10">
+          {transactions.map((transaction) => (
+            <div
+              key={transaction.id}
+              className="flex items-center justify-between text-white mb-10"
+            >
+              <div className="space-y-1">
+                <p className="text-sm text-gray-400">{transaction.date}</p>
+                <p className="text-lg font-medium">
+                  $ {transaction.amount.toFixed(2)}
+                  <span className="text-sm text-gray-400 ml-1">(USDT)</span>
+                </p>
+              </div>
+              <TransactionButton type={transaction.type} />
             </div>
-            <TransactionButton type={transaction.type} />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

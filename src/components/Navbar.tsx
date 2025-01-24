@@ -1,32 +1,42 @@
-'use client';
+"use client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-interface NavbarProps {
-  home: string | boolean; // home can be a string or boolean
-}
-
-export default function Navbar({ home }: NavbarProps) {
+export default function Navbar({ home }: { home: string }) {
   const router = useRouter();
-
   return (
-    <div className="flex justify-between items-center p-5">
-      <img src="/images/logo.png" alt="Logo" />
-      
-      {/* Render home if it's a string and not an empty string */}
-      {typeof home === "string" && home && <p>{home}</p>}
-      
-      {/* Conditional rendering for menu or cross icon based on "home" prop */}
-      {home === "Home" ? (
-        <img
-          onClick={() => { router.push("/menu"); }}
+    <div className="flex justify-between items-center p-5 bg-[#0E0E0E]">
+      <Image src="/images/logo.png" alt="Logo image" width={20} height={20} />
+      {home && <p>{home}</p>}
+      {[
+        "Home",
+        "Portfolio",
+        "Deposit",
+        "Withdrawal",
+        "Profile",
+        "Terms",
+        "Setting",
+        "Help",
+        "Verification"
+      ].includes(home) ? (
+        <Image
+          onClick={() => {
+            router.push("/menu");
+          }}
           src="/images/menu.svg"
-          alt="Menu"
+          alt=""
+          width={20}
+          height={20}
         />
       ) : (
-        <img
-          onClick={() => { router.push("/"); }}
+        <Image
+          onClick={() => {
+            router.back();
+          }}
           src="/images/cross.svg"
-          alt="Cross"
+          alt=""
+          width={20}
+          height={20}
         />
       )}
     </div>
@@ -58,4 +68,3 @@ export default function Navbar({ home }: NavbarProps) {
 //   )
 // }
 // export default Navbar
-

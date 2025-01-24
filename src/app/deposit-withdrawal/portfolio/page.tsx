@@ -7,6 +7,8 @@ import settingIcon from "../../../../public/Icons/settingIcon.png";
 import CashWithdrawalCategories from "@/components/CashWithdrawalCategories";
 import { useRouter } from "next/navigation";
 import CurrentCashBalanceCard from "@/components/CurrentCashBalance";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 interface BetEntry {
   id: string;
@@ -46,36 +48,38 @@ const Portfolio: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4 pb-5">
-      <div className="flex justify-center items-center mt-5 relative">
-        {/* Parent container with relative positioning */}
-        <Image
-          src={ProfileImage}
-          alt="User Profile Pic"
-          className="relative rounded-full"
-        />
-        <Image
-          src={settingIcon}
-          alt="Setting icon"
-          className="absolute top-1 left-[65%]"
-          onClick={() => {
-            router.push("/profile");
-          }}
-        />
-      </div>
-      <CurrentCashBalanceCard />
-      <div className="my-10">
-        <CashWithdrawalCategories />
-      </div>
+    <>
+      <Navbar home="Portfolio" />
+      <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4 pb-5">
+        <div className="flex justify-center items-center mt-5 relative">
+          {/* Parent container with relative positioning */}
+          <Image
+            src={ProfileImage}
+            alt="User Profile Pic"
+            className="relative rounded-full"
+          />
+          <Image
+            src={settingIcon}
+            alt="Setting icon"
+            className="absolute top-1 left-[65%]"
+            onClick={() => {
+              router.push("/profile");
+            }}
+          />
+        </div>
+        <CurrentCashBalanceCard />
+        <div className="my-10">
+          <CashWithdrawalCategories />
+        </div>
 
-      <p className="text-[14px] text-center font-semibold">Results :</p>
+        <p className="text-[14px] text-center font-semibold">Results :</p>
 
-      <div className="max-w-2xl mx-auto space-y-8 mt-10">
-        {bets.map((bet) => (
-          <div key={bet.id} className="space-y-3 mb-10">
-            <div className="inline-block">
-              <span
-                className={`
+        <div className="max-w-2xl mx-auto space-y-8 mt-10">
+          {bets.map((bet) => (
+            <div key={bet.id} className="space-y-3 mb-10">
+              <div className="inline-block">
+                <span
+                  className={`
                 px-3 py-1 rounded text-sm
                 ${
                   bet.status === "failed"
@@ -83,27 +87,29 @@ const Portfolio: React.FC = () => {
                     : "text-[#000] bg-[#00FFB8]"
                 }
               `}
-              >
-                {bet.status === "failed" ? "Failed" : "Success"}
-              </span>
-            </div>
+                >
+                  {bet.status === "failed" ? "Failed" : "Success"}
+                </span>
+              </div>
 
-            <h2 className="text-white text-lg font-medium">{bet.question}</h2>
+              <h2 className="text-white text-lg font-medium">{bet.question}</h2>
 
-            <div className="flex justify-between items-center ">
-              <p className="text-gray-500 text-sm">{bet.timestamp}</p>
-              <p
-                className={`text-xl font-bold ${
-                  bet.amount < 0 ? "text-orange-500" : "text-[#00FFB8]"
-                }`}
-              >
-                $ {bet.amount.toFixed(2)}(USDT)
-              </p>
+              <div className="flex justify-between items-center ">
+                <p className="text-gray-500 text-sm">{bet.timestamp}</p>
+                <p
+                  className={`text-xl font-bold ${
+                    bet.amount < 0 ? "text-orange-500" : "text-[#00FFB8]"
+                  }`}
+                >
+                  $ {bet.amount.toFixed(2)}(USDT)
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

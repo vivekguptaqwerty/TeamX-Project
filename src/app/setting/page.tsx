@@ -1,8 +1,10 @@
-"use client";
+'use client';
+
 import React, { useState } from "react";
+import "./settings.css";
+import Navbar from "@/components/Navbar";
 
 const Setting: React.FC = () => {
-  // Using an object to store the state of each switch individually
   const [switchStates, setSwitchStates] = useState({
     withdrawalSuccess: false,
     depositProblem: false,
@@ -26,184 +28,104 @@ const Setting: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4 pb-28">
-      {/* Notification */}
-      <h2 className="font-medium text-[17px] text-left">Notifications</h2>
-      <div className="my-5 flex flex-col gap-5">
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">Withdrawal successful!</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.withdrawalSuccess}
-              onChange={() => handleSwitchChange("withdrawalSuccess")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">There was a problem with your deposit.</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.depositProblem}
-              onChange={() => handleSwitchChange("depositProblem")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">
-            There was a problem with your withdrawal.
-          </p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.withdrawalProblem}
-              onChange={() => handleSwitchChange("withdrawalProblem")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">Achievement unlocked!</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.achievementUnlocked}
-              onChange={() => handleSwitchChange("achievementUnlocked")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">You have leveled up!</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.leveledUp}
-              onChange={() => handleSwitchChange("leveledUp")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">You are in the top n%!</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.topPercentage}
-              onChange={() => handleSwitchChange("topPercentage")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-      </div>
-
-      {/* Favourites */}
-      <h2 className="font-medium text-[17px] text-left mt-10">Favourites</h2>
-      <div className="my-5 flex flex-col gap-5">
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">Cryptocurrency</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.cryptocurrency}
-              onChange={() => handleSwitchChange("cryptocurrency")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">Economics</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.economics}
-              onChange={() => handleSwitchChange("economics")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">Government</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.government}
-              onChange={() => handleSwitchChange("government")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">Markets</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.markets}
-              onChange={() => handleSwitchChange("markets")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">Politics</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.politics}
-              onChange={() => handleSwitchChange("politics")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-[14px]">Pop Culture</p>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={switchStates.popCulture}
-              onChange={() => handleSwitchChange("popCulture")}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-      </div>
-
-      {/*  */}
-      <h2 className="font-medium text-[17px] text-left mt-10">Trades</h2>
-
-      <div className="flex flex-col mt-5 gap-5">
-        <div>
-          <p className="text-[14px] text-white opacity-[27%]">
-            Default wager size
-          </p>
-          <input
-            type="text"
-            placeholder="Alex Kapawski"
-            className="w-full mt-2 bg-transparent border-b-[1px] text-[14px] text-white pb-1 border-[#707070] outline-none"
-          />
-        </div>
-        <div>
-          <p className="text-[14px] text-white opacity-[27%]">Default</p>
-          <input
-            type="number"
-            placeholder="81 080-9662-4545"
-            className="w-full mt-2 bg-transparent border-b-[1px] text-[14px] text-white pb-1 border-[#707070] outline-none"
-          />
-        </div>
-        <div>
-          <p className="text-[14px] text-white opacity-[27%]">
-            Market Impact Warning Level
-          </p>
-          <input
-            type="email"
-            placeholder="AlexKapawski@ibtex.org"
-            className="w-full mt-2 bg-transparent border-b-[1px] text-[14px] text-white pb-1 border-[#707070] outline-none"
-          />
+    <>
+      <Navbar home="Setting" />
+      <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4 pb-28">
+        {/* Notifications */}
+        <h2 className="font-medium text-[17px] text-left">Notifications</h2>
+        <div className="my-5 flex flex-col gap-5">
+          {[
+            { key: "withdrawalSuccess", label: "Withdrawal successful!" },
+            { key: "depositProblem", label: "There was a problem with deposit." },
+            { key: "withdrawalProblem", label: "There was a problem with withdrawal." },
+            { key: "achievementUnlocked", label: "Achievement unlocked!" },
+            { key: "leveledUp", label: "You have leveled up!" },
+            { key: "topPercentage", label: "You are in the top n%!" },
+          ].map((item) => (
+            <div key={item.key} className="flex items-center justify-between">
+              <label htmlFor={item.key} className="text-[14px]">
+                {item.label}
+              </label>
+              <label className="switch" title={`Toggle ${item.label}`}>
+                <input
+                  id={item.key}
+                  type="checkbox"
+                  checked={switchStates[item.key as keyof typeof switchStates]}
+                  onChange={() => handleSwitchChange(item.key as keyof typeof switchStates)}
+                />
+                <span className="slider round"></span>
+              </label>
+            </div>
+          ))}
         </div>
 
+        {/* Favourites */}
+        <h2 className="font-medium text-[17px] text-left mt-10">Favourites</h2>
+        <div className="my-5 flex flex-col gap-5">
+          {[
+            { key: "cryptocurrency", label: "Cryptocurrency" },
+            { key: "economics", label: "Economics" },
+            { key: "government", label: "Government" },
+            { key: "markets", label: "Markets" },
+            { key: "politics", label: "Politics" },
+            { key: "popCulture", label: "Pop Culture" },
+          ].map((item) => (
+            <div key={item.key} className="flex items-center justify-between">
+              <label htmlFor={item.key} className="text-[14px]">
+                {item.label}
+              </label>
+              <label className="switch" title={`Toggle ${item.label}`}>
+                <input
+                  id={item.key}
+                  type="checkbox"
+                  checked={switchStates[item.key as keyof typeof switchStates]}
+                  onChange={() => handleSwitchChange(item.key as keyof typeof switchStates)}
+                />
+                <span className="slider round"></span>
+              </label>
+            </div>
+          ))}
+        </div>
+
+        {/* Trades */}
+        <h2 className="font-medium text-[17px] text-left mt-10">Trades</h2>
+        <div className="flex flex-col mt-5 gap-5">
+          <div>
+            <label htmlFor="defaultWager" className="text-[14px] text-white opacity-[27%]">
+              Default wager size
+            </label>
+            <input
+              id="defaultWager"
+              type="text"
+              placeholder="Enter wager size"
+              className="w-full mt-2 bg-transparent border-b-[1px] text-[14px] text-white pb-1 border-[#707070] outline-none"
+            />
+          </div>
+          <div>
+            <label htmlFor="defaultNumber" className="text-[14px] text-white opacity-[27%]">
+              Default number
+            </label>
+            <input
+              id="defaultNumber"
+              type="number"
+              placeholder="Enter a number"
+              className="w-full mt-2 bg-transparent border-b-[1px] text-[14px] text-white pb-1 border-[#707070] outline-none"
+            />
+          </div>
+          <div>
+            <label htmlFor="marketImpact" className="text-[14px] text-white opacity-[27%]">
+              Market Impact Warning Level
+            </label>
+            <input
+              id="marketImpact"
+              type="email"
+              placeholder="Enter email address"
+              className="w-full mt-2 bg-transparent border-b-[1px] text-[14px] text-white pb-1 border-[#707070] outline-none"
+            />
+          </div>
+        </div>
+
+        {/* Save Button */}
         <div className="px-5 mt-10">
           <button
             type="button"
@@ -211,11 +133,10 @@ const Setting: React.FC = () => {
           >
             <span className="text-[16px] text-[#2DC198]">SAVE</span>
           </button>
-
-          <div className="text-center mt-5 underline ">Back</div>
+          <div className="text-center mt-5 underline">Back</div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
