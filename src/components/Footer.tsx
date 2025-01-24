@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
       {/* Logo Section */}
       <div className="flex justify-center">
         <Image
-          src="/Images/Logo_footer.png"
+          src="/images/Logo_footer.png"
           alt="EveryX Logo"
           width={50}
           height={50}
@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
       {/* Bottom Logo Section */}
       <div className="flex justify-center mt-20">
         <Image
-          src="/Images/Logo_footer_bottom.png"
+          src="/images/Logo_footer_bottom.png"
           alt="Footer Bottom Logo"
           width={50}
           height={50}
