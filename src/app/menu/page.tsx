@@ -34,7 +34,7 @@ export default function Menu() {
 
           {/* Setting */}
           <Link
-            href="/settings"
+            href="/setting"
             className="pl-4 py-3 flex items-center gap-4 bg-[#151515] text-[#707070] hover:bg-white hover:bg-opacity-[10%]  hover:text-black transition"
           >
             <div className="bg-white w-[2px] h-4"></div>Setting
