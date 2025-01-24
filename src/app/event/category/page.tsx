@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 export default function EventCategoryPage() {
   return (
     <div>
-      <Navbar home={"Home"}/>
+      <Navbar home={"Home"} />
     </div>
   );
 }

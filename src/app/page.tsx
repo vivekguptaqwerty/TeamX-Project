@@ -1,18 +1,32 @@
-'use client';
+"use client";
 
 import { useContext } from "react";
-import { AppContext } from './Context/AppContext';
+import { AppContext } from "./Context/AppContext";
 import Category from "@/components/Category";
 import Footer from "@/components/Footer";
 import HeadingSlider from "@/components/HeadingSlider";
 import ImageSlider from "@/components/ImageSlider";
 import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
+// import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { filter, setFilter } = useContext(AppContext); 
+  const { filter, setFilter } = useContext(AppContext);
+  // const router = useRouter();
 
-  const categories = ["TOP Topics", "Sports TOP", "Politics", "Weather", "Science", "Culture", "Tech"];
+  const categories = [
+    "TOP Topics",
+    "Sports TOP",
+    "Politics",
+    "Weather",
+    "Science",
+    "Culture",
+    "Tech",
+  ];
+  // useEffect(() => {
+  //   // Redirect to the loading page
+  //   router.push("/Loader");
+  // }, [router]);
 
   return (
     <div className="w-full">
@@ -43,5 +57,3 @@ export default function Home() {
 
 //   return null; // No UI since this is just for redirection
 // }
-
-

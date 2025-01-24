@@ -1,19 +1,49 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Footer: React.FC = () => {
+  const router = useRouter();
   return (
     <div className="bg-[#0E0E0E] w-full pt-20 px-5 pb-10">
       {/* Logo Section */}
       <div className="flex justify-center">
-        <Image src="/Images/Logo_footer.png" alt="EveryX Logo" />
+        <Image
+          src="/images/Logo_footer.png"
+          alt="EveryX Logo"
+          width={50}
+          height={50}
+        />
       </div>
 
       {/* Footer Links */}
       <div className="text-[#fff] text-[14px] flex justify-between mt-10 opacity-[34%]">
-        <span>Company</span>
-        <span>Privacy Policy</span>
-        <span>Terms of Use</span>
+        <button
+          type="button"
+          onClick={() => {
+            router.push("/about");
+          }}
+        >
+          Company
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            router.push("/privacy");
+          }}
+        >
+          Privacy Policy
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            router.push("/terms");
+          }}
+        >
+          Terms of Use
+        </button>
       </div>
 
       {/* Footer Description */}
@@ -32,7 +62,12 @@ const Footer: React.FC = () => {
 
       {/* Bottom Logo Section */}
       <div className="flex justify-center mt-20">
-        <Image src="/Images/Logo_footer_bottom.png" alt="Footer Bottom Logo" />
+        <Image
+          src="/images/Logo_footer_bottom.png"
+          alt="Footer Bottom Logo"
+          width={50}
+          height={50}
+        />
       </div>
 
       {/* Copyright */}
@@ -43,6 +78,4 @@ const Footer: React.FC = () => {
   );
 };
 
-
 export default Footer;
-
