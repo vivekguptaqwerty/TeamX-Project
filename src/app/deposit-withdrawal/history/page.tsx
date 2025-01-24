@@ -7,6 +7,8 @@ import settingIcon from "../../../../public/Icons/settingIcon.png";
 import CashWithdrawalCategories from "@/components/CashWithdrawalCategories";
 import { useRouter } from "next/navigation";
 import CurrentCashBalanceCard from "@/components/CurrentCashBalance";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 interface Transaction {
   id: string;
@@ -14,6 +16,33 @@ interface Transaction {
   amount: number;
   type: "deposit" | "withdrawal";
 }
+
+interface TransactionButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
+  type: Transaction["type"];
+  variant?: "outline" | "default";
+}
+
+const TransactionButton: React.FC<TransactionButtonProps> = ({
+  type,
+  className = "",
+  ...props
+}) => {
+  const baseClasses = "p-2 rounded w-20 text-[11px]";
+  const variantClasses =
+    type === "deposit"
+      ? "border border-[#5DFF00] text-[#5DFF00]"
+      : "bg-[#5DFF00] text-black";
+
+  return (
+    <button
+      className={`${baseClasses} ${variantClasses} ${className}`}
+      {...props}
+    >
+      {type === "deposit" ? "Deposit" : "Withdrawal"}
+    </button>
+  );
+};
 
 const History: React.FC = () => {
   const router = useRouter();
@@ -27,65 +56,57 @@ const History: React.FC = () => {
     { id: "7", date: "Nov 2 2024 14:05", amount: 50.0, type: "withdrawal" },
   ];
 
+  const handleSettingsClick = () => {
+    router.push("/profile");
+  };
+
   return (
-    <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4 pb-5">
-      <div className="flex justify-center items-center mt-5 relative">
-        {/* Parent container with relative positioning */}
-        <Image
-          src={ProfileImage}
-          alt="User Profile Pic"
-          className="relative rounded-full"
-        />
-        <Image
-          src={settingIcon}
-          alt="Setting icon"
-          className="absolute top-1 left-[65%]"
-          onClick={() => {
-            router.push("/profile");
-          }}
-        />
-      </div>
-      <CurrentCashBalanceCard />
+    <>
+      <Navbar home="Portfolio" />
+      <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4 pb-5">
+        <div className="flex justify-center items-center mt-5 relative">
+          <Image
+            src={ProfileImage}
+            alt="User Profile Pic"
+            className="relative rounded-full"
+          />
+          <Image
+            src={settingIcon}
+            alt="Setting icon"
+            className="absolute top-1 left-[65%]"
+            onClick={handleSettingsClick}
+          />
+        </div>
+        <CurrentCashBalanceCard />
 
-      <div className="my-10">
-        <CashWithdrawalCategories />
-      </div>
+        <div className="my-10">
+          <CashWithdrawalCategories />
+        </div>
 
-      <p className="text-[14px] text-center font-semibold">
-        Deposit ＆Withdrawal History:
-      </p>
+        <p className="text-[14px] text-center font-semibold">
+          Deposit ＆Withdrawal History:
+        </p>
 
-      <div className="mx-5 mt-10">
-        {transactions.map((transaction) => (
-          <div
-            key={transaction.id}
-            className="flex items-center justify-between text-white mb-10"
-          >
-            <div className="space-y-1">
-              <p className="text-sm text-gray-400">{transaction.date}</p>
-              <p className="text-lg font-medium">
-                $ {transaction.amount.toFixed(2)}
-                <span className="text-sm text-gray-400 ml-1">(USDT)</span>
-              </p>
-            </div>
-            <button
-              variant={transaction.type === "deposit" ? "outline" : "default"}
-              className={`
-                p-2 rounded w-20 text-[11px]
-                ${
-                  transaction.type === "deposit"
-                    ? "border border-[#5DFF00] text-[#5DFF00]"
-                    : "bg-[#5DFF00] text-black"
-                }
-
-              `}
+        <div className="mx-5 mt-10">
+          {transactions.map((transaction) => (
+            <div
+              key={transaction.id}
+              className="flex items-center justify-between text-white mb-10"
             >
-              {transaction.type === "deposit" ? "Deposit" : "Withdrawal"}
-            </button>
-          </div>
-        ))}
+              <div className="space-y-1">
+                <p className="text-sm text-gray-400">{transaction.date}</p>
+                <p className="text-lg font-medium">
+                  $ {transaction.amount.toFixed(2)}
+                  <span className="text-sm text-gray-400 ml-1">(USDT)</span>
+                </p>
+              </div>
+              <TransactionButton type={transaction.type} />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

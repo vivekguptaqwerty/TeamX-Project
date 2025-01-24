@@ -1,37 +1,59 @@
-
-import React from "react";
-import Head from "next/head";
-
-const HomePage: React.FC = () => {
-  return (
-    <>
-      <Head>
-        <title>TeamX Project</title>
-        <meta
-          name="description"
-          content="This is the home page of the TeamX Project."
-        />
-      </Head>
-      <div className="bg-[#0E0E0E] w-100% min-h-screen">hello</div>
-    </>
-  );
-};
-
-export default HomePage;
-=========
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useContext } from "react";
+import { AppContext } from "./Context/AppContext";
+import Category from "@/components/Category";
+import Footer from "@/components/Footer";
+import HeadingSlider from "@/components/HeadingSlider";
+import ImageSlider from "@/components/ImageSlider";
+import Navbar from "@/components/Navbar";
+import SearchBar from "@/components/SearchBar";
+// import { useRouter } from "next/navigation";
 
-export default function Page() {
-  const router = useRouter();
+export default function Home() {
+  const { filter, setFilter } = useContext(AppContext);
+  // const router = useRouter();
 
-  useEffect(() => {
-    // Redirect to the loading page
-    router.push("/Loader");
-  }, [router]);
+  const categories = [
+    "TOP Topics",
+    "Sports TOP",
+    "Politics",
+    "Weather",
+    "Science",
+    "Culture",
+    "Tech",
+  ];
+  // useEffect(() => {
+  //   // Redirect to the loading page
+  //   router.push("/Loader");
+  // }, [router]);
 
-  return null; // No UI since this is just for redirection
+  return (
+    <div className="w-full">
+      <Navbar home="Home" />
+      <HeadingSlider setFilter={setFilter} filter={filter} />
+      <ImageSlider filter={filter} />
+      <SearchBar />
+      {categories.map((item, index) => (
+        <Category key={index} item={item} />
+      ))}
+      <Footer />
+    </div>
+  );
 }
 
+// "use client";
+
+// import { useRouter } from "next/navigation";
+// import { useEffect } from "react";
+
+// export default function Page() {
+//   const router = useRouter();
+
+//   useEffect(() => {
+//     // Redirect to the loading page
+//     router.push("/Loader");
+//   }, [router]);
+
+//   return null; // No UI since this is just for redirection
+// }
