@@ -11,9 +11,8 @@ export default function Menu() {
     { name: "Portfolio", link: "/deposit-withdrawal/history" },
     { name: "Profile", link: "/profile" },
     { name: "Setting", link: "/setting" },
-    { name: "Help", link: "/help" }
+    { name: "Help", link: "/help" },
   ];
-
 
   return (
     <div>
@@ -24,13 +23,16 @@ export default function Menu() {
             <Link
               key={index}
               href={`${item.link}`}
-              className={`pl-8 py-3 relative ${selectedMenu === item.name
+              className={`pl-8 py-3 relative ${
+                selectedMenu === item.name
                   ? "bg-[#151515] text-white"
                   : "text-white hover:bg-white hover:bg-opacity-[10%] hover:text-black"
-                }`}
+              }`}
               onClick={() => setSelectedMenu(item.name)}
             >
-              {selectedMenu === item.name && <div className="bg-white w-[2px] h-4 absolute top-4 left-4"></div>}
+              {selectedMenu === item.name && (
+                <div className="bg-white w-[2px] h-4 absolute top-4 left-4"></div>
+              )}
               {item.name}
             </Link>
           ))}
