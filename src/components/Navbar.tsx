@@ -6,7 +6,7 @@ export default function Navbar({ home }: { home: string }) {
   const router = useRouter();
   return (
     <div className="flex justify-between items-center p-5 bg-[#0E0E0E]">
-      <Image src="/images/logo.png" alt="Logo image" width={20} height={20} />
+      <Image onClick={()=>{router.push("/")}} src="/images/logo.png" alt="Logo image" width={20} height={20} />
       {home && <p>{home}</p>}
       {[
         "Home",
@@ -17,6 +17,7 @@ export default function Navbar({ home }: { home: string }) {
         "Terms",
         "Setting",
         "Help",
+        "",
       ].includes(home) ? (
         <Image
           onClick={() => {
