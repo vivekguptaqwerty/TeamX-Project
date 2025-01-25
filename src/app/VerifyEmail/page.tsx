@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 const Verification: React.FC = () => {
   return (
     <div className="h-screen w-screen bg-black flex flex-col max-w-[430px] mx-auto">
-      <Navbar home={true} /> {/* Pass the correct prop to Navbar */}
+      <Navbar home={"Verify Email"} /> {/* Pass the correct prop to Navbar */}
       <div className="verification-container">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -24,10 +24,11 @@ const Verification: React.FC = () => {
             data-name="https://everyx.io/auth/email-verification/request"
           >
             <rect width="430" height="929" fill="#0e0e0e" />
-            <g id="Group_39976" data-name="Group 39976" transform="translate(-14.804 2)">
-              
-              
-              
+            <g
+              id="Group_39976"
+              data-name="Group 39976"
+              transform="translate(-14.804 2)"
+            >
               {/* Additional paths have been truncated for brevity */}
             </g>
             <text
