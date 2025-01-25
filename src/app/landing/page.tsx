@@ -72,7 +72,7 @@ const LandingPage = () => {
         {/* Use the layout property for image resizing */}
         <div className="mt-10 relative -mx-1 h-[400px]">
           <Image
-            src="/images/LpImage1.png"
+            src="Images/LpImage1.png"
             alt="Landing Page Image 1"
             layout="fill"
             objectFit="cover" // Ensures the image covers the container
@@ -109,7 +109,7 @@ const LandingPage = () => {
         </div>
         <div className="px-10 mt-2 justify-center flex items-center">
           <Image
-            src="/images/LpImage2.png"
+            src="Images/LpImage2.png"
             alt="Landing Page Image 2"
             width={200}
             height={200}
@@ -150,7 +150,7 @@ const LandingPage = () => {
         </div>
         <div className="mt-1 relative -mx-50 -my-20   h-[700px] w-full">
           <Image
-            src="/images/LpImage3.png"
+            src="Images/LpImage3.png"
             alt="Landing Page Image 3"
             layout="fill"
             objectFit="cover"
@@ -188,7 +188,7 @@ const LandingPage = () => {
         </div>
         <div className="mt-1 relative -mx-50    h-[500px] w-full">
           <Image
-            src="/images/LpImage4.png"
+            src="Images/LpImage4.png"
             alt="Landing Page Image 4"
             layout="fill"
             objectFit="cover"
@@ -197,7 +197,7 @@ const LandingPage = () => {
         </div>
         <div className="flex  items-center mt-10 justify-center">
           <Image
-            src="/images/LpImage5.png"
+            src="Images/LpImage5.png"
             alt="Landing page Image 5"
             width={100}
             height={50}
@@ -222,7 +222,7 @@ const LandingPage = () => {
         </div>
         <div className="flex  items-center mt-10 justify-center">
           <Image
-            src="/images/LpImage6.png"
+            src="Images/LpImage6.png"
             alt="Landing page Image 6"
             width={150}
             height={50}
@@ -230,7 +230,7 @@ const LandingPage = () => {
         </div>
         <div className="mt-1 relative -mx-50 -my-16  h-[300px] w-full">
           <Image
-            src="/images/LpImage7.png"
+            src="Images/LpImage7.png"
             alt="Landing Page Image 7"
             layout="fill"
             objectFit="cover"
@@ -262,7 +262,7 @@ const LandingPage = () => {
         </div>
         <div className=" relative -mx-50 mt-10  h-[600px] w-full">
           <Image
-            src="/images/LpImage8.png"
+            src="Images/LpImage8.png"
             alt="Landing Page Image 8"
             layout="fill"
             objectFit="cover"
@@ -296,7 +296,7 @@ const LandingPage = () => {
         </div>
         <div className=" relative -mx-50 -mb-20 h-[600px] w-full">
           <Image
-            src="/images/LpImage9.png"
+            src="Images/LpImage9.png"
             alt="Landing Page Image 9"
             layout="fill"
             objectFit="cover"
