@@ -1,11 +1,13 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../Context/AppContext";
+import './menu.css';
 
 export default function Menu() {
   const { selectedMenu, setSelectedMenu } = useContext(AppContext);
+  const [languageState, setLanguageState] = useState(false);
   const navbarItems = [
     { name: "Home", link: "/" },
     { name: "Portfolio", link: "/deposit-withdrawal/history" },
@@ -38,8 +40,20 @@ export default function Menu() {
           ))}
         </ul>
       </div>
-      <div className="p-5">
-        <button className="text-[#fff] text-sm border border-[#fff] w-full py-2 rounded-md">
+      <div className="p-5 mt-60">
+        <div className="flex justify-center gap-6 items-center mb-8 pl-[100px]">
+          <p className={`${!languageState? "text-[#fff]":"text-[#707070]"} text-[14px]`}>English</p>
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={languageState}
+              onChange={() => setLanguageState(!languageState)}
+            />
+            <span className="slider round"></span>
+          </label>
+          <p className={`${!languageState? "text-[#707070]" : "text-[#fff]"} text-[14px]`}>Japanese</p>
+        </div>
+        <button className="text-[#fff] text-sm border border-[#fff] w-full py-3 rounded-lg">
           <Link href="/Signup">LogOut</Link>
         </button>
       </div>

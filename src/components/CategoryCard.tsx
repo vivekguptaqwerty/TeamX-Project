@@ -39,7 +39,7 @@ export default function CategoryCard({ item }: CategoryType) {
         </div>
         <span className="text-[19px] text-[#00FFB8]">686%</span>
         <span className="text-[19px] text-[#00FFB8]">1x</span>
-        <button className="border border-[#00FFB8] px-4 text-xs text-[#00FFB8]">
+        <button className="border border-[#00FFB8] px-4 text-xs text-[#00FFB8] rounded-md">
           Sports
         </button>
       </div>

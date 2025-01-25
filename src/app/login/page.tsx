@@ -1,7 +1,10 @@
+"use client"
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
   return (
     <div>
       <Navbar home="Login" />
@@ -16,7 +19,7 @@ export default function Login() {
         </div>
         <div className="flex flex-col gap-2 relative">
           <p className="text-xs text-white opacity-25">Password</p>
-          <p className="text-[9px] underline absolute bottom-1 right-0">
+          <p onClick={()=>{router.push("/profile/forgot-password")}} className="text-[9px] underline absolute bottom-1 right-0">
             Forgot Password
           </p>
           <input
@@ -28,7 +31,7 @@ export default function Login() {
         <p className="text-xl opacity-25 text-center py-10">or</p>
 
         <div className="bg-[#131314] w-60 relative left-1/2 transform -translate-x-1/2 flex justify-center items-center gap-4 py-2 rounded-full">
-          <Image src="/images/google.svg" alt="" />
+          <Image src="/images/google.svg" alt="" width={20} height={20}/>
           Continue with Google
         </div>
 
