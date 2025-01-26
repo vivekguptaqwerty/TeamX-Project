@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../Context/AppContext";
 import './menu.css';
 import { useRouter } from "next/navigation";

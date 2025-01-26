@@ -11,7 +11,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const {isLoggedIn,setIsLoggedIn} = useContext(AppContext);
+  const {setIsLoggedIn} = useContext(AppContext);
 
   // Mock login function (Replace with real API call)
   const handleLogin = (e: React.FormEvent) => {

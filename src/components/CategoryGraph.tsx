@@ -6,7 +6,7 @@ import { useContext } from "react";
 export default function CategoryGraph() {
 
     const router = useRouter()
-    const {isLoggedIn,setIsLoggedIn} = useContext(AppContext);
+    const {isLoggedIn} = useContext(AppContext);
 
     const handleClick = () => {
         if (isLoggedIn) {
