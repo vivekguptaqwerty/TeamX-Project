@@ -4,17 +4,27 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 import { AppContext } from "../Context/AppContext";
 import './menu.css';
+import { useRouter } from "next/navigation";
 
 export default function Menu() {
+  const router = useRouter();
   const { selectedMenu, setSelectedMenu } = useContext(AppContext);
   const [languageState, setLanguageState] = useState(false);
-  const navbarItems = [
-    { name: "Home", link: "/" },
-    { name: "Portfolio", link: "/deposit-withdrawal/history" },
-    { name: "Profile", link: "/profile" },
-    { name: "Setting", link: "/setting" },
-    { name: "Help", link: "/help" },
-  ];
+  const {isLoggedIn, setIsLoggedIn} = useContext(AppContext);
+
+  // Define visible menu items based on login status
+  const navbarItems = isLoggedIn
+    ? [
+        { name: "Home", link: "/home" },
+        { name: "Portfolio", link: "/deposit-withdrawal/history" },
+        { name: "Profile", link: "/profile" },
+        { name: "Setting", link: "/setting" },
+        { name: "Help", link: "/help" },
+      ]
+    : [
+        { name: "Setting", link: "/setting" },
+        { name: "Help", link: "/help" },
+      ];
 
   return (
     <div>
@@ -40,9 +50,13 @@ export default function Menu() {
           ))}
         </ul>
       </div>
+      
+      {/* Language Toggle */}
       <div className="p-5 mt-60">
         <div className="flex justify-center gap-6 items-center mb-8 pl-[100px]">
-          <p className={`${!languageState? "text-[#fff]":"text-[#707070]"} text-[14px]`}>English</p>
+          <p className={`${!languageState ? "text-[#fff]" : "text-[#707070]"} text-[14px]`}>
+            English
+          </p>
           <label className="switch">
             <input
               type="checkbox"
@@ -51,10 +65,25 @@ export default function Menu() {
             />
             <span className="slider round"></span>
           </label>
-          <p className={`${!languageState? "text-[#707070]" : "text-[#fff]"} text-[14px]`}>Japanese</p>
+          <p className={`${!languageState ? "text-[#707070]" : "text-[#fff]"} text-[14px]`}>
+            Japanese
+          </p>
         </div>
-        <button className="text-[#fff] text-sm border border-[#fff] w-full py-3 rounded-lg">
-          <Link href="/Signup">LogOut</Link>
+
+        {/* Login/Logout Button */}
+        <button
+          className="text-[#fff] text-sm border border-[#fff] w-full py-3 rounded-lg"
+          onClick={() => {
+            if (isLoggedIn) {
+              setIsLoggedIn(false); // Logout
+              router.push("/")
+            }
+            else{
+              router.push("/login")
+            }
+          }}
+        >
+          {isLoggedIn ? "Logout" : "Login"}
         </button>
       </div>
     </div>

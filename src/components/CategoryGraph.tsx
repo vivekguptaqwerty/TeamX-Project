@@ -1,12 +1,23 @@
 "use client"
+import { AppContext } from "@/app/Context/AppContext";
 import { useRouter } from "next/navigation"
+import { useContext } from "react";
 
 export default function CategoryGraph() {
 
     const router = useRouter()
+    const {isLoggedIn} = useContext(AppContext);
+
+    const handleClick = () => {
+        if (isLoggedIn) {
+          router.push("/event/category/1/pay");
+        } else {
+          router.push("/login"); // Redirect to login if not authenticated
+        }
+      };
 
     return (
-        <div onClick={() => { router.push("/event/category/1/pay") }} className="mt-3">
+        <div onClick={handleClick} className="mt-3">
             <h1 className="text-center font-bold">What do you predict ?</h1>
             <div className="p-8 flex flex-col gap-2">
                 {["80", "15", "5", "5"].map((item, index) => {

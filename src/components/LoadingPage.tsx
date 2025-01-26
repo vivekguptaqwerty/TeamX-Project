@@ -1,25 +1,7 @@
-"use client";
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Navbar from "@/components/Navbar";
-
 export default function LoadingPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push("/Signup");
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [router]);
 
   return (
     <div className="h-screen w-screen bg-black flex flex-col max-w-[430px] mx-auto">
-      {/* Status Bar */}
-      <Navbar home={"Home"} />
-
       {/* Logo */}
       <div className="flex-1 flex items-center justify-center">
         <div className="w-12 h-12">
