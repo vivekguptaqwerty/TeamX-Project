@@ -1,43 +1,84 @@
-"use client"
+"use client";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
+import { AppContext } from "../Context/AppContext";
+import Link from "next/link";
 
 export default function Login() {
   const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const {isLoggedIn,setIsLoggedIn} = useContext(AppContext);
+
+  // Mock login function (Replace with real API call)
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Simple validation
+    if (!username || !password) {
+      setError("Username and Password are required.");
+      return;
+    }
+
+    // Mock authentication (Replace with real API logic)
+    if (username === "admin" && password === "password") {
+      setIsLoggedIn(true)
+      router.push("/home"); // Redirect
+    } else {
+      setError("Invalid credentials. Try again.");
+    }
+  };
+
   return (
     <div>
       <Navbar home="Login" />
       <h1 className="text-[27px] text-center py-20">LogIn</h1>
-      <form action="" className="px-8">
+
+      <form onSubmit={handleLogin} className="px-8">
+        {/* Error Message */}
+        {error && <p className="text-red-500 text-xs text-center mb-4">{error}</p>}
+
+        {/* Username Input */}
         <div className="flex flex-col gap-2 mb-8">
           <label className="text-xs text-white opacity-25">Username</label>
           <input
             type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="w-full text-xs bg-transparent border-b border-gray-400 outline-none"
           />
         </div>
+
+        {/* Password Input */}
         <div className="flex flex-col gap-2 relative">
           <p className="text-xs text-white opacity-25">Password</p>
-          <p onClick={()=>{router.push("/profile/forgot-password")}} className="text-[9px] underline absolute bottom-1 right-0">
+          <p onClick={() => router.push("/profile/forgot-password")} className="text-[9px] underline absolute bottom-1 right-0">
             Forgot Password
           </p>
           <input
             type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full h-5 text-xs bg-transparent border-b border-gray-400 outline-none"
           />
         </div>
 
         <p className="text-xl opacity-25 text-center py-10">or</p>
 
-        <div className="bg-[#131314] w-60 relative left-1/2 transform -translate-x-1/2 flex justify-center items-center gap-4 py-2 rounded-full">
-          <Image src="/images/google.svg" alt="" width={20} height={20}/>
+        {/* Google Login Button */}
+        <div className="bg-[#131314] w-60 relative left-1/2 transform -translate-x-1/2 flex justify-center items-center gap-4 py-2 rounded-full cursor-pointer">
+          <Image src="/images/google.svg" alt="" width={20} height={20} />
           Continue with Google
         </div>
 
-        <button className="text-[#2DC198] text-sm border border-[#2DC198] w-full py-2 rounded-md mt-16">
+        {/* Login Button */}
+        <button type="submit" className="text-[#2DC198] text-sm border border-[#2DC198] w-full py-2 rounded-md mt-16">
           Login
         </button>
+        <p className="text-white text-[12px] text-center mt-5">New here ?<Link className="underline" href="/Signup"> Create an account</Link></p>
       </form>
     </div>
   );

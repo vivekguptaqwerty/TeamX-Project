@@ -7,7 +7,8 @@ const HeadingSlider: React.FC<HeadingSliderProps> = ({ setFilter, filter }) => {
   const headings = [
     "Weather & Disaster",
     "Reccomend",
-    "Pop Culture",
+    "Sports",
+    "Politics",
     "Science",
     "Culture",
     "Tech",
