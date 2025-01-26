@@ -2,14 +2,32 @@
 
 import CurrentCashBalanceCard from "@/components/CurrentCashBalance";
 import Navbar from "@/components/Navbar";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Deposit: React.FC = () => {
+  const router = useRouter();
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9.]/g, ""); // Allow only numbers and decimal points
     setInputValue(`$${value}`);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && inputValue) {
+      // Navigate to the next page, passing the amount
+      console.log(
+        "Navigating to processing-deposit page with amount:",
+        inputValue
+      );
+      router.push(
+        `/deposit-withdrawal/processing-deposit?amount=${inputValue.replace(
+          "$",
+          ""
+        )}`
+      );
+    }
   };
 
   return (
@@ -23,7 +41,11 @@ const Deposit: React.FC = () => {
           {/* Deposit and Withdrawal Section */}
           <div className="mt-10 flex items-center justify-center w-full px-5">
             <button className="text-white text-[16px]">Deposit :</button>
-            <button className="text-[#2DC198] text-[14px] absolute right-5">
+            <button
+              className="text-[#2DC198] text-[14px] absolute right-5"
+              type="button"
+              onClick={() => router.push("/deposit-withdrawal/withdrawal")}
+            >
               Withdrawal
             </button>
           </div>
@@ -34,6 +56,7 @@ const Deposit: React.FC = () => {
               type="text"
               value={inputValue}
               onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
               placeholder="$0.00"
               className="text-white bg-transparent text-[34px] font-bold outline-none placeholder-[#707070] w-full  pl-2 text-center"
             />

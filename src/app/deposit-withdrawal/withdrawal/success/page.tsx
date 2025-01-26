@@ -1,9 +1,16 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import React, { Suspense } from "react";
 import SuccessIcon from "../../../../../public/Icons/SuccessIcon.png";
 import Navbar from "@/components/Navbar";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const success: React.FC = () => {
+const Success: React.FC = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const amount = searchParams.get("amount");
+
   return (
     <>
       <Navbar home="Withdrawal" />
@@ -29,10 +36,16 @@ const success: React.FC = () => {
             <p className="text-center text-[22px] font-light">
               Payments successful !
             </p>
-            <p className="text-center text-[15px] font-semibold">$300.00 USD</p>
+            <p className="text-center text-[15px] font-semibold">
+              ${parseFloat(amount ?? "0").toFixed(2)} USD
+            </p>
           </div>
 
-          <button className="w-full py-3 px-4 border-[#2DC198] border-[0.25px] rounded-lg transition-colors text-[14px] text-[#2DC198] mt-10">
+          <button
+            className="w-full py-3 px-4 border-[#2DC198] border-[0.25px] rounded-lg transition-colors text-[14px] text-[#2DC198] mt-10"
+            type="button"
+            onClick={() => router.push("/deposit-withdrawal/history")}
+          >
             Done
           </button>
         </div>
@@ -41,4 +54,11 @@ const success: React.FC = () => {
   );
 };
 
-export default success;
+// Wrap in Suspense for parent-level rendering
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Success />
+    </Suspense>
+  );
+}

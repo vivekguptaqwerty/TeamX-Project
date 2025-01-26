@@ -1,9 +1,14 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { Suspense } from "react";
 import FailedIcon from "../../../../../public/Icons/FailedIcon.png";
 import Navbar from "@/components/Navbar";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const failed: React.FC = () => {
+const Failed: React.FC = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const amount = searchParams.get("amount");
   return (
     <>
       <Navbar home="Deposit" />
@@ -29,10 +34,16 @@ const failed: React.FC = () => {
             <p className="text-center text-[22px] font-light">
               Payments Failed!
             </p>
-            <p className="text-center text-[15px] font-semibold">$300.00 USD</p>
+            <p className="text-center text-[15px] font-semibold">
+              ${parseFloat(amount ?? "0").toFixed(2)} USD
+            </p>
           </div>
 
-          <button className="w-full py-3 px-4 border-[#fff] border-[0.25px] rounded-lg transition-colors text-[14px] text-[#fff] mt-10">
+          <button
+            className="w-full py-3 px-4 border-[#fff] border-[0.25px] rounded-lg transition-colors text-[14px] text-[#fff] mt-10"
+            type="button"
+            onClick={() => router.push("/deposit-withdrawal/history")}
+          >
             Back to Portfolio
           </button>
         </div>
@@ -41,4 +52,12 @@ const failed: React.FC = () => {
   );
 };
 
-export default failed;
+const wrappedFailed = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Failed />
+    </Suspense>
+  );
+};
+
+export default wrappedFailed;

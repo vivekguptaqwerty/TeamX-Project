@@ -1,18 +1,22 @@
 "use client";
-
+import React, { Suspense, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import CurrentCashBalanceCard from "@/components/CurrentCashBalance";
-import type React from "react";
-// import { useState } from "react";
-import styles from "../../../components/ProcessingIcon.module.css";
 import Navbar from "@/components/Navbar";
+import styles from "../../../components/ProcessingIcon.module.css";
 
-const DepositProcessing: React.FC = () => {
-  // const [inputValue, setInputValue] = useState<string>("");
+const DepositProcessingContent: React.FC = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const amount = searchParams.get("amount");
 
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value.replace(/[^0-9.]/g, ""); // Allow only numbers and decimal points
-  //   setInputValue(`$${value}`);
-  // };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push(`/deposit-withdrawal/deposits/success?amount=${amount}`);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [router, amount]);
 
   return (
     <>
@@ -33,8 +37,12 @@ const DepositProcessing: React.FC = () => {
           {/* Input Box with Processing loader */}
           <div className="flex justify-center items-end gap-2">
             <div className="flex justify-center mt-5 items-baseline font-bold">
-              <span className="text-[34px]">$300 .</span>
-              <span className="text-[30px]"> 00</span>
+              <span className="text-[34px]">
+                ${amount ? parseFloat(amount).toFixed(2).split(".")[0] : "0"}.
+              </span>
+              <span className="text-[30px]">
+                {amount ? parseFloat(amount).toFixed(2).split(".")[1] : "00"}
+              </span>
             </div>
 
             <div className="absolute right-5 mb-1">
@@ -58,6 +66,14 @@ const DepositProcessing: React.FC = () => {
         </div>
       </div>
     </>
+  );
+};
+
+const DepositProcessing: React.FC = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DepositProcessingContent />
+    </Suspense>
   );
 };
 
