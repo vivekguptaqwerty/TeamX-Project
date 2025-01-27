@@ -1,7 +1,16 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function SuccessPage() {
+  const router = useRouter();
+
+  const handleNextClick = () => {
+    router.push("/signup/verify-1"); // Redirect to /signup/verify-1
+  };
+
   return (
     <div>
       <Navbar home={""} />
@@ -14,14 +23,15 @@ export default function SuccessPage() {
             width={70}
             height={70}
           ></Image>
-          <h2 className="text-[22px]">
-          Mail Verification are successful !
-          </h2>
+          <h2 className="text-[22px]">Mail Verification successful!</h2>
           <p className="text-[#707070] text-[13px] px-12">
-          Email already berifiled.
+            Email already verified.
           </p>
         </div>
-        <button className="w-full py-4 px-4 border-[#2DC198] border-[0.25px] rounded-lg transition-colors text-[#2DC198]">
+        <button
+          className="w-full py-4 px-4 border-[#2DC198] border-[0.25px] rounded-lg transition-colors text-[#2DC198]"
+          onClick={handleNextClick} // Handle the "Next" button click
+        >
           Next
         </button>
       </div>

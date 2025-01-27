@@ -2,8 +2,15 @@
 
 import { Button } from "@/components/Button"
 import Navbar from "@/components/Navbar"
+import { useRouter } from "next/navigation" // Import useRouter
 
 export default function VerifyIdentityComplete() {
+  const router = useRouter() // Initialize useRouter
+
+  const handleDoneClick = () => {
+    router.push("/login") // Redirect to /login when DONE button is clicked
+  }
+
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar home="Verification" />
@@ -39,8 +46,12 @@ export default function VerifyIdentityComplete() {
         {/* Status List */}
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded-full border-2 border-gray-600"></div>
-            <span className="text-gray-400">Applicant data</span>
+            <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center">
+              <svg viewBox="0 0 24 24" className="w-4 h-4 text-black" fill="none" stroke="currentColor">
+                <path d="M20 6L9 17l-5-5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <span className="text-white">Applicant data</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center">
@@ -60,12 +71,14 @@ export default function VerifyIdentityComplete() {
           </div>
         </div>
 
-        
-
         {/* Done Button */}
-        <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-6 rounded-xl mt-4">DONE</Button>
+        <Button
+          className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-6 rounded-xl mt-4"
+          onClick={handleDoneClick} // Redirect when clicked
+        >
+          DONE
+        </Button>
       </main>
     </div>
   )
 }
-

@@ -1,10 +1,17 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/Button"
-import Image from "next/image"
-import Navbar from "@/components/Navbar"
+import { Button } from "@/components/Button";
+import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 export default function VerifyIdentityProfile() {
+  const router = useRouter(); // Initialize useRouter
+
+  const handleNextClick = () => {
+    router.push("/signup/verify-4"); // Redirect to /signup/verify-4
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar home="Verification" />
@@ -51,9 +58,13 @@ export default function VerifyIdentityProfile() {
         </div>
 
         {/* Next Button */}
-        <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-6 rounded-xl mt-4">Next</Button>
+        <Button
+          className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-6 rounded-xl mt-4"
+          onClick={handleNextClick} // Add onClick to handle redirection
+        >
+          Next
+        </Button>
       </main>
     </div>
-  )
+  );
 }
-

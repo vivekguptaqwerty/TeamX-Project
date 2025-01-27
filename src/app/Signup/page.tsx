@@ -30,23 +30,31 @@ const Page = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const isSignup = () => {
+    const { username, phone, email, password, confirmPassword } = formData;
+
+    // Basic validation (you can expand as needed)
+    if (!username || !phone || !email || !password || password !== confirmPassword) {
+      alert("Please fill all the fields correctly.");
+      return;
+    }
+
+    // Simulate API call or signup process
+    console.log("Signup successful:", formData);
+
+    // Redirect to the email verification page
+    window.location.href = "/signup/email-verification";
+  };
+
   return (
     <>
       <Navbar home="Signup" />
-      <div className="h-screen  bg-[#0E0E0E] flex flex-col w-full mx-auto mb-5">
-        {/* Navbar Component passing nothing */}
-        {/* Sign Up Title */}
-        <div className="text-center text-white text-2xl font-bold mt-6">
-          Sign Up
-        </div>
-        {/* Signup Form Section */}
+      <div className="h-screen bg-[#0E0E0E] flex flex-col w-full mx-auto mb-5">
+        <div className="text-center text-white text-2xl font-bold mt-6">Sign Up</div>
         <div className="flex flex-col px-6 text-white space-y-6 mt-6">
           {/* Username */}
           <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block text-opacity-70 text-sm mb-1"
-            >
+            <label htmlFor="username" className="block text-opacity-70 text-sm mb-1">
               Username
             </label>
             <input
@@ -59,12 +67,9 @@ const Page = () => {
             />
           </div>
 
-          {/* Phone Number */}
+          {/* Phone */}
           <div className="mb-4">
-            <label
-              htmlFor="phone"
-              className="block text-opacity-70 text-sm mb-1"
-            >
+            <label htmlFor="phone" className="block text-opacity-70 text-sm mb-1">
               Phone Number
             </label>
             <div className="flex items-center gap-2">
@@ -82,10 +87,7 @@ const Page = () => {
 
           {/* Email */}
           <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-opacity-70 text-sm mb-1"
-            >
+            <label htmlFor="email" className="block text-opacity-70 text-sm mb-1">
               Email
             </label>
             <input
@@ -100,10 +102,7 @@ const Page = () => {
 
           {/* Password */}
           <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-opacity-70 text-sm mb-1"
-            >
+            <label htmlFor="password" className="block text-opacity-70 text-sm mb-1">
               Password
             </label>
             <input
@@ -118,10 +117,7 @@ const Page = () => {
 
           {/* Confirm Password */}
           <div className="mb-4">
-            <label
-              htmlFor="confirmPassword"
-              className="block text-opacity-70 text-sm mb-1"
-            >
+            <label htmlFor="confirmPassword" className="block text-opacity-70 text-sm mb-1">
               Password (Again)
             </label>
             <input
@@ -136,10 +132,7 @@ const Page = () => {
 
           {/* Referral Code */}
           <div className="mb-4">
-            <label
-              htmlFor="referralCode"
-              className="block text-opacity-70 text-sm mb-1"
-            >
+            <label htmlFor="referralCode" className="block text-opacity-70 text-sm mb-1">
               Referral Code
             </label>
             <input
@@ -154,10 +147,7 @@ const Page = () => {
 
           {/* Country */}
           <div className="mb-4">
-            <label
-              htmlFor="country"
-              className="block text-opacity-70 text-sm mb-1"
-            >
+            <label htmlFor="country" className="block text-opacity-70 text-sm mb-1">
               Country
             </label>
             <input
@@ -170,18 +160,14 @@ const Page = () => {
             />
           </div>
         </div>
-        {/* Prediction Market Information */}
+
+        {/* Prediction Market Info */}
         <div className="px-6 mt-6">
           <div className="text-white text-sm text-justify leading-relaxed">
-            A prediction market is a platform where participants can trade based
-            on the outcomes of future events, such as elections, sports, or
-            economic indicators. The market prices reflect the collective
-            probability of an event occurring, aggregating diverse information
-            and insights from participants. It is useful for its ability to
-            provide real-time, accurate forecasts based on crowd wisdom and
-            incentivized decision-making.
+            A prediction market is a platform where participants can trade based on the outcomes of future events...
           </div>
         </div>
+
         {/* Terms and Conditions */}
         <div className="mt-6 px-6">
           <div className="flex items-start space-x-3">
@@ -189,19 +175,19 @@ const Page = () => {
               type="checkbox"
               id="terms"
               className="w-4 h-4 border border-gray-700 rounded bg-transparent"
-              title="Accept terms and conditions"
             />
             <label htmlFor="terms" className="text-opacity-50 text-sm">
               I have read and agree to these terms
             </label>
           </div>
         </div>
+
         {/* Signup Button */}
         <div className="mt-8 px-6">
           <button
             type="submit"
             className="w-full bg-[#707070] bg-opacity-10 text-white py-3 rounded-lg text-sm"
-            title="Sign Up Button"
+            onClick={isSignup}
           >
             Sign Up
           </button>

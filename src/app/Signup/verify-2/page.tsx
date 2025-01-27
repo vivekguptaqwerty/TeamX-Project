@@ -2,11 +2,17 @@
 import { Button } from "@/components/Button"
 import { Card } from "@/components/Card"
 import Navbar from "@/components/Navbar"
+import { useRouter } from "next/navigation" // Import useRouter
 
 export default function VerifyIdentity() {
+  const router = useRouter() // Initialize the router
+
+  const handleNextClick = () => {
+    router.push("/signup/verify-3") // Redirect to signup/verify-3
+  }
+
   return (
     <div className="min-h-screen bg-black text-white">
-
       <Navbar home="Verification" />
 
       {/* Main Content */}
@@ -36,7 +42,7 @@ export default function VerifyIdentity() {
 
         {/* Upload Section */}
         <div className="space-y-4">
-          <h2 className="text-sm">Upload more then 2 docments:</h2>
+          <h2 className="text-sm">Upload more than 2 documents:</h2>
           <div className="space-y-3">
             <Card className="bg-zinc-900 border-zinc-800">
               <Button variant="ghost" className="w-full justify-start text-gray-400 py-6">
@@ -60,9 +66,13 @@ export default function VerifyIdentity() {
         </div>
 
         {/* Next Button */}
-        <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-6 rounded-xl">Next</Button>
+        <Button
+          className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-6 rounded-xl"
+          onClick={handleNextClick} // Add onClick to handle redirection
+        >
+          Next
+        </Button>
       </main>
     </div>
   )
 }
-
