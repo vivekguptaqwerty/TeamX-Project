@@ -9,7 +9,7 @@ export default function VerifyIdentityProfile() {
   const router = useRouter(); // Initialize useRouter
 
   const handleNextClick = () => {
-    router.push("/signup/verify-4"); // Redirect to /signup/verify-4
+    router.push("/auth/signup/verify-4"); // Redirect to /signup/verify-4
   };
 
   return (

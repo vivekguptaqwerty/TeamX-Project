@@ -9,7 +9,7 @@ const Verification: React.FC = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/signup/success"); // Redirects to signup/success after 5 seconds
+      router.push("/auth/signup/success"); // Redirects to signup/success after 5 seconds
     }, 5000);
 
     return () => clearTimeout(timer); // Cleanup the timer if the component unmounts

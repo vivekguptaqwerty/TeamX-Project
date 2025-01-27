@@ -13,7 +13,7 @@ const VerifyIdentity: React.FC = () => {
       alert("Please select your country of residence.");
       return;
     }
-    router.push("/signup/verify-2");
+    router.push("/auth/signup/verify-2");
   };
 
   return (

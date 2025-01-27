@@ -43,7 +43,7 @@ const Page = () => {
     console.log("Signup successful:", formData);
 
     // Redirect to the email verification page
-    window.location.href = "/signup/email-verification";
+    window.location.href = "/auth/signup/email-verification";
   };
 
   return (

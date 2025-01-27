@@ -8,7 +8,7 @@ export default function VerifyIdentity() {
   const router = useRouter() // Initialize the router
 
   const handleNextClick = () => {
-    router.push("/signup/verify-3") // Redirect to signup/verify-3
+    router.push("/auth/signup/verify-3") // Redirect to signup/verify-3
   }
 
   return (
