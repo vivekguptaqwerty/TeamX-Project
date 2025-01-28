@@ -1,6 +1,10 @@
+import { AppContext } from "@/app/Context/AppContext";
 import Image from "next/image";
+import { useContext } from "react";
 
 export default function SearchBar() {
+  const { search, setSearch } = useContext(AppContext);
+
   return (
     <div className="flex gap-3 px-4 py-2 rounded-2xl bg-[#161616] mx-5 mt-7 items-center">
       {/* Search Icon */}
@@ -18,6 +22,8 @@ export default function SearchBar() {
         className="text-[14px] bg-transparent outline-none flex-1 text-white placeholder-gray-400"
         placeholder="Search by market"
         aria-label="Search by market"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
     </div>
   );

@@ -10,7 +10,7 @@ import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
 
 export default function Home() {
-  const { filter, setFilter } = useContext(AppContext);
+  const { filter, setFilter, search } = useContext(AppContext);
 
   const categories = [
     "TOP Topics",
@@ -29,7 +29,10 @@ export default function Home() {
       <ImageSlider filter={filter} />
       <SearchBar />
       {categories.map((item, index) => {
-        return <Category key={index} item={item} />;
+        if (item.toLowerCase().includes(search.toLowerCase())) {
+          return <Category key={index} item={item} />;
+        }
+        return null; // Add explicit return for when condition is false
       })}
       <Footer />
     </div>
