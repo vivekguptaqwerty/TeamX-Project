@@ -29,11 +29,7 @@ export default function Home() {
       <ImageSlider filter={filter} />
       <SearchBar />
       {categories.map((item, index) => {
-        // If filter is "Recommend" or matches the category, display the category
-        if (filter === "Reccomend" || filter.includes(item)) {
-          return <Category key={index} item={item} />;
-        }
-        return null;
+        return <Category key={index} item={item} />;
       })}
       <Footer />
     </div>

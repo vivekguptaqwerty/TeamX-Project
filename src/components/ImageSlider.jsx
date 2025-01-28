@@ -1,16 +1,26 @@
+"use client";
+
+import { AppContext } from "@/app/Context/AppContext";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
+
 export default function ImageSlider({ filter }) {
+  const router = useRouter();
+  const { setFilter } = useContext(AppContext);
   const images = [
     {
       id: 1,
       src: "/images/trump.png",
       title: "Trump Inauguration",
-      description: "Trump ends Ukraine war before inauguration?",
+      description: "ends Ukraine war before inauguration?",
+      category: "Politics",
     },
     {
       id: 2,
       src: "/images/football.png",
       title: "NBA Sports",
       description: "NBA Champion",
+      category: "Politics",
     },
   ];
 
@@ -33,8 +43,14 @@ export default function ImageSlider({ filter }) {
                   <h1 className="text-[15px] mb-1">{item.title}</h1>
                   <p className="text-[8px]">{item.description}</p>
                 </div>
-                <div className="bg-[#707070] flex rounded-full gap-2 w-16 px-3 py-1">
-                  <p className="text-[9px]">Politics</p>
+                <div
+                  onClick={() => {
+                    setFilter(item.category)
+                    router.push("/event/category");
+                  }}
+                  className="bg-[#707070] flex rounded-full gap-2 w-16 px-3 py-1"
+                >
+                  <p className="text-[9px]">{item.category}</p>
                   <img src="/images/leftarrow.svg" alt="" />
                 </div>
               </div>
