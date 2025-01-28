@@ -8,7 +8,6 @@ import { CiCircleInfo } from "react-icons/ci";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import LoadingPage from "@/components/LoadingPage";
 
-
 const LandingPage = () => {
   const questions = [
     {
@@ -47,7 +46,7 @@ const LandingPage = () => {
         "Yes, EveryX allows users to trade their predictions in real-time. If you hold shares in a prediction market, you can sell them to other users at any time before the event concludes. The price of the shares will fluctuate based on the market's assessment of the likelihood of the event's outcome.",
     },
   ];
-
+  const [category, setCategory] = useState("Sports");
   const [isLoading, setIsLoading] = useState(true);
   // State to manage open/close for each question
   const [openQuestions, setOpenQuestions] = useState<boolean[]>(
@@ -85,7 +84,7 @@ const LandingPage = () => {
           </p>
         </div>
         {/* Use the layout property for image resizing */}
-        <div className="mt-10 relative -mx-1 h-[400px]">
+        <div className="mt-16 relative -mx-1 h-[300px]">
           <Image
             src="/Images/LpImage1.png"
             alt="Landing Page Image 1"
@@ -94,14 +93,14 @@ const LandingPage = () => {
             className="rounded-lg"
           />
         </div>
-        <div className="px-10">
-          <p className=" text-[33px] text-white text-opacity-[78%] text-left">
+        <div className="px-10 ">
+          <p className=" text-[33px] text-white text-opacity-[78%] text-left ZenAntiqueFont font-bold ">
             Trade
           </p>
-          <p className=" text-[33px] text-white text-opacity-[78%] text-left">
-            on the Outcomes of
+          <p className=" text-[33px] text-white text-opacity-[78%] text-left ZenAntiqueFont font-bold">
+            on the Outcome of
           </p>
-          <p className=" text-[33px] text-white text-opacity-[78%] text-left">
+          <p className=" text-[33px] text-white text-opacity-[78%] text-left ZenAntiqueFont font-bold">
             Global Events
           </p>
           <p className=" text-[13px] text-white text-opacity-[78%] text-left font-medium mt-5">
@@ -139,31 +138,80 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="pt-10 px-10 flex  justify-center items-center gap-2">
-          <span className="text-[14px] bg-[#B5B5B5] text-black px-3 py-1 rounded-full">
+          <span
+            className={`text-[14px] bg-[#B5B5B5] ${
+              category == "Sports"
+                ? "text-black"
+                : "text-[#B5B5B5] bg-opacity-[13%]"
+            } px-3 py-1 rounded-full `}
+            onClick={() => setCategory("Sports")}
+          >
             Sports
           </span>
-          <span className="text-[14px] bg-[#B5b5b5] text-[#B5b5b5] px-3 py-1 rounded-full bg-opacity-[13%]">
+          <span
+            className={`text-[14px] bg-[#B5B5B5] ${
+              category == "Crypto"
+                ? "text-black"
+                : "text-[#B5B5B5] bg-opacity-[13%]"
+            } px-3 py-1 rounded-full `}
+            onClick={() => setCategory("Crypto")}
+          >
             Crypto
           </span>
-          <span className="text-[14px] bg-[#B5b5b5]  text-[#B5b5b5] px-3 py-1 rounded-full bg-opacity-[13%]">
+          <span
+            className={`text-[14px] bg-[#B5B5B5] ${
+              category == "Politics"
+                ? "text-black"
+                : "text-[#B5B5B5] bg-opacity-[13%]"
+            } px-3 py-1 rounded-full `}
+            onClick={() => setCategory("Politics")}
+          >
             Politics
           </span>
-          <span className="text-[14px] bg-[#B5b5b5] text-[#B5b5b5] px-3 py-1 rounded-full bg-opacity-[13%]">
+          <span
+            className={`text-[14px] bg-[#B5B5B5] ${
+              category == "Weather"
+                ? "text-black"
+                : "text-[#B5B5B5] bg-opacity-[13%]"
+            } px-3 py-1 rounded-full `}
+            onClick={() => setCategory("Weather")}
+          >
             Weather
           </span>
         </div>
         <div className=" pt-2 px-10 flex  justify-center items-center gap-2">
-          <span className="text-[14px] bg-[#B5b5b5] text-[#B5b5b5] px-3 py-1 rounded-full bg-opacity-[13%]">
-            Crypto
+          <span
+            className={`text-[14px] bg-[#B5B5B5] ${
+              category == "Science"
+                ? "text-black"
+                : "text-[#B5B5B5] bg-opacity-[13%]"
+            } px-3 py-1 rounded-full `}
+            onClick={() => setCategory("Science")}
+          >
+            Science
           </span>
-          <span className="text-[14px] bg-[#B5b5b5]  text-[#B5b5b5] px-3 py-1 rounded-full bg-opacity-[13%]">
-            Politics
+          <span
+            className={`text-[14px] bg-[#B5B5B5] ${
+              category == "Culture"
+                ? "text-black"
+                : "text-[#B5B5B5] bg-opacity-[13%]"
+            } px-3 py-1 rounded-full `}
+            onClick={() => setCategory("Culture")}
+          >
+            Culture
           </span>
-          <span className="text-[14px] bg-[#B5b5b5] text-[#B5b5b5] px-3 py-1 rounded-full bg-opacity-[13%]">
-            Weather
+          <span
+            className={`text-[14px] bg-[#B5B5B5] ${
+              category == "Tech"
+                ? "text-black"
+                : "text-[#B5B5B5] bg-opacity-[13%]"
+            } px-3 py-1 rounded-full `}
+            onClick={() => setCategory("Tech")}
+          >
+            Tech
           </span>
         </div>
-        <div className="mt-1 relative -mx-50 -my-20   h-[700px] w-full">
+        <div className="mt-1 relative -mx-50 -my-20   h-[650px] w-full">
           <Image
             src="/Images/LpImage3.png"
             alt="Landing Page Image 3"
@@ -173,13 +221,13 @@ const LandingPage = () => {
           />
         </div>
         <div>
-          <p className="text-[13px] font-extralight text-center">
+          <p className="text-[13px]  text-white font-semibold text-center tracking-wider ">
             Leverage on event-based trades,
           </p>
-          <p className="text-[13px] font-extralight text-center">
+          <p className="text-[13px] text-white font-semibold text-center tracking-wider">
             simple onboarding, quick payouts,
           </p>
-          <p className="text-[13px] font-extralight text-center">
+          <p className="text-[13px] text-white font-semibold text-center tracking-wider">
             a global selection of events
           </p>
         </div>
@@ -187,11 +235,11 @@ const LandingPage = () => {
           <div className="w-1 h-[50px] border-l-2 border-dashed border-[#8B8B8B]"></div>
         </div>
         <div className="mt-2">
-          <p className="text-[19px] text-[#CACACA] text-center font-light">
+          <p className="text-[19px] text-[#CACACA] text-center font-light ZenAntiqueFont ">
             Start trading in
           </p>
-          <p className="text-[91px] text-[#CACACA] text-center font-semibold leading-[0.75]">
-            minutes
+          <p className="text-6xl text-[#CACACA] text-center font-semibold leading-[0.75] Zenfont">
+            minutes.
           </p>
           <div className="flex justify-center items-center gap-2 mt-5">
             <span className="text-[13px]">Your ideal setup, in</span>
@@ -253,7 +301,7 @@ const LandingPage = () => {
           />
         </div>
         <div>
-          <p className="text-[50px] text-center text-[#CACACA] font-light">
+          <p className="text-[50px] text-center text-[#CACACA]  zenAntiqueFont font-semibold">
             Secure.
           </p>
           <p className="text-[14px] text-center text-[#CACACA] font-light">
@@ -264,8 +312,12 @@ const LandingPage = () => {
           <div className="w-1 h-[50px] border-l-2 border-dashed border-[#8B8B8B]"></div>
         </div>
         <div className="mt-5 px-10">
-          <p className="text-[36px] text-[#CACACA]">Intuitive</p>
-          <p className="text-[48px] text-[#CACACA]">User Interface</p>
+          <p className="text-3xl text-[#CACACA] zenAntiqueFont font-semibold">
+            Intuitive
+          </p>
+          <p className="text-4xl text-[#CACACA] zenAntiqueFont font-regular">
+            User Interface
+          </p>
           <p className="text-[13px] text-[#CACACA] mt-5">
             EveryX is designed with user- friendlynavigation, making it easy for
             users to create predictions and manage trades.
@@ -275,12 +327,12 @@ const LandingPage = () => {
             platform ensures a seamless experience.
           </p>
         </div>
-        <div className=" relative -mx-50 mt-10  h-[600px] w-full">
+        <div className="relative  mt-1 -my-14 h-[600px] w-full">
           <Image
             src="/Images/LpImage8.png"
             alt="Landing Page Image 8"
             layout="fill"
-            objectFit="cover"
+            objectFit="contain"
             className=""
           />
         </div>
@@ -298,8 +350,10 @@ const LandingPage = () => {
           <div className="w-1 h-[50px] border-l-2 border-dashed border-[#8B8B8B]"></div>
         </div>
         <div className="mt-5 px-10">
-          <p className="text-[29px] text-[#CCCCCC]">More fun things</p>
-          <p className="text-[29px] text-[#CCCCCC]">
+          <p className="text-[29px] text-[#CCCCCC] ZenAntiqueFont">
+            More fun things
+          </p>
+          <p className="text-[29px] text-[#CCCCCC] ZenAntiqueFont">
             will be &quot;Coming Soon &quot;
           </p>
           <p className="text-[13px] text-[#CCCCCC] mt-5">
@@ -309,34 +363,35 @@ const LandingPage = () => {
             achievement bonuses,And more.
           </p>
         </div>
-        <div className=" relative -mx-50 -mb-20 h-[600px] w-full">
+        <div className=" relative -1 -mb-10 h-[420px] w-full">
           <Image
             src="/Images/LpImage9.png"
             alt="Landing Page Image 9"
             layout="fill"
             objectFit="cover"
-            className=""
           />
         </div>
         <div className="flex justify-center mt-5">
           <div className="w-1 h-[50px] border-l-2 border-dashed border-[#8B8B8B]"></div>
         </div>
 
-        <div className="my-20 px-10">
-          <p className="text-[41px] text-center">Q&A</p>
+        <div className="my-12 px-10">
+          <p className="text-[41px] text-center zenfont">Q&A</p>
         </div>
-        <div className="px-10">
+        <div className="">
           {/* Map through the questions and render each */}
           {questions.map((item, index) => (
             <div
               key={index}
               className="my-5 border-b border-gray-800 " // Add bottom border
             >
-              <div className="flex justify-between items-center">
+              <div
+                className={`flex justify-between items-center px-10 ${
+                  openQuestions[index] ? "bg-[#707070]" : "bg-transparent"
+                } bg-opacity-[10%] `}
+              >
                 <p
-                  className={`text-[13px] ${
-                    openQuestions[index] ? "bg-[#707070]" : "bg-transparent"
-                  } w-full bg-opacity-[10%] py-2 px-1`} // Conditionally add background color
+                  className={`text-[13px] w-full  py-2 `} // Conditionally add background color
                 >
                   {item.question}
                 </p>
@@ -358,7 +413,7 @@ const LandingPage = () => {
               {openQuestions[index] && (
                 <div className="mt-3">
                   {item.answer.split("\n").map((para, i) => (
-                    <p key={i} className="text-[13px] mb-3 opacity-[38%]">
+                    <p key={i} className="text-[13px] mb-3 opacity-[38%] px-10">
                       {para} {/* Add spacing between paragraphs */}
                     </p>
                   ))}
