@@ -47,7 +47,7 @@ export default function VerifyIdentityProfile() {
             <div className="absolute inset-0 rounded-full border-2 border-dashed border-emerald-500"></div>
             <div className="absolute inset-1 rounded-full overflow-hidden">
               <Image
-                src="/images/profile.jpg"
+                src="/Images/profile.jpg"
                 alt="Profile"
                 width={300}
                 height={300}
