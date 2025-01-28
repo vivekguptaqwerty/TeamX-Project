@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 const Footer: React.FC = () => {
   const router = useRouter();
   return (
-    <div className="bg-[#0E0E0E] w-full pt-20 px-5 pb-10">
+    <div className="bg-[#0E0E0E] w-full pt-20 px-12 pb-10">
       {/* Logo Section */}
       <div className="flex justify-center">
         <Image
