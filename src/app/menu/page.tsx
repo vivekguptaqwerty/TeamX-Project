@@ -83,7 +83,7 @@ export default function Menu() {
             }
           }}
         >
-          {isLoggedIn ? "Logout" : "Login"}
+          {isLoggedIn ? "Logout" : "Login / Signup"}
         </button>
       </div>
     </div>
