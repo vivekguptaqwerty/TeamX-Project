@@ -6,28 +6,35 @@ import CustomCheckbox from "./CustomCheckbox";
 
 export default function CategoryGraph() {
   const router = useRouter();
-  const { isLoggedIn } = useContext(AppContext);
-  const [selectedCheckbox, setSelectedCheckbox] = useState(0); 
+  const { isLoggedIn, setIsLoading } = useContext(AppContext);
+  const [selectedCheckbox, setSelectedCheckbox] = useState(0);
 
   const options = [
     { text: "A. Jannik Sinner", percentage: 80 },
     { text: "B. Jannik Sinner", percentage: 10 },
     { text: "C. Jannik Sinner", percentage: 5 },
-    { text: "D. Jannik Sinner", percentage: 5 }
+    { text: "D. Jannik Sinner", percentage: 5 },
   ];
 
-  const handleClick = (index: number) => {
+  const handleClick = async (index: number) => {
     setSelectedCheckbox(index);
     const selectedOption = options[index];
-    
-    if (isLoggedIn) {
-      // Encode the data to be safe in URLs
-      const encodedText = encodeURIComponent(selectedOption.text);
-      router.push(
-        `/event/category/1/order?name=${encodedText}&percentage=${selectedOption.percentage}`
-      );
-    } else {
-      router.push("/login");
+    try {
+      setIsLoading(true);
+      if (isLoggedIn) {
+        const encodedText = encodeURIComponent(selectedOption.text);
+        await router.push(
+          `/event/category/1/order?name=${encodedText}&percentage=${selectedOption.percentage}`
+        );
+      } else {
+        router.push("/login");
+      }
+    } catch (error) {
+      console.error("Navigation error:", error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
   };
 
@@ -45,7 +52,10 @@ export default function CategoryGraph() {
                 style={{ width: `${option.percentage}%` }}
               ></div>
             </div>
-            <div onClick={() => handleClick(index)} className="w-[15%] flex justify-center items-center">
+            <div
+              onClick={() => handleClick(index)}
+              className="w-[15%] flex justify-center items-center"
+            >
               <CustomCheckbox
                 checked={selectedCheckbox === index}
                 onChange={() => setSelectedCheckbox(index)}

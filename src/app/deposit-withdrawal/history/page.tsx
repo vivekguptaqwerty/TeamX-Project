@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import ProfileImage from "../../../../public/Images/profileImage.png";
 import settingIcon from "../../../../public/Icons/settingIcon.png";
 import CashWithdrawalCategories from "@/components/CashWithdrawalCategories";
@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import CurrentCashBalanceCard from "@/components/CurrentCashBalance";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { AppContext } from "@/app/Context/AppContext";
 
 interface Transaction {
   id: string;
@@ -55,10 +56,15 @@ const History: React.FC = () => {
     { id: "6", date: "Nov 2 2024 14:05", amount: 50.0, type: "withdrawal" },
     { id: "7", date: "Nov 2 2024 14:05", amount: 50.0, type: "withdrawal" },
   ];
+  const {setIsLoading} = useContext(AppContext);
 
   const handleSettingsClick = () => {
     router.push("/profile");
   };
+
+  useEffect(()=>{
+    setIsLoading(false)
+  },[setIsLoading])
 
   return (
     <>
