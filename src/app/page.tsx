@@ -249,7 +249,7 @@ const LandingPage = () => {
             <span className="text-[13px]">seconds</span>
           </div>
         </div>
-        <div className="mt-1 relative -mx-50    h-[500px] w-full">
+        <div className=" relative -my-11 h-[600px] w-full">
           <Image
             src="/Images/LpImage4.png"
             alt="Landing Page Image 4"
@@ -383,38 +383,27 @@ const LandingPage = () => {
           {questions.map((item, index) => (
             <div
               key={index}
-              className="my-5 border-b border-gray-800 " // Add bottom border
+              className="my-5 border-b border-gray-800" // Add bottom border
             >
               <div
-                className={`flex justify-between items-center px-10 ${
+                className={`flex justify-between items-center px-10 cursor-pointer ${
                   openQuestions[index] ? "bg-[#707070]" : "bg-transparent"
-                } bg-opacity-[10%] `}
+                } bg-opacity-[10%]`}
+                onClick={() => toggleOpen(index)} // Toggle state when clicking anywhere in the row
               >
-                <p
-                  className={`text-[13px] w-full  py-2 `} // Conditionally add background color
-                >
-                  {item.question}
-                </p>
+                <p className="text-[13px] w-full py-2">{item.question}</p>
                 {openQuestions[index] ? (
-                  <FaChevronUp
-                    size={15}
-                    color="#000" // Change the arrow color when open
-                    onClick={() => toggleOpen(index)} // Toggle the state for the clicked question
-                  />
+                  <FaChevronUp size={15} color="#000" />
                 ) : (
-                  <FaChevronDown
-                    size={15}
-                    color="#000" // Change the arrow color when closed
-                    onClick={() => toggleOpen(index)} // Toggle the state for the clicked question
-                  />
+                  <FaChevronDown size={15} color="#000" />
                 )}
               </div>
 
               {openQuestions[index] && (
-                <div className="mt-3">
+                <div className="mt-3 px-10">
                   {item.answer.split("\n").map((para, i) => (
-                    <p key={i} className="text-[13px] mb-3 opacity-[38%] px-10">
-                      {para} {/* Add spacing between paragraphs */}
+                    <p key={i} className="text-[13px] mb-3 opacity-[38%]">
+                      {para}
                     </p>
                   ))}
                 </div>

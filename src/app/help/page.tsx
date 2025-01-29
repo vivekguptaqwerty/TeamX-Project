@@ -107,20 +107,15 @@ const Help: React.FC = () => {
           {/* Map through the questions and render each */}
           {questions.map((item, index) => (
             <div key={index} className="my-5">
-              <div className="flex justify-between align-center">
+              <div
+                className="flex justify-between items-center cursor-pointer"
+                onClick={() => toggleOpen(index)} // Now clicking anywhere toggles the answer
+              >
                 <p className="text-[13px]">{item.question}</p>
                 {openQuestions[index] ? (
-                  <FaChevronUp
-                    size={15}
-                    color="#fff"
-                    onClick={() => toggleOpen(index)} // Toggle the state for the clicked question
-                  />
+                  <FaChevronUp size={15} color="#fff" />
                 ) : (
-                  <FaChevronDown
-                    size={15}
-                    color="#fff"
-                    onClick={() => toggleOpen(index)} // Toggle the state for the clicked question
-                  />
+                  <FaChevronDown size={15} color="#fff" />
                 )}
               </div>
 
