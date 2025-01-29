@@ -12,7 +12,6 @@ export default function Menu() {
   const [languageState, setLanguageState] = useState(false);
   const {isLoggedIn, setIsLoggedIn} = useContext(AppContext);
 
-  // Define visible menu items based on login status
   const navbarItems = isLoggedIn
     ? [
         { name: "Home", link: "/home" },
@@ -38,7 +37,7 @@ export default function Menu() {
               className={`pl-8 py-3 relative ${
                 selectedMenu === item.name
                   ? "bg-[#151515] text-white"
-                  : "text-white hover:bg-white hover:bg-opacity-[10%] hover:text-black"
+                  : "text-white hover:bg-white hover:bg-opacity-[10%] hover:text-white"
               }`}
               onClick={() => setSelectedMenu(item.name)}
             >

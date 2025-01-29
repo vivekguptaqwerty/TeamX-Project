@@ -3,16 +3,18 @@ import Image from "next/image";
 export default function CategoryInfo() {
   return (
     <div className="p-5">
-      <div className="rounded-lg overflow-hidden" style={{ position: "relative", width: "100%", height: "200px" }}>
-        <Image
-          src="/images/hero.png"
-          alt="Hero Image"
-          fill
-          style={{ objectFit: "cover" }}
-        />
-      </div>
-
-      <div className="flex justify-between items-center my-4">
+      <div className="flex my-4 items-end gap-3">
+        <div
+          className="rounded-lg overflow-hidden"
+          style={{ position: "relative", width: "60px", height: "60px" }}
+        >
+          <Image
+            src="/images/hero.png"
+            alt="Hero Image"
+            fill
+            style={{ objectFit: "cover" }}
+          />
+        </div>
         <button className="border border-[#00FFB8] px-4 py-1 text-xs rounded-md text-[#00FFB8]">
           Sports
         </button>
