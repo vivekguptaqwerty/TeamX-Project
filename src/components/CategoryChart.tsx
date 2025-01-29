@@ -1,6 +1,8 @@
 import Image from "next/image";
+import { useState } from "react";
 
 export default function CategoryChart() {
+  const [selectedBtn, setSelectedBtn] = useState("ALL");
   return (
     <div className="px-5 mb-10">
       <h1 className="text-center font-bold mb-8">Live Chart</h1>
@@ -22,8 +24,16 @@ export default function CategoryChart() {
           </p>
         </div>
       </div>
-      <div className="rounded-lg overflow-hidden" style={{ position: "relative", width: "100%", height: "150px" }}>
-        <Image src="/images/chart.png" alt="" fill style={{ objectFit: "cover" }} />
+      <div
+        className="rounded-lg overflow-hidden"
+        style={{ position: "relative", width: "100%", height: "150px" }}
+      >
+        <Image
+          src="/images/chart.png"
+          alt=""
+          fill
+          style={{ objectFit: "cover" }}
+        />
       </div>
       <div className="flex justify-between mt-3">
         {[1, 2, 3, 4, 5, 6, 7].map((item, index) => {
@@ -38,8 +48,13 @@ export default function CategoryChart() {
         {["ALL", "1M", "1W", "1D", "6H", "1H"].map((item, index) => {
           return (
             <button
+              onClick={() => {
+                setSelectedBtn(item);
+              }}
               key={index}
-              className="text-xs px-[16px] py-[6px] border border-[#00FFB8] text-[#00FFB8] rounded-full"
+              className={`${
+                selectedBtn === item && "bg-[#00FFB8] text-black"
+              } text-xs px-[16px] py-[6px] border border-[#00FFB8] text-[#00FFB8] rounded-full`}
             >
               {item}
             </button>
