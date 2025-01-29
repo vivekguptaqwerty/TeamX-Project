@@ -10,18 +10,18 @@ import Footer from "@/components/Footer";
 import HeadingSlider from "@/components/HeadingSlider";
 import Navbar from "@/components/Navbar";
 
+
 export default function EventCategoryPageDetails() {
-  const { filter, setFilter } = useContext(AppContext); // Removed :any
+  const { filter, setFilter, setIsLoading } = useContext(AppContext); // Removed :any
 
   useEffect(() => {
-    console.log(filter);
-  }, [filter]);
+    setIsLoading(false);
+  }, [setIsLoading]);
 
   return (
     <div>
       <Navbar home="Home" />
-      <HeadingSlider filter={filter} setFilter={setFilter} />{" "}
-      <CategoryInfo />
+      <HeadingSlider filter={filter} setFilter={setFilter} /> <CategoryInfo />
       <CategoryGraph />
       <CategoryChart />
       <CategoryAbout />

@@ -7,6 +7,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "./Context/AppContext";
+import LayoutContent from "./LayoutContent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +24,7 @@ const zenKakuGothicAntique = Zen_Kaku_Gothic_Antique({
   weight: ["400"],
   subsets: ["latin"],
 });
+
 const zenAntique = Zen_Antique({
   variable: "--font-zen-antique",
   weight: ["400"],
@@ -42,9 +44,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${zenKakuGothicAntique.variable}  ${zenAntique.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${zenKakuGothicAntique.variable} ${zenAntique.variable} antialiased`}
       >
-        <AppProvider>{children}</AppProvider>
+        <AppProvider>
+          <LayoutContent>{children}</LayoutContent>
+        </AppProvider>
       </body>
     </html>
   );

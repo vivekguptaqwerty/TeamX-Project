@@ -11,6 +11,8 @@ interface AppContextProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AppContext = createContext<AppContextProps>({
@@ -22,6 +24,8 @@ export const AppContext = createContext<AppContextProps>({
   setIsLoggedIn: () => {},
   search: "",
   setSearch: () => {},
+  isLoading: false,
+  setIsLoading: () => {},
 });
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
@@ -29,6 +33,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [selectedMenu, setSelectedMenu] = useState("Home");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <AppContext.Provider
@@ -40,7 +45,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         isLoggedIn,
         setIsLoggedIn,
         search,
-        setSearch
+        setSearch,
+        isLoading,
+        setIsLoading
       }}
     >
       {children}
