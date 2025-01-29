@@ -29,7 +29,7 @@ export const AppContext = createContext<AppContextProps>({
 });
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [filter, setFilter] = useState("Reccomend");
+  const [filter, setFilter] = useState("Recommend");
   const [selectedMenu, setSelectedMenu] = useState("Home");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [search, setSearch] = useState("");
