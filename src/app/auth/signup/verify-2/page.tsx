@@ -60,19 +60,12 @@ export default function VerifyIdentity() {
         </div>
 
         {/* Progress Indicator */}
-        <div className="flex justify-center items-center gap-4">
-          <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
-            <div className="w-16 h-1 bg-emerald-500"></div>
-          </div>
-          <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
-            <div className="w-16 h-1 bg-emerald-500"></div>
-          </div>
-          <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-gray-700"></div>
-            <div className="w-16 h-1 bg-gray-700"></div>
-          </div>
+        <div className="flex items-center justify-center gap-4 mb-8">
+          <div className="w-4 h-4 rounded-full bg-[#00ffb8]" />
+          <div className="w-28 h-[1px] bg-[#00ffb8] opacity-50" />
+          <div className="w-4 h-4 rounded-full bg-[#00ffb8]" />
+          <div className="w-28 h-[1px] bg-gray-600 opacity-50" />
+          <div className="w-4 h-4 rounded-full bg-[#585858]" />
         </div>
 
         {/* Upload Section */}

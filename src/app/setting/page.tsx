@@ -1,10 +1,13 @@
 'use client';
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";  // Import useRouter
 import "./settings.css";
 import Navbar from "@/components/Navbar";
 
 const Setting: React.FC = () => {
+  const router = useRouter(); // Initialize useRouter
+  
   const [switchStates, setSwitchStates] = useState({
     withdrawalSuccess: false,
     depositProblem: false,
@@ -133,7 +136,14 @@ const Setting: React.FC = () => {
           >
             <span className="text-[16px] text-[#2DC198]">SAVE</span>
           </button>
-          <div className="text-center mt-5 underline">Back</div>
+
+          {/* Functional Back Button */}
+          <div
+            className="text-center mt-5 underline cursor-pointer"
+            onClick={() => router.back()} // Go back to the previous page
+          >
+            Back
+          </div>
         </div>
       </div>
     </>
