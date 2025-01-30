@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";  // Import useRouter
+import { useRouter } from "next/navigation"; // Import useRouter
 import "./settings.css";
 import Navbar from "@/components/Navbar";
 
 const Setting: React.FC = () => {
   const router = useRouter(); // Initialize useRouter
-  
+
   const [switchStates, setSwitchStates] = useState({
     withdrawalSuccess: false,
     depositProblem: false,
@@ -29,7 +29,6 @@ const Setting: React.FC = () => {
       [key]: !prevState[key],
     }));
   };
-
   return (
     <>
       <Navbar home="Setting" />
@@ -39,8 +38,14 @@ const Setting: React.FC = () => {
         <div className="my-5 flex flex-col gap-5">
           {[
             { key: "withdrawalSuccess", label: "Withdrawal successful!" },
-            { key: "depositProblem", label: "There was a problem with deposit." },
-            { key: "withdrawalProblem", label: "There was a problem with withdrawal." },
+            {
+              key: "depositProblem",
+              label: "There was a problem with deposit.",
+            },
+            {
+              key: "withdrawalProblem",
+              label: "There was a problem with withdrawal.",
+            },
             { key: "achievementUnlocked", label: "Achievement unlocked!" },
             { key: "leveledUp", label: "You have leveled up!" },
             { key: "topPercentage", label: "You are in the top n%!" },
@@ -54,7 +59,9 @@ const Setting: React.FC = () => {
                   id={item.key}
                   type="checkbox"
                   checked={switchStates[item.key as keyof typeof switchStates]}
-                  onChange={() => handleSwitchChange(item.key as keyof typeof switchStates)}
+                  onChange={() =>
+                    handleSwitchChange(item.key as keyof typeof switchStates)
+                  }
                 />
                 <span className="slider round"></span>
               </label>
@@ -82,7 +89,9 @@ const Setting: React.FC = () => {
                   id={item.key}
                   type="checkbox"
                   checked={switchStates[item.key as keyof typeof switchStates]}
-                  onChange={() => handleSwitchChange(item.key as keyof typeof switchStates)}
+                  onChange={() =>
+                    handleSwitchChange(item.key as keyof typeof switchStates)
+                  }
                 />
                 <span className="slider round"></span>
               </label>
@@ -94,7 +103,10 @@ const Setting: React.FC = () => {
         <h2 className="font-medium text-[17px] text-left mt-10">Trades</h2>
         <div className="flex flex-col mt-5 gap-5">
           <div>
-            <label htmlFor="defaultWager" className="text-[14px] text-white opacity-[27%]">
+            <label
+              htmlFor="defaultWager"
+              className="text-[14px] text-white opacity-[27%]"
+            >
               Default wager size
             </label>
             <input
@@ -105,7 +117,10 @@ const Setting: React.FC = () => {
             />
           </div>
           <div>
-            <label htmlFor="defaultNumber" className="text-[14px] text-white opacity-[27%]">
+            <label
+              htmlFor="defaultNumber"
+              className="text-[14px] text-white opacity-[27%]"
+            >
               Default number
             </label>
             <input
@@ -116,7 +131,10 @@ const Setting: React.FC = () => {
             />
           </div>
           <div>
-            <label htmlFor="marketImpact" className="text-[14px] text-white opacity-[27%]">
+            <label
+              htmlFor="marketImpact"
+              className="text-[14px] text-white opacity-[27%]"
+            >
               Market Impact Warning Level
             </label>
             <input
