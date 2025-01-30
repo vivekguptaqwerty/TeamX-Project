@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter
 import "./settings.css";
 import Navbar from "@/components/Navbar";
-import { useRouter } from "next/navigation";
 
 const Setting: React.FC = () => {
   const router = useRouter(); // Initialize useRouter
@@ -30,7 +29,6 @@ const Setting: React.FC = () => {
       [key]: !prevState[key],
     }));
   };
-  const router = useRouter();
   return (
     <>
       <Navbar home="Setting" />
