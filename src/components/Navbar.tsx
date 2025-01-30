@@ -31,6 +31,7 @@ export default function Navbar({ home }: { home: string }) {
         "Help",
         "",
         "Verification",
+        "Your Order"
       ].includes(home) ? (
         <Image
           onClick={() => {

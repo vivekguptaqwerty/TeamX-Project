@@ -1,5 +1,7 @@
+import { AppContext } from "@/app/Context/AppContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 type CategoryType = {
   item: number;
@@ -7,12 +9,24 @@ type CategoryType = {
 
 export default function CategoryCard({ item }: CategoryType) {
   const router = useRouter();
+  const { setIsLoading } = useContext(AppContext);
+
+  const handleNavigation = async () => {
+    try {
+      setIsLoading(true);
+      await router.push("/event/category/1");
+    } catch (error) {
+      console.error("Navigation error:", error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
+  };
 
   return (
     <div
-      onClick={() => {
-        router.push("/event/category/1");
-      }}
+      onClick={handleNavigation}
       className="rounded-xl bg-[#161616] overflow-hidden cursor-pointer"
     >
       {/* Card Header */}

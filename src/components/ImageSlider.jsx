@@ -1,5 +1,4 @@
 "use client";
-
 import { AppContext } from "@/app/Context/AppContext";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
@@ -20,7 +19,7 @@ export default function ImageSlider({ filter }) {
       src: "/images/football.png",
       title: "NBA Sports",
       description: "NBA Champion",
-      category: "Politics",
+      category: "Sports",
     },
   ];
 
@@ -48,7 +47,7 @@ export default function ImageSlider({ filter }) {
                     setFilter(item.category)
                     router.push("/event/category");
                   }}
-                  className="bg-[#707070] flex rounded-full gap-2 w-16 px-3 py-1"
+                  className="bg-[#707070] flex rounded-full gap-2 w-16 px-3 py-1 cursor-pointer"
                 >
                   <p className="text-[9px]">{item.category}</p>
                   <img src="/images/leftarrow.svg" alt="" />
