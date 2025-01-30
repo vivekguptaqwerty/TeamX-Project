@@ -1,6 +1,6 @@
 export const categories = [
   "Weather & Disaster",
-  "Reccomend",
+  "Recommend",
   "Sports",
   "Politics",
   "Science",
