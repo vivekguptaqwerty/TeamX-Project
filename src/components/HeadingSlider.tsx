@@ -16,8 +16,8 @@ const HeadingSlider: React.FC<HeadingSliderProps> = ({ setFilter, filter }) => {
           <li
             key={index}
             onClick={() => {
-              if (category === "Reccomend") {
-                setFilter("Reccomend");
+              if (category === "Recommend") {
+                setFilter("Recommend");
                 router.push("/home");
               } else {
                 setFilter(category);

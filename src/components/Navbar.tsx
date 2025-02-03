@@ -15,6 +15,7 @@ export default function Navbar({ home }: { home: string }) {
           router.push("/home");
         }}
         src="/images/logo.png"
+        className="cursor-pointer"
         alt="Logo image"
         width={20}
         height={20}
@@ -34,6 +35,7 @@ export default function Navbar({ home }: { home: string }) {
         "Your Order"
       ].includes(home) ? (
         <Image
+          className="cursor-pointer"
           onClick={() => {
             router.push("/menu");
           }}
@@ -44,6 +46,7 @@ export default function Navbar({ home }: { home: string }) {
         />
       ) : (
         <Image
+          className="cursor-pointer"
           onClick={() => {
             router.back();
           }}

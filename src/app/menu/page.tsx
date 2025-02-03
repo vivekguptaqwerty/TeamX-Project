@@ -17,11 +17,11 @@ export default function Menu() {
         { name: "Home", link: "/home" },
         { name: "Portfolio", link: "/deposit-withdrawal/history" },
         { name: "Profile", link: "/profile" },
-        { name: "Setting", link: "/setting" },
+        { name: "Settings", link: "/setting" },
         { name: "Help", link: "/help" },
       ]
     : [
-        { name: "Setting", link: "/setting" },
+        { name: "Settings", link: "/setting" },
         { name: "Help", link: "/help" },
       ];
 

@@ -1,17 +1,23 @@
 "use client";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { IoIosWarning } from "react-icons/io";
+import { AppContext } from "@/app/Context/AppContext";
 
 export default function Order() {
+  const { setIsLoading } = useContext(AppContext);
   const router = useRouter();
   const [value, setValue] = useState("10");
   const [leverage, setLeverage] = useState(1);
   const maxTradeSize = 436.58;
   const maxLeverage = 10;
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [setIsLoading]);
 
   // Get the parameters
   const name = searchParams.get("name");
@@ -28,6 +34,17 @@ export default function Order() {
 
   const leveragePercentage = ((leverage - 1) / (maxLeverage - 1)) * 100;
   const tradeSizePercentage = (parseFloat(value) / maxTradeSize) * 100;
+
+  const handleSubmit = async () => {
+    try {
+      setIsLoading(true);
+      await router.push("/deposit-withdrawal/history");
+    } catch (error) {
+      console.error("Navigation error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -112,12 +129,11 @@ export default function Order() {
           </div>
         </div>
         <p className="text-sm mt-16 flex gap-2 items-center justify-center">
-          <IoIosWarning size={18}/> WARNING YOU DON&apos;T HAVE SUFFICIENT FUNDS
+          <IoIosWarning size={18} /> WARNING YOU DON&apos;T HAVE SUFFICIENT
+          FUNDS
         </p>
         <button
-          onClick={() => {
-            router.push("/deposit-withdrawal/history");
-          }}
+          onClick={handleSubmit}
           className="text-[#00FFB8] w-[70%] border border-[#00FFB8] mt-6 py-3 rounded-2xl"
         >
           Proceed
