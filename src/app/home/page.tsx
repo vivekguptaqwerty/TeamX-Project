@@ -32,7 +32,7 @@ export default function Home() {
         if (item.toLowerCase().includes(search.toLowerCase())) {
           return <Category key={index} item={item} />;
         }
-        return null; // Add explicit return for when condition is false
+        return null; 
       })}
       <Footer />
     </div>
