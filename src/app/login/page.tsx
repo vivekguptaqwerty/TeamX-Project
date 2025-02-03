@@ -37,22 +37,25 @@ export default function Login() {
       });
 
       const data = await response.json();
-      console.log("API Response:", data); // ✅ Debugging
 
       if (!response.ok) {
-        throw new Error(data.message || "Unauthorized. Please check your credentials.");
+        throw new Error(
+          data.message || "Unauthorized. Please check your credentials."
+        );
       }
 
-      console.log("Generated Token:", data.token); // ✅ Ensure token is received
+      // Set cookie with 30-day expiration
+      const expirationDate = new Date();
+      expirationDate.setDate(expirationDate.getDate() + 30);
 
-      // ✅ Store token for authentication
-      localStorage.setItem("authToken", data.token);
+      document.cookie = `authToken=${
+        data.token
+      }; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict; Secure`;
 
       setIsLoggedIn(true);
-      router.push("/home"); // Redirect
-    } catch (error: any) {
+      router.push("/home");
+    } catch (error) {
       console.error("Login Error:", error);
-      setError(error.message);
     }
   };
 
@@ -63,7 +66,9 @@ export default function Login() {
 
       <form onSubmit={handleLogin} className="px-8">
         {/* Error Message */}
-        {error && <p className="text-red-500 text-xs text-center mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-xs text-center mb-4">{error}</p>
+        )}
 
         {/* Email Input */}
         <div className="flex flex-col gap-2 mb-8">
@@ -81,7 +86,10 @@ export default function Login() {
         {/* Password Input */}
         <div className="flex flex-col gap-2 relative">
           <p className="text-xs text-white opacity-25">Password</p>
-          <p onClick={() => router.push("/profile/forgot-password")} className="text-[9px] underline absolute bottom-1 right-0">
+          <p
+            onClick={() => router.push("/profile/forgot-password")}
+            className="text-[9px] underline absolute bottom-1 right-0"
+          >
             Forgot Password
           </p>
           <input
@@ -102,11 +110,17 @@ export default function Login() {
         </div>
 
         {/* Login Button */}
-        <button type="submit" className="text-[#2DC198] text-sm border border-[#2DC198] w-full py-2 rounded-md mt-16">
+        <button
+          type="submit"
+          className="text-[#2DC198] text-sm border border-[#2DC198] w-full py-2 rounded-md mt-16"
+        >
           Login
         </button>
         <p className="text-white text-[12px] text-center mt-5">
-          New here? <Link className="underline" href="/auth/signup">Create an account</Link>
+          New here?{" "}
+          <Link className="underline" href="/auth/signup">
+            Create an account
+          </Link>
         </p>
       </form>
     </div>

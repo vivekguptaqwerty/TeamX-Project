@@ -1,7 +1,8 @@
 "use client";
 
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, useEffect, ReactNode } from "react";
 
+// Define the shape of the context data
 interface AppContextProps {
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
@@ -13,8 +14,11 @@ interface AppContextProps {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  authToken: string | null;
+  setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
+// Create context with the initial values
 export const AppContext = createContext<AppContextProps>({
   filter: "Recommend",
   setFilter: () => {},
@@ -26,6 +30,8 @@ export const AppContext = createContext<AppContextProps>({
   setSearch: () => {},
   isLoading: false,
   setIsLoading: () => {},
+  authToken: null,
+  setAuthToken: () => {},
 });
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
@@ -34,6 +40,18 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+
+  // Fetch AuthToken from cookies on component mount
+  useEffect(() => {
+    const cookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("authToken="));
+    if (cookie) {
+      const token = cookie.split("=")[1];
+      setAuthToken(token);
+    }
+  }, []);
 
   return (
     <AppContext.Provider
@@ -47,7 +65,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         search,
         setSearch,
         isLoading,
-        setIsLoading
+        setIsLoading,
+        authToken,
+        setAuthToken,
       }}
     >
       {children}
