@@ -26,7 +26,7 @@ export default function ImageSlider({ filter }) {
   return (
     <div
       className={`w-full bg-[#0E0E0E] ${
-        filter !== "Reccomend" && "hidden"
+        filter !== "Recommend" && "hidden"
       } relative`}
     >
       <div className="flex overflow-x-scroll no-scrollbar">
