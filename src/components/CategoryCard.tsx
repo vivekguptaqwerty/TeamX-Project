@@ -3,13 +3,23 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 
-type CategoryType = {
-  item: number;
-};
+interface TraderInfo {
+  max_leverage: number;
+  estimated_payout: number;
+}
 
-export default function CategoryCard({ item }: CategoryType) {
+export default function CategoryCard({ item }) {  
   const router = useRouter();
   const { setIsLoading } = useContext(AppContext);
+
+  // Calculate max leverage and estimated payout
+  const maxLeverage = Math.max(
+    ...item.outcomes?.map((outcome: { trader_info: TraderInfo }) => outcome.trader_info.max_leverage)
+  );
+
+  const maxEstimatedPayout = Math.max(
+    ...item.outcomes?.map((outcome: { trader_info: TraderInfo }) => outcome.trader_info.estimated_payout)
+  );
 
   const handleNavigation = async () => {
     try {
@@ -32,11 +42,7 @@ export default function CategoryCard({ item }: CategoryType) {
       {/* Card Header */}
       <div className="flex gap-3 items-center pt-3 px-3">
         <Image src="/images/image.png" alt="" height={70} width={70} />
-
-        <div className="hidden">{item.toString()}</div>
-        <p className="text-sm">
-          Who will make it to the Australian Open Men&apos;s Singles semifinals?
-        </p>
+        <p className="text-sm">{item.name}</p>
       </div>
 
       {/* Card Details */}
@@ -45,16 +51,16 @@ export default function CategoryCard({ item }: CategoryType) {
           <Image
             src="/images/clock.svg"
             alt="Clock icon"
-            width={16} // Set width for clock icon
-            height={16} // Set height for clock icon
+            width={16}
+            height={16}
             className="w-4"
           />
           1d11h
         </div>
-        <span className="text-[19px] text-[#00FFB8]">686%</span>
-        <span className="text-[19px] text-[#00FFB8]">1x</span>
+        <span className="text-[19px] text-[#00FFB8]">{maxEstimatedPayout.toFixed(0)}%</span>
+        <span className="text-[19px] text-[#00FFB8]">{maxLeverage.toFixed(1)}x</span>
         <button className="border border-[#00FFB8] px-4 text-xs text-[#00FFB8] rounded-md">
-          Sports
+          {item?.category?.name}
         </button>
       </div>
 
