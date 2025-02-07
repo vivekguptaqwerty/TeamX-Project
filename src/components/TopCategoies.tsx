@@ -10,8 +10,6 @@ export default function TopCategories() {
       const response = await fetch(
         "https://test-api.everyx.io/events?purpose=top&pagination=false&sortby=newest"
       );
-      console.log(response);
-
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -27,7 +25,6 @@ export default function TopCategories() {
     fetchTopCategories();
   }, []);
 
-  console.log(topCategoies);
 
   return (
     <div className="px-5 py-8">

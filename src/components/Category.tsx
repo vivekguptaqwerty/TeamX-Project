@@ -1,36 +1,92 @@
 "use client";
-import { useContext } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useContext, useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import CategoryCard from "./CategoryCard";
 import { AppContext } from "@/app/Context/AppContext";
 
-export default function Category({ item }: { item: string }) {
+// Define interfaces
+interface CategoryItem {
+  slug: string;
+  name: string;
+}
+
+// Correct TraderInfo structure
+interface TraderInfo {
+  max_leverage: number;
+  estimated_payout: number;
+  estimated_probability: number;
+}
+
+interface Outcome {
+  _id: string;
+  name: string;
+  trader_info: TraderInfo;
+}
+
+interface Event {
+  _id: string;
+  name: string;
+  description: string;
+  category: {
+    name: string;
+  };
+  ends_at: string;
+  outcomes: Outcome[];
+  event_images_url: string[];
+}
+
+interface CategoryProps {
+  item: CategoryItem;
+}
+
+export default function Category({ item }: CategoryProps) {
   const { setFilter } = useContext(AppContext);
   const router = useRouter();
-  const pathname = usePathname();
+  const [events, setEvents] = useState<Event[]>([]);
 
-  const showViewButton = item !== "TOP Topics" && pathname !== "/event/category";
+  // Use useCallback to avoid re-creating the function every render
+  const fetchEventsOfCategory = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `https://test-api.everyx.io/search-events?tags=${item?.slug}&sortby=relevance`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setEvents(data || []);
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+      setEvents([]);
+    }
+  }, [item?.slug]); // Add `item?.slug` as a dependency
+
+  useEffect(() => {
+    fetchEventsOfCategory();
+  }, [fetchEventsOfCategory]); // Use `fetchEventsOfCategory` as a dependency
+
+  if (!events.length) {
+    return null;
+  }
 
   return (
     <div className="px-5 py-8">
       <div className="flex justify-between">
-        <h1 className="text-xl mb-6">{item}</h1>
-        {showViewButton && (
-          <button
-            onClick={() => {
-              setFilter(item);
-              router.push(`/event/category`);
-            }}
-            className="bg-[#161616] h-9 px-5 mb-8 rounded-md text-[10px]"
-          >
-            View ALL
-          </button>
-        )}
+        <h1 className="text-xl mb-6">{item?.name}</h1>
+        <button
+          onClick={() => {
+            setFilter(item?.name);
+            router.push(`/explore/category/${item?.slug}`);
+          }}
+          className="bg-[#161616] h-9 px-5 mb-8 rounded-md text-[10px]"
+        >
+          View ALL
+        </button>
       </div>
       <div className="flex flex-col gap-6">
-        {[1, 2, 3, 4, 5].map((item, index) => {
-          return <CategoryCard key={index} item={item} />;
-        })}
+        {events.map((eventItem) => (
+          <CategoryCard key={eventItem._id} item={eventItem} />
+        ))}
       </div>
     </div>
   );

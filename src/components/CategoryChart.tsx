@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function CategoryChart() {
   const [selectedBtn, setSelectedBtn] = useState("ALL");
+  
   return (
     <div className="px-5 mb-10">
       <h1 className="text-center font-bold mb-8">Live Chart</h1>

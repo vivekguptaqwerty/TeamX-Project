@@ -10,33 +10,25 @@ interface HeadingSliderProps {
 const HeadingSlider: React.FC<HeadingSliderProps> = ({ setFilter, filter }) => {
   const router = useRouter();
   const { categories } = useContext(AppContext);
-  
 
-  const processedCategories = Array.isArray(categories) 
-    ? [
-        { name: "Recommend", slug: "recommend" },
-        ...categories.map(category => 
-          typeof category === 'string' 
-            ? { name: category, slug: category.toLowerCase() }
-            : category
-        )
-      ]
-    : [{ name: "Recommend", slug: "recommend" }];
+  // Safely process categories (string or Category objects)
+  const processedCategories = categories.map((category) => {
+    if (typeof category === "string") {
+      return { name: category, slug: category.toLowerCase() };
+    } else {
+      return category; // Category already has name and slug
+    }
+  });
 
   return (
-    <div className="w-full overflow-x-scroll mb-1 p-1 no-scrollbar border-t border-gray-900 bg-[#0E0E0E]">
+    <div className="w-full overflow-x-scroll mb-1 px-4 py-2 no-scrollbar border-t border-gray-900 bg-[#0E0E0E]">
       <ul className="flex whitespace-nowrap gap-10 pt-1">
         {processedCategories.map((category, index) => (
           <li
             key={index}
             onClick={() => {
-              if (category.name === "Recommend") {
-                setFilter("Recommend");
-                router.push("/home");
-              } else {
-                setFilter(category.name);
-                router.push("/event/category");
-              }
+              setFilter(category.name); // Use category.name here
+              router.push(`/explore/category/${category.slug}`); // Use category.slug here
             }}
             className={`cursor-pointer text-[13px] flex flex-col items-center gap-1 ${
               filter === category.name ? "text-white" : "text-[#707070]"
