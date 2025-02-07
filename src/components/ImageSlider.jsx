@@ -5,52 +5,53 @@ import { useContext } from "react";
 
 export default function ImageSlider({ filter }) {
   const router = useRouter();
-  const { setFilter } = useContext(AppContext);
-  const images = [
-    {
-      id: 1,
-      src: "/images/trump.png",
-      title: "Trump Inauguration",
-      description: "ends Ukraine war before inauguration?",
-      category: "Politics",
-    },
-    {
-      id: 2,
-      src: "/images/football.png",
-      title: "NBA Sports",
-      description: "NBA Champion",
-      category: "Sports",
-    },
-  ];
+  const { setFilter, bannerData } = useContext(AppContext);
+  console.log(bannerData);
 
   return (
-    <div
-      className={`w-full bg-[#0E0E0E] ${
-        filter !== "Recommend" && "hidden"
-      } relative`}
-    >
+    <div className={`w-full bg-[#0E0E0E] relative px-4`}>
       <div className="flex overflow-x-scroll no-scrollbar">
-        <div className="flex">
-          {images.map((item) => (
+        <div className="flex gap-3">
+          {bannerData.map((item, index) => (
             <div
-              key={item.id}
-              className="relative rounded-2xl overflow-hidden w-full min-w-[320px]"
+              onClick={() => {
+                router.push(`/explore/collections/${item?.slug}`);
+              }}
+              key={index}
+              className="relative rounded-2xl overflow-hidden w-full min-w-[360px] h-[120px] border border-[#242424] flex"
             >
-              <img src={item.src} alt={item.title} className="w-full h-auto" />
-              <div className="absolute top-5 left-4 h-[70%] flex flex-col justify-between">
-                <div>
-                  <h1 className="text-[15px] mb-1">{item.title}</h1>
-                  <p className="text-[8px]">{item.description}</p>
+              <div className="w-2/3"></div>
+              <div className="h-full w-1/3 relative">
+                <img
+                  src={item?.image_url}
+                  alt={item?.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
+              </div>
+              <div className="px-4 py-3 flex flex-col justify-between absolute h-full top-0 left-0">
+                <div className="flex items-center gap-4">
+                  <div className="bg-white text-black px-2 py-1 rounded-md text-[12px]">
+                    Politics
+                  </div>
+                  <img
+                    className="w-[15px] h-[15px]"
+                    src="/images/logo.png"
+                    alt=""
+                  />
                 </div>
-                <div
-                  onClick={() => {
-                    setFilter(item.category)
-                    router.push("/event/category");
-                  }}
-                  className="bg-[#707070] flex rounded-full gap-2 w-16 px-3 py-1 cursor-pointer"
-                >
-                  <p className="text-[9px]">{item.category}</p>
-                  <img src="/images/leftarrow.svg" alt="" />
+                <div>
+                  <p className="text-[22px] whitespace-nowrap">{item?.name}</p>
+                </div>
+                <div className="flex gap-3 items-center">
+                  <div className="w-[23px] h-[23px] bg-[#343434] rounded-full flex justify-center items-center">
+                    <img
+                      className="h-[8px]"
+                      src="/images/rightarrow.svg"
+                      alt=""
+                    />
+                  </div>
+                  <p className="text-[#343434]">check now</p>
                 </div>
               </div>
             </div>

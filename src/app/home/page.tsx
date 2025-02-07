@@ -8,20 +8,11 @@ import HeadingSlider from "@/components/HeadingSlider";
 import ImageSlider from "@/components/ImageSlider";
 import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
-;
+import TopCategories from "@/components/TopCategoies";
 
 export default function Home() {
-  const { filter, setFilter, search } = useContext(AppContext);
-
-  const categories = [
-    "TOP Topics",
-    "Sports",
-    "Politics",
-    "Weather",
-    "Science",
-    "Culture",
-    "Tech",
-  ];
+  const { filter, setFilter } = useContext(AppContext);
+  const { categories } = useContext(AppContext);
 
   return (
     <div className="w-full">
@@ -29,11 +20,14 @@ export default function Home() {
       <HeadingSlider setFilter={setFilter} filter={filter} />
       <ImageSlider filter={filter} />
       <SearchBar />
+      <TopCategories />
       {categories.map((item, index) => {
-        if (item.toLowerCase().includes(search.toLowerCase())) {
+        // Check if the item is of type Category (it must have name and slug)
+        if (typeof item === "object") {
           return <Category key={index} item={item} />;
         }
-        return null; // Add explicit return for when condition is false
+        // If the item is a string, we can handle it differently or skip it
+        return null; // Or return a default component if needed
       })}
       <Footer />
     </div>
