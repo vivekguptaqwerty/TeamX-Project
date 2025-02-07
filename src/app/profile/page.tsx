@@ -1,16 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
-// import { MdCamera, MdCheck, MdArrowBack } from "react-icons/md";
+import React, { useContext, useEffect, useState } from "react";
 import { MdCamera } from "react-icons/md";
 import { FiLock } from "react-icons/fi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import { AppContext } from "../Context/AppContext";
 
 const Profile: React.FC = () => {
   const router = useRouter();
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const { authToken } = useContext(AppContext);
+  console.log("authToken", authToken);
+
+  const [profileImage, setProfileImage] = useState<string | "">("");
+  const [UserName, setUserName] = useState<string | "">("");
+  const [email, setEmail] = useState<string | "">("");
+  const [phone, setPhone] = useState<number | null>(null);
+  const [email_verified, setEmail_Verified] = useState<boolean | null>(null);
+  const [phone_verified, setPhone_verified] = useState<boolean | null>(null);
+
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -21,6 +30,74 @@ const Profile: React.FC = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch("https://test-api.everyx.io/me", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch profile");
+      }
+
+      const data = await response.json();
+      if (data.display_name) {
+        setUserName(data.display_name);
+      }
+      setEmail(data.email);
+      setPhone(data.phone);
+      setEmail_Verified(data.email_verified);
+      setPhone_verified(data.phone_verified);
+      if (data.avatar) {
+        setProfileImage(data.avatar);
+      }
+
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error("Error occurred at Profile Screen", error);
+    }
+  };
+
+  const UpdateProfile = async () => {
+    try {
+      const response = await fetch("https://test-api.everyx.io/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+          avatar: profileImage,
+          display_name: UserName,
+          phone: phone,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to update profile: ${response.status} ${response.statusText}`
+        );
+      }
+      console.log("Update successful!");
+    } catch (error) {
+      console.error("Error occurred at Profile Screen while Updating:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (authToken) {
+        await fetchUserProfile();
+      }
+    };
+    fetchData();
+  }, [authToken]);
+
   return (
     <>
       <Navbar home="Profile" />
@@ -56,15 +133,17 @@ const Profile: React.FC = () => {
           </div>
 
           {/* Form Fields */}
-          <div className="space-y-6 px-5  my-11">
+          <div className="space-y-6 px-5 my-11">
             <div className="border-b border-gray-800">
-              <label className="block  text-[12px] mb-1 opacity-[27%]">
+              <label className="block text-[12px] mb-1 opacity-[27%]">
                 Username
               </label>
               <input
                 type="text"
                 placeholder="Alex Kapawski"
-                className="w-full bg-transparent  py-2 text-[12px] outline-none"
+                value={UserName}
+                onChange={(e) => setUserName(e.target.value)}
+                className="w-full bg-transparent py-2 text-[12px] outline-none"
               />
             </div>
 
@@ -76,11 +155,19 @@ const Profile: React.FC = () => {
                 <input
                   type="tel"
                   placeholder="81 080-9662-4545"
-                  className="flex-1 bg-transparent  py-2 text-[12px] outline-none"
+                  value={phone ?? ""}
+                  onChange={(e) => setPhone(Number(e.target.value))}
+                  className="flex-1 bg-transparent py-2 text-[12px] outline-none"
                 />
-                <span className="ml-2 text-green-400 flex items-center text-[9px]">
-                  Verified
-                </span>
+                {phone_verified ? (
+                  <span className="ml-2 text-green-400 flex items-center text-[9px]">
+                    Verified
+                  </span>
+                ) : (
+                  <span className="ml-2 text-red-400 flex items-center text-[9px]">
+                    Not Verified
+                  </span>
+                )}
               </div>
             </div>
 
@@ -92,11 +179,18 @@ const Profile: React.FC = () => {
                 <input
                   type="email"
                   placeholder="AlexKapawski@ibtex.org"
-                  className="flex-1 bg-transparent  py-2 text-[12px] outline-none"
+                  value={email}
+                  className="flex-1 bg-transparent py-2 text-[12px] outline-none"
                 />
-                <span className="ml-2 text-green-400 flex items-center text-[9px]">
-                  Verified
-                </span>
+                {email_verified ? (
+                  <span className="ml-2 text-green-400 flex items-center text-[9px]">
+                    Verified
+                  </span>
+                ) : (
+                  <span className="ml-2 text-red-400 flex items-center text-[9px]">
+                    Not Verified
+                  </span>
+                )}
               </div>
             </div>
 
@@ -111,6 +205,7 @@ const Profile: React.FC = () => {
                     type="password"
                     placeholder="••••••••••"
                     className="flex-1 bg-transparent py-2 text-[12px] outline-none"
+                    readOnly
                   />
                 </div>
                 <button
@@ -128,11 +223,14 @@ const Profile: React.FC = () => {
 
           {/* Action Buttons */}
           <div className="space-y-4 pt-6">
-            <button className="w-full py-3 px-4 border-[#2DC198] border-[0.25px]  rounded-lg transition-colors text-[14px] text-[#2DC198]">
+            <button
+              className="w-full py-3 px-4 border-[#2DC198] border-[0.25px] rounded-lg transition-colors text-[14px] text-[#2DC198]"
+              onClick={UpdateProfile}
+            >
               SAVE
             </button>
             <button
-              className="w-full flex items-center justify-center transition-colors gap-2 underline text-white text-[12px] "
+              className="w-full flex items-center justify-center transition-colors gap-2 underline text-white text-[12px]"
               type="button"
               onClick={() => {
                 router.push("/deposit-withdrawal/history");

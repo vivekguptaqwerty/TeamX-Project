@@ -1,6 +1,7 @@
 "use client"
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 
+
 // Define the Category interface
 interface Category {
   name: string;
@@ -18,6 +19,10 @@ interface TraderInfo {
 }
 
 // AppContextProps interface to define the context structure
+
+import React, { createContext, useState, useEffect, ReactNode } from "react";
+
+// Define the shape of the context data
 interface AppContextProps {
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
@@ -43,6 +48,12 @@ interface AppContextProps {
 }
 
 // Create the AppContext with default values
+  authToken: string | null;
+  setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+// Create context with the initial values
+
 export const AppContext = createContext<AppContextProps>({
   filter: "",
   setFilter: () => {},
@@ -65,6 +76,8 @@ export const AppContext = createContext<AppContextProps>({
   calculateMaxLeverage: () => 0,
   calculateMaxEstimatedPayout: () => 0,
   formatDate: () => "",
+  authToken: null,
+  setAuthToken: () => {},
 });
 
 // AppProvider component to manage the context state
@@ -157,6 +170,18 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   // Fetch categories on component mount
   useEffect(() => {
     fetchCategories();
+
+  const [authToken, setAuthToken] = useState<string | null>(null);
+
+  // Fetch AuthToken from cookies on component mount
+  useEffect(() => {
+    const cookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("authToken="));
+    if (cookie) {
+      const token = cookie.split("=")[1];
+      setAuthToken(token);
+    }
   }, []);
 
   return (
@@ -183,6 +208,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         calculateMaxLeverage,
         calculateMaxEstimatedPayout,
         formatDate,
+        authToken,
+        setAuthToken,
       }}
     >
       {children}

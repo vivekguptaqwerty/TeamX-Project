@@ -8,27 +8,54 @@ import Link from "next/link";
 
 export default function Login() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const {setIsLoggedIn} = useContext(AppContext);
+  const { setIsLoggedIn } = useContext(AppContext);
 
-  // Mock login function (Replace with real API call)
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
-    // Simple validation
-    if (!username || !password) {
-      setError("Username and Password are required.");
+    if (!email || !password) {
+      setError("Email and Password are required.");
       return;
     }
 
-    // Mock authentication (Replace with real API logic)
-    if (username === "admin" && password === "password") {
-      setIsLoggedIn(true)
-      router.push("/home"); // Redirect
-    } else {
-      setError("Invalid credentials. Try again.");
+    try {
+      const formData = new URLSearchParams();
+      formData.append("email", email);
+      formData.append("password", password);
+
+      const response = await fetch("https://test-api.everyx.io/tokens", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json",
+        },
+        body: formData.toString(),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Unauthorized. Please check your credentials."
+        );
+      }
+
+      // Set cookie with 30-day expiration
+      const expirationDate = new Date();
+      expirationDate.setDate(expirationDate.getDate() + 30);
+
+      document.cookie = `authToken=${
+        data.token
+      }; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict; Secure`;
+
+      setIsLoggedIn(true);
+      router.push("/home");
+    } catch (error) {
+      console.error("Login Error:", error);
     }
   };
 
@@ -39,15 +66,19 @@ export default function Login() {
 
       <form onSubmit={handleLogin} className="px-8">
         {/* Error Message */}
-        {error && <p className="text-red-500 text-xs text-center mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-xs text-center mb-4">{error}</p>
+        )}
 
-        {/* Username Input */}
+        {/* Email Input */}
         <div className="flex flex-col gap-2 mb-8">
-          <label className="text-xs text-white opacity-25">Username</label>
+          <label className="text-xs text-white opacity-25">Email</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            title="Email"
             className="w-full text-xs bg-transparent border-b border-gray-400 outline-none"
           />
         </div>
@@ -55,14 +86,18 @@ export default function Login() {
         {/* Password Input */}
         <div className="flex flex-col gap-2 relative">
           <p className="text-xs text-white opacity-25">Password</p>
-          <p onClick={() => router.push("/profile/forgot-password")} className="text-[9px] underline absolute bottom-1 right-0">
+          <p
+            onClick={() => router.push("/profile/forgot-password")}
+            className="text-[9px] underline absolute bottom-1 right-0"
+          >
             Forgot Password
           </p>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            title="Password"
             className="w-full h-5 text-xs bg-transparent border-b border-gray-400 outline-none"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
@@ -75,10 +110,18 @@ export default function Login() {
         </div>
 
         {/* Login Button */}
-        <button type="submit" className="text-[#2DC198] text-sm border border-[#2DC198] w-full py-2 rounded-md mt-16">
+        <button
+          type="submit"
+          className="text-[#2DC198] text-sm border border-[#2DC198] w-full py-2 rounded-md mt-16"
+        >
           Login
         </button>
-        <p className="text-white text-[12px] text-center mt-5">New here ?<Link className="underline" href="/auth/signup"> Create an account</Link></p>
+        <p className="text-white text-[12px] text-center mt-5">
+          New here?{" "}
+          <Link className="underline" href="/auth/signup">
+            Create an account
+          </Link>
+        </p>
       </form>
     </div>
   );
