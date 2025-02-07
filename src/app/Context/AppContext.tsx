@@ -1,7 +1,6 @@
 "use client"
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 
-
 // Define the Category interface
 interface Category {
   name: string;
@@ -17,10 +16,6 @@ interface TraderInfo {
   estimated_payout: number;
   estimated_probability: number;
 }
-
-// AppContextProps interface to define the context structure
-
-import React, { createContext, useState, useEffect, ReactNode } from "react";
 
 // Define the shape of the context data
 interface AppContextProps {
@@ -45,15 +40,11 @@ interface AppContextProps {
   calculateMaxLeverage: (outcomes: { trader_info?: TraderInfo }[]) => number;
   calculateMaxEstimatedPayout: (outcomes: { trader_info?: TraderInfo }[]) => number;
   formatDate: (isoDateString: string) => string;
-}
-
-// Create the AppContext with default values
   authToken: string | null;
   setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 // Create context with the initial values
-
 export const AppContext = createContext<AppContextProps>({
   filter: "",
   setFilter: () => {},
@@ -89,8 +80,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [categories, setCategories] = useState<Categories>([]); // Correct initialization with Categories type
+  const [categories, setCategories] = useState<Categories>([]);
   const [bannerData, setBannerData] = useState<string[]>([]);
+  const [authToken, setAuthToken] = useState<string | null>(null);
 
   // Function to fetch categories from an API
   const fetchCategories = async () => {
@@ -100,25 +92,23 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      setCategories(data.top_categories || []); // Safe default to empty array
+      setCategories(data.top_categories || []);
       setBannerData(data.new_collections || []);
     } catch (error) {
       console.error("Failed to fetch categories:", error);
-      setCategories([]); // Safe fallback if fetch fails
+      setCategories([]);
       setBannerData([]);
     }
   };
 
   // Function to find the heading for a category by slug
   const findHeadingWithSlug = (slug: string): string | undefined => {
-    // Find the item that matches the slug
     const foundItem = categories.find((item) =>
-      typeof item === "object" ? item.slug === slug : false // Check if the item is a Category and matches the slug
+      typeof item === "object" ? item.slug === slug : false
     );
-  
-    // If foundItem is a Category, return its name, otherwise return undefined
     return typeof foundItem === "object" ? foundItem.name : undefined;
   };
+
   // Function to calculate time remaining for an event
   const getTimeRemaining = (endTime: string): string => {
     const now = new Date();
@@ -170,8 +160,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   // Fetch categories on component mount
   useEffect(() => {
     fetchCategories();
-
-  const [authToken, setAuthToken] = useState<string | null>(null);
+  }, []);
 
   // Fetch AuthToken from cookies on component mount
   useEffect(() => {
