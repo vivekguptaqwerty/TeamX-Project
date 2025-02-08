@@ -15,9 +15,8 @@ export default function Home() {
   const { categories } = useContext(AppContext);
 
   useEffect(()=>{
-    setIsLoading(false)
     setIsOrderMade(false)
-  })
+  },[])
 
   return (
     <div className="w-full">
