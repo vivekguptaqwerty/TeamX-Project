@@ -36,7 +36,7 @@ interface Event {
 }
 
 export default function EventCategoryPage() {
-  const { filter, setFilter } = useContext(AppContext);
+  const { filter, setFilter,API_BASE_URL } = useContext(AppContext);
   const [events, setEvents] = useState<Event[]>([]);
   const [heading, setHeading] = useState("");
   const { slug } = useParams();
@@ -47,7 +47,7 @@ export default function EventCategoryPage() {
   const fetchEventsOfCategory = useCallback(async () => {
     try {
       const response = await fetch(
-        `https://test-api.everyx.io/search-events?tags=${safeSlug}&sortby=relevance`
+        `${API_BASE_URL}/search-events?tags=${safeSlug}&sortby=relevance`
       );
 
       if (!response.ok) {
@@ -57,7 +57,7 @@ export default function EventCategoryPage() {
       setEvents(data || []);
 
       const headingResponse = await fetch(
-        `https://test-api.everyx.io/collections/${safeSlug}`
+        `${API_BASE_URL}/collections/${safeSlug}`
       );
       const headingData = await headingResponse.json();
       setHeading(headingData.name);
@@ -65,7 +65,7 @@ export default function EventCategoryPage() {
       console.error("Failed to fetch categories:", error);
       setEvents([]);
     }
-  }, [safeSlug]);
+  }, [safeSlug,API_BASE_URL]);
 
   useEffect(() => {
     fetchEventsOfCategory();

@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { AppContext } from "@/app/Context/AppContext";
+import { useContext, useState } from "react";
 
 interface TraderInfo {
   max_leverage: number;
@@ -27,79 +28,17 @@ interface EventData {
   event_images_url: string[];
 }
 
-// New interface for quotes data
-interface QuoteData {
-  event_id: string;
-  event_outcome_id: string;
-  max_leverage: number;
-  max_wager: number;
-  min_wager: number;
-  wager: number;
-  estimated_payout: number;
-  estimated_probability: number;
-}
 
 interface CategoryInfoProps {
   eventData: EventData;
-  setIsOrderMade: React.Dispatch<React.SetStateAction<boolean>>;
-  setQoutesData: React.Dispatch<React.SetStateAction<QuoteData[]>>;
 }
 
 const outcomeColors = ["#00FFBB", "#FF5952", "#924DD3", "#26A45B"];
 
-export default function CategoryGraph({
-  eventData,
-  setIsOrderMade,
-  setQoutesData,
-}: CategoryInfoProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const makeOrder = async (outcomeId: string) => {
-    const orderPayload = {
-      event_id: eventData._id,
-      event_outcome_id: outcomeId,
-      force_leverage: false,
-      leverage: 1,
-      loan: 0,
-      pledge: 10,
-      wager: 10,
-    };
-
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const response = await fetch("https://test-api.everyx.io/quotes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderPayload),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Order placement failed");
-      }
-
-      const responseData = await response.json();
-      setIsOrderMade(true);
-      setQoutesData(responseData);
-
-      console.log("Order placed successfully", responseData);
-    } catch (error) {
-      setError(
-        error instanceof Error
-          ? error.message
-          : "An error occurred while placing the order"
-      );
-
-      console.error("Order placement failed", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+export default function CategoryGraph({ eventData }: CategoryInfoProps) {
+  const [isLoading] = useState(false);
+  const [error] = useState<string | null>(null);
+  const { makeOrder } = useContext(AppContext);
 
   return (
     <div className="mt-3">
@@ -117,7 +56,7 @@ export default function CategoryGraph({
             <div className="flex justify-between items-center gap-2">
               <div
                 onClick={() => {
-                  makeOrder(outcome?._id);
+                  makeOrder(outcome?._id, eventData?._id, 10);
                 }}
                 className="h-[19px] rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
                 style={{

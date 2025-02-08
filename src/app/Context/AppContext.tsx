@@ -1,23 +1,39 @@
-"use client"
+"use client";
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 
-// Define the Category interface
+// Types and Interfaces
 interface Category {
   name: string;
   slug: string;
 }
 
-// Define a type for categories that can be either a Category object or a string
 type Categories = (Category | string)[];
 
-// TraderInfo interface
 interface TraderInfo {
   max_leverage: number;
   estimated_payout: number;
   estimated_probability: number;
 }
 
-// Define the shape of the context data
+interface OrderPayload {
+  event_id: string;
+  event_outcome_id: string;
+  force_leverage: boolean;
+  leverage: number;
+  loan: number;
+  pledge: number;
+  wager: number;
+}
+
+interface OrderResponse {
+  max_wager: number;
+  min_wager: number;
+  estimated_payout: number;
+  estimated_probability: number;
+  leverage: number;
+  max_leverage: number;
+}
+
 interface AppContextProps {
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
@@ -42,10 +58,17 @@ interface AppContextProps {
   formatDate: (isoDateString: string) => string;
   authToken: string | null;
   setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
+  makeOrder: (outcomeId: string, eventId: string, amount: number) => Promise<void>;
+  isOrderMade: boolean;
+  orderDetails: OrderResponse;
+  setOrderDetails: React.Dispatch<React.SetStateAction<OrderResponse>>;
+  API_BASE_URL:string
 }
 
-// Create context with the initial values
-export const AppContext = createContext<AppContextProps>({
+const API_BASE_URL = "https://test-api.everyx.io";
+
+// Initial context state
+const initialState: AppContextProps = {
   filter: "",
   setFilter: () => {},
   slugHeading: "",
@@ -69,11 +92,24 @@ export const AppContext = createContext<AppContextProps>({
   formatDate: () => "",
   authToken: null,
   setAuthToken: () => {},
-});
+  makeOrder: async () => {},
+  isOrderMade: false,
+  orderDetails: {
+    max_wager: 0,
+    min_wager: 0,
+    estimated_payout: 0,
+    estimated_probability: 0,
+    leverage: 1,
+    max_leverage: 1,
+  },
+  setOrderDetails: () => {},
+  API_BASE_URL,
+};
 
-// AppProvider component to manage the context state
+export const AppContext = createContext<AppContextProps>(initialState);
+
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  // State hooks
+  // State management
   const [filter, setFilter] = useState<string>("");
   const [slugHeading, setSlugHeading] = useState<string>("");
   const [selectedMenu, setSelectedMenu] = useState<string>("Home");
@@ -83,14 +119,22 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [categories, setCategories] = useState<Categories>([]);
   const [bannerData, setBannerData] = useState<string[]>([]);
   const [authToken, setAuthToken] = useState<string | null>(null);
+  const [isOrderMade, setIsOrderMade] = useState<boolean>(false);
+  const [orderDetails, setOrderDetails] = useState<OrderResponse>({
+    max_wager: 0,
+    min_wager: 0,
+    estimated_payout: 0,
+    estimated_probability: 0,
+    leverage: 1,
+    max_leverage: 1,
+  });
 
-  // Function to fetch categories from an API
+  // API Calls
   const fetchCategories = async () => {
     try {
-      const response = await fetch("https://test-api.everyx.io/layout");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+      const response = await fetch(`${API_BASE_URL}/layout`);
+      if (!response.ok) throw new Error("Failed to fetch categories");
+
       const data = await response.json();
       setCategories(data.top_categories || []);
       setBannerData(data.new_collections || []);
@@ -101,7 +145,45 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Function to find the heading for a category by slug
+  const makeOrder = async (outcomeId: string, eventId: string, amount: number) => {
+    setIsLoading(true);
+    setIsOrderMade(true);
+
+    const orderPayload: OrderPayload = {
+      event_id: eventId,
+      event_outcome_id: outcomeId,
+      force_leverage: false,
+      leverage: 1,
+      loan: 0,
+      pledge: amount,
+      wager: amount,
+    };
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/quotes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Order placement failed");
+      }
+      const responseData = (await response.json()) as OrderResponse;
+      console.log(responseData);
+      setOrderDetails(responseData);
+    } catch (error) {
+      console.error("Order placement failed:", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Utility Functions
   const findHeadingWithSlug = (slug: string): string | undefined => {
     const foundItem = categories.find((item) =>
       typeof item === "object" ? item.slug === slug : false
@@ -109,7 +191,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     return typeof foundItem === "object" ? foundItem.name : undefined;
   };
 
-  // Function to calculate time remaining for an event
   const getTimeRemaining = (endTime: string): string => {
     const now = new Date();
     const endDate = new Date(endTime);
@@ -157,51 +238,40 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  // Fetch categories on component mount
   useEffect(() => {
     fetchCategories();
   }, []);
 
-  // Fetch AuthToken from cookies on component mount
-  useEffect(() => {
-    const cookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("authToken="));
-    if (cookie) {
-      const token = cookie.split("=")[1];
-      setAuthToken(token);
-    }
-  }, []);
+  const contextValue: AppContextProps = {
+    filter,
+    setFilter,
+    slugHeading,
+    setSlugHeading,
+    selectedMenu,
+    setSelectedMenu,
+    isLoggedIn,
+    setIsLoggedIn,
+    search,
+    setSearch,
+    isLoading,
+    setIsLoading,
+    categories,
+    setCategories,
+    bannerData,
+    setBannerData,
+    findHeadingWithSlug,
+    getTimeRemaining,
+    calculateMaxLeverage,
+    calculateMaxEstimatedPayout,
+    formatDate,
+    authToken,
+    setAuthToken,
+    makeOrder,
+    isOrderMade,
+    orderDetails,
+    setOrderDetails,
+    API_BASE_URL
+  };
 
-  return (
-    <AppContext.Provider
-      value={{
-        filter,
-        setFilter,
-        slugHeading,
-        setSlugHeading,
-        selectedMenu,
-        setSelectedMenu,
-        isLoggedIn,
-        setIsLoggedIn,
-        search,
-        setSearch,
-        isLoading,
-        setIsLoading,
-        categories,
-        setCategories,
-        bannerData,
-        setBannerData,
-        findHeadingWithSlug,
-        getTimeRemaining,
-        calculateMaxLeverage,
-        calculateMaxEstimatedPayout,
-        formatDate,
-        authToken,
-        setAuthToken,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
 };
