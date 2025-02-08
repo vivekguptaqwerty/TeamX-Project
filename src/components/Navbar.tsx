@@ -5,13 +5,12 @@ import { useRouter } from "next/navigation";
 import { useContext } from "react";
 
 export default function Navbar({ home }: { home: string }) {
-  const { setSelectedMenu ,setFilter,setIsLoading} = useContext(AppContext);
+  const { setSelectedMenu ,setFilter} = useContext(AppContext);
   const router = useRouter();
   return (
     <div className="flex justify-between items-center p-5 bg-[#0E0E0E]">
       <Image
         onClick={() => {
-          setIsLoading(true)
           setSelectedMenu(("Home"));
           setFilter("")
           router.push("/home");

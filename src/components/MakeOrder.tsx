@@ -29,7 +29,7 @@ export default function MakeOrder({selectedOrder}:MakeOrderProps) {
         console.error("Error updating order:",error)
       })
     }
-  },[value,leverage,eventId,outcomeId,makeOrder])
+  },[value,leverage])
 
 
   const handleTradeSize = (e: React.ChangeEvent<HTMLInputElement>) => {
