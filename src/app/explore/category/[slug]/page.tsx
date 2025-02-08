@@ -34,7 +34,7 @@ interface Event {
 }
 
 export default function EventCategoryPage() {
-  const { filter, setFilter, findHeadingWithSlug,API_BASE_URL } = useContext(AppContext);
+  const { filter, setFilter, findHeadingWithSlug,API_BASE_URL,setIsLoading } = useContext(AppContext);
   const [events, setEvents] = useState<Event[]>([]);
   const { slug } = useParams();
 
@@ -64,7 +64,8 @@ export default function EventCategoryPage() {
 
   useEffect(() => {
     fetchEventsOfCategory();
-  }, [fetchEventsOfCategory]);
+    setIsLoading(false)
+  }, [fetchEventsOfCategory,setIsLoading]);
   
   // Safely handle potential undefined slug
   const heading = safeSlug ? findHeadingWithSlug(safeSlug) : '';
@@ -76,9 +77,11 @@ export default function EventCategoryPage() {
       <SearchBar />
       <div className="p-5">
         <h1 className="text-xl mb-6">{heading || safeSlug}</h1>
-        {events.map((item) => (
+        {events.length!==0? events.map((item) => (
           <CategoryCard key={item._id} item={item} />
-        ))}
+        )):(
+          <div className="text-white h-[300px] flex items-center justify-center">No Result found</div>
+        )}
       </div>
       <Footer />
     </div>

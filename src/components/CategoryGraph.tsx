@@ -1,6 +1,6 @@
 "use client";
 import { AppContext } from "@/app/Context/AppContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 
 interface TraderInfo {
   max_leverage: number;
@@ -28,24 +28,23 @@ interface EventData {
   event_images_url: string[];
 }
 
-
 interface CategoryInfoProps {
   eventData: EventData;
+  setSelectedOrder: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const outcomeColors = ["#00FFBB", "#FF5952", "#924DD3", "#26A45B"];
 
-export default function CategoryGraph({ eventData }: CategoryInfoProps) {
-  const [isLoading] = useState(false);
-  const [error] = useState<string | null>(null);
-  const { makeOrder } = useContext(AppContext);
+export default function CategoryGraph({ eventData,setSelectedOrder }: CategoryInfoProps) {
+  const { makeOrder,setIsLoading,setIsOrderMade} = useContext(AppContext);
+
+  useEffect(()=>{
+    setIsOrderMade(false)
+  },[])
 
   return (
     <div className="mt-3">
       <h1 className="font-bold px-5 text-[23px]">What do you predict ?</h1>
-
-      {error && <div className="px-5 text-red-500 mb-3">{error}</div>}
-
       <div className="pl-5 pr-5 py-8 flex flex-col gap-5">
         {eventData?.outcomes.map((outcome: Outcome, index: number) => (
           <div key={outcome._id} className="flex flex-col gap-1">
@@ -56,6 +55,8 @@ export default function CategoryGraph({ eventData }: CategoryInfoProps) {
             <div className="flex justify-between items-center gap-2">
               <div
                 onClick={() => {
+                  setIsLoading(true)
+                  setSelectedOrder(String.fromCharCode(65 + index)+". "+outcome.name.charAt(0).toUpperCase() + outcome.name.slice(1))
                   makeOrder(outcome?._id, eventData?._id, 10);
                 }}
                 className="h-[19px] rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
@@ -73,12 +74,6 @@ export default function CategoryGraph({ eventData }: CategoryInfoProps) {
           </div>
         ))}
       </div>
-
-      {isLoading && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-white"></div>
-        </div>
-      )}
     </div>
   );
 }

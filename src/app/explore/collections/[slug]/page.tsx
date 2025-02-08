@@ -36,7 +36,7 @@ interface Event {
 }
 
 export default function EventCategoryPage() {
-  const { filter, setFilter,API_BASE_URL } = useContext(AppContext);
+  const { filter, setFilter,API_BASE_URL ,setIsLoading} = useContext(AppContext);
   const [events, setEvents] = useState<Event[]>([]);
   const [heading, setHeading] = useState("");
   const { slug } = useParams();
@@ -69,7 +69,8 @@ export default function EventCategoryPage() {
 
   useEffect(() => {
     fetchEventsOfCategory();
-  }, [fetchEventsOfCategory]);
+    setIsLoading(false)
+  }, [fetchEventsOfCategory,setIsLoading]);
 
   return (
     <div>
@@ -78,9 +79,11 @@ export default function EventCategoryPage() {
       <SearchBar />
       <div className="p-5 flex flex-col gap-6">
         <h1 className="text-xl">{heading}</h1>
-        {events.map((item) => (
+        {events.length!==0 ? events.map((item) => (
           <CategoryCard key={item._id} item={item} />
-        ))}
+        )):(
+          <div className="text-white h-[300px] flex items-center justify-center">No Result found</div>
+        )}
       </div>
       <Footer />
     </div>

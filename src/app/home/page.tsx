@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../Context/AppContext";
 import Category from "@/components/Category";
 import Footer from "@/components/Footer";
@@ -11,8 +11,13 @@ import SearchBar from "@/components/SearchBar";
 import TopCategories from "@/components/TopCategoies";
 
 export default function Home() {
-  const { filter, setFilter } = useContext(AppContext);
+  const { filter, setFilter,setIsLoading,setIsOrderMade} = useContext(AppContext);
   const { categories } = useContext(AppContext);
+
+  useEffect(()=>{
+    setIsLoading(false)
+    setIsOrderMade(false)
+  })
 
   return (
     <div className="w-full">

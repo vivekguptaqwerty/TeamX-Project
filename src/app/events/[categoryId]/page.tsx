@@ -9,7 +9,6 @@ import HeadingSlider from "@/components/HeadingSlider";
 import Navbar from "@/components/Navbar";
 import MakeOrder from "@/components/MakeOrder";
 
-
 // EventData interface
 interface EventData {
   _id: string;
@@ -32,11 +31,13 @@ interface EventData {
 }
 
 export default function EventCategoryPageDetails() {
-  const { filter, setFilter, setIsLoading,isOrderMade,API_BASE_URL } = useContext(AppContext);
+  const { filter, setFilter, setIsLoading, isOrderMade, API_BASE_URL } = useContext(AppContext);
   const [eventData, setEventData] = useState<EventData | null>(null);
   const params = useParams();
   const categoryId = params?.categoryId as string | undefined;
+  const [selectedOrder, setSelectedOrder] = useState<string>("");
 
+  
 
   // Memoized fetch function
   const fetchEvent = useCallback(async () => {
@@ -45,9 +46,7 @@ export default function EventCategoryPageDetails() {
     try {
       setIsLoading(true);
 
-      const response = await fetch(
-        `${API_BASE_URL}/events/${categoryId}`
-      );
+      const response = await fetch(`${API_BASE_URL}/events/${categoryId}`);
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -61,12 +60,11 @@ export default function EventCategoryPageDetails() {
     } finally {
       setIsLoading(false);
     }
-  }, [categoryId, setIsLoading,API_BASE_URL]);
+  }, [categoryId, setIsLoading, API_BASE_URL]);
 
   useEffect(() => {
     fetchEvent();
   }, [fetchEvent]);
-
 
   return (
     <div>
@@ -75,20 +73,14 @@ export default function EventCategoryPageDetails() {
 
       {eventData ? (
         <>
-          <CategoryInfo
-            eventData={eventData}
-          />
-          {!isOrderMade && (
-            <CategoryGraph
-              eventData={eventData}
-            />
-          )}
+          <CategoryInfo eventData={eventData} />
+          {!isOrderMade && <CategoryGraph eventData={eventData} setSelectedOrder={setSelectedOrder}/>}
         </>
       ) : (
         <p className="text-center text-gray-500">Loading event details...</p>
       )}
 
-      {isOrderMade && <MakeOrder/>}
+      {isOrderMade && <MakeOrder selectedOrder={selectedOrder}/>}
 
       <Footer />
     </div>

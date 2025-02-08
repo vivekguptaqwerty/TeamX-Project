@@ -39,6 +39,14 @@ interface OrderResponse {
   estimated_probability: number;
   leverage: number;
   max_leverage: number;
+  current_probability :number
+  indicative_return:number,
+  new_probability:number,
+  probability_change:number,
+  wager:number,
+  event_id:string,
+  event_outcome_id:string
+
 }
 
 interface AppContextProps {
@@ -73,6 +81,7 @@ interface AppContextProps {
     amount: number
   ) => Promise<void>;
   isOrderMade: boolean;
+  setIsOrderMade: React.Dispatch<React.SetStateAction<boolean>>;
   orderDetails: OrderResponse;
   setOrderDetails: React.Dispatch<React.SetStateAction<OrderResponse>>;
   API_BASE_URL: string;
@@ -114,12 +123,22 @@ const initialState: AppContextProps = {
     estimated_probability: 0,
     leverage: 1,
     max_leverage: 1,
+    current_probability :0,
+    indicative_return:0,
+    new_probability:0,
+    probability_change:0,
+    wager:0,
+    event_id:"",
+    event_outcome_id:""
   },
+  setIsOrderMade:()=>{},
   setOrderDetails: () => {},
   API_BASE_URL,
 };
 
 export const AppContext = createContext<AppContextProps>(initialState);
+
+
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   // State management
@@ -140,6 +159,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     estimated_probability: 0,
     leverage: 1,
     max_leverage: 1,
+    current_probability :0,
+    indicative_return:0,
+    new_probability:0,
+    probability_change:0,
+    wager:0,
+    event_id:"",
+    event_outcome_id:""
   });
 
   // API Calls
@@ -163,6 +189,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     eventId: string,
     amount: number
   ) => {
+
     setIsLoading(true);
     setIsOrderMade(true);
 
@@ -177,6 +204,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     };
 
     try {
+      console.log("order payload",orderPayload);
+      
       const response = await fetch(`${API_BASE_URL}/quotes`, {
         method: "POST",
         headers: {
@@ -293,6 +322,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setAuthToken,
     makeOrder,
     isOrderMade,
+    setIsOrderMade,
     orderDetails,
     setOrderDetails,
     API_BASE_URL,
