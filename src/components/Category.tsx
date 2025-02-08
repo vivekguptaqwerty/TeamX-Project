@@ -40,7 +40,7 @@ interface CategoryProps {
 }
 
 export default function Category({ item }: CategoryProps) {
-  const { setFilter,API_BASE_URL } = useContext(AppContext);
+  const { setFilter, API_BASE_URL } = useContext(AppContext);
   const router = useRouter();
   const [events, setEvents] = useState<Event[]>([]);
 
@@ -59,7 +59,7 @@ export default function Category({ item }: CategoryProps) {
       console.error("Failed to fetch categories:", error);
       setEvents([]);
     }
-  }, [item?.slug,API_BASE_URL]); // Add `item?.slug` as a dependency
+  }, [item?.slug, API_BASE_URL]); // Add `item?.slug` as a dependency
 
   useEffect(() => {
     fetchEventsOfCategory();
@@ -84,7 +84,7 @@ export default function Category({ item }: CategoryProps) {
         </button>
       </div>
       <div className="flex flex-col gap-6">
-        {events.map((eventItem) => (
+        {events.slice(0,3).map((eventItem) => (
           <CategoryCard key={eventItem._id} item={eventItem} />
         ))}
       </div>

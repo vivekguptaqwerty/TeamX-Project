@@ -1,11 +1,11 @@
+"use client"
 import { AppContext } from "@/app/Context/AppContext";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 
 export default function ImageSlider() {
   const router = useRouter();
-  const { bannerData } = useContext(AppContext);
-  console.log(bannerData);
+  const { bannerData,setIsLoading } = useContext(AppContext);
 
   return (
     <div className={`w-full bg-[#0E0E0E] relative px-4`}>
@@ -14,6 +14,7 @@ export default function ImageSlider() {
           {bannerData.map((item, index) => (
             <div
               onClick={() => {
+                setIsLoading(true)
                 router.push(`/explore/collections/${item?.slug}`);
               }}
               key={index}
@@ -35,7 +36,7 @@ export default function ImageSlider() {
                   </div>
                   <img
                     className="w-[15px] h-[15px]"
-                    src="/Images/logo.png"
+                    src="/images/logo.png"
                     alt=""
                   />
                 </div>
@@ -46,7 +47,7 @@ export default function ImageSlider() {
                   <div className="w-[23px] h-[23px] bg-[#343434] rounded-full flex justify-center items-center">
                     <img
                       className="h-[8px]"
-                      src="/images/rightarrow.svg"
+                      src="/Images/rightarrow.svg"
                       alt=""
                     />
                   </div>

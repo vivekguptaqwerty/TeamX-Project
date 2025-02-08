@@ -32,7 +32,7 @@ export default function TopCategories() {
         <h1 className="text-xl mb-6">Top Topics</h1>
       </div>
       <div className="flex flex-col gap-6">
-        {topCategoies.map((item, index) => {
+        {topCategoies.slice(0,3).map((item, index) => {
           return <CategoryCard key={index} item={item} />;
         })}
       </div>
