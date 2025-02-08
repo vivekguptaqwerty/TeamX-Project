@@ -3,9 +3,9 @@ import { AppContext } from "@/app/Context/AppContext";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 
-export default function ImageSlider({ filter }) {
+export default function ImageSlider() {
   const router = useRouter();
-  const { setFilter, bannerData } = useContext(AppContext);
+  const { bannerData } = useContext(AppContext);
   console.log(bannerData);
 
   return (

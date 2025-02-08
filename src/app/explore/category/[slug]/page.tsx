@@ -34,7 +34,7 @@ interface Event {
 }
 
 export default function EventCategoryPage() {
-  const { filter, setFilter, findHeadingWithSlug } = useContext(AppContext);
+  const { filter, setFilter, findHeadingWithSlug,API_BASE_URL } = useContext(AppContext);
   const [events, setEvents] = useState<Event[]>([]);
   const { slug } = useParams();
 
@@ -47,7 +47,7 @@ export default function EventCategoryPage() {
       // Only fetch if safeSlug exists
       if (safeSlug) {
         const response = await fetch(
-          `https://test-api.everyx.io/search-events?tags=${safeSlug}&sortby=relevance`
+          `${API_BASE_URL}/search-events?tags=${safeSlug}&sortby=relevance`
         );
 
         if (!response.ok) {
@@ -60,7 +60,7 @@ export default function EventCategoryPage() {
       console.error("Failed to fetch categories:", error);
       setEvents([]);
     }
-  }, [safeSlug]);
+  }, [safeSlug,API_BASE_URL]);
 
   useEffect(() => {
     fetchEventsOfCategory();

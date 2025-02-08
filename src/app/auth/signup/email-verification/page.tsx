@@ -2,10 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
-import { useRouter } from "next/navigation";
 
 const Verification: React.FC = () => {
-  const router = useRouter();
   const [email, setEmail] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 

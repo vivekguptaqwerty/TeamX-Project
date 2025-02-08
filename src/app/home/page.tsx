@@ -18,7 +18,7 @@ export default function Home() {
     <div className="w-full">
       <Navbar home="Home" />
       <HeadingSlider setFilter={setFilter} filter={filter} />
-      <ImageSlider filter={filter} />
+      <ImageSlider/>
       <SearchBar />
       <TopCategories />
       {categories.map((item, index) => {

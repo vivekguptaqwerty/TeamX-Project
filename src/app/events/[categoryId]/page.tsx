@@ -9,17 +9,6 @@ import HeadingSlider from "@/components/HeadingSlider";
 import Navbar from "@/components/Navbar";
 import MakeOrder from "@/components/MakeOrder";
 
-// QuoteData interface matching CategoryGraph component
-interface QuoteData {
-  event_id: string;
-  event_outcome_id: string;
-  max_leverage: number;
-  max_wager: number;
-  min_wager: number;
-  wager: number;
-  estimated_payout: number;
-  estimated_probability: number;
-}
 
 // EventData interface
 interface EventData {
@@ -43,12 +32,11 @@ interface EventData {
 }
 
 export default function EventCategoryPageDetails() {
-  const { filter, setFilter, setIsLoading } = useContext(AppContext);
+  const { filter, setFilter, setIsLoading,isOrderMade,API_BASE_URL } = useContext(AppContext);
   const [eventData, setEventData] = useState<EventData | null>(null);
-  const [isOrderMade, setIsOrderMade] = useState(false);
   const params = useParams();
   const categoryId = params?.categoryId as string | undefined;
-  const [qoutesData, setQoutesData] = useState<QuoteData[]>([]); // Updated type
+
 
   // Memoized fetch function
   const fetchEvent = useCallback(async () => {
@@ -58,7 +46,7 @@ export default function EventCategoryPageDetails() {
       setIsLoading(true);
 
       const response = await fetch(
-        `https://test-api.everyx.io/events/${categoryId}`
+        `${API_BASE_URL}/events/${categoryId}`
       );
 
       if (!response.ok) {
@@ -73,11 +61,12 @@ export default function EventCategoryPageDetails() {
     } finally {
       setIsLoading(false);
     }
-  }, [categoryId, setIsLoading]);
+  }, [categoryId, setIsLoading,API_BASE_URL]);
 
   useEffect(() => {
     fetchEvent();
   }, [fetchEvent]);
+
 
   return (
     <div>
@@ -88,14 +77,10 @@ export default function EventCategoryPageDetails() {
         <>
           <CategoryInfo
             eventData={eventData}
-            isOrderMade={isOrderMade}
-            setIsOrderMade={setIsOrderMade}
           />
           {!isOrderMade && (
             <CategoryGraph
               eventData={eventData}
-              setIsOrderMade={setIsOrderMade}
-              setQoutesData={setQoutesData}
             />
           )}
         </>
@@ -103,7 +88,8 @@ export default function EventCategoryPageDetails() {
         <p className="text-center text-gray-500">Loading event details...</p>
       )}
 
-      {isOrderMade && <MakeOrder qoutesData={qoutesData[0]} />}
+      {isOrderMade && <MakeOrder/>}
+
       <Footer />
     </div>
   );

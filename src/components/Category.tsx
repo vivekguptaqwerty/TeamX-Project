@@ -40,7 +40,7 @@ interface CategoryProps {
 }
 
 export default function Category({ item }: CategoryProps) {
-  const { setFilter } = useContext(AppContext);
+  const { setFilter,API_BASE_URL } = useContext(AppContext);
   const router = useRouter();
   const [events, setEvents] = useState<Event[]>([]);
 
@@ -48,7 +48,7 @@ export default function Category({ item }: CategoryProps) {
   const fetchEventsOfCategory = useCallback(async () => {
     try {
       const response = await fetch(
-        `https://test-api.everyx.io/search-events?tags=${item?.slug}&sortby=relevance`
+        `${API_BASE_URL}/search-events?tags=${item?.slug}&sortby=relevance`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -59,7 +59,7 @@ export default function Category({ item }: CategoryProps) {
       console.error("Failed to fetch categories:", error);
       setEvents([]);
     }
-  }, [item?.slug]); // Add `item?.slug` as a dependency
+  }, [item?.slug,API_BASE_URL]); // Add `item?.slug` as a dependency
 
   useEffect(() => {
     fetchEventsOfCategory();

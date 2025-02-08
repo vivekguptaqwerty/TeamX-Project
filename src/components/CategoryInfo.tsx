@@ -1,3 +1,4 @@
+"use client"
 import { AppContext } from "@/app/Context/AppContext";
 import { useContext } from "react";
 
@@ -24,15 +25,12 @@ interface EventData {
 
 interface CategoryInfoProps {
   eventData: EventData;
-  isOrderMade: boolean;
-  setIsOrderMade: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function CategoryInfo({
   eventData,
-  isOrderMade,
 }: CategoryInfoProps) {
-  const { calculateMaxEstimatedPayout, calculateMaxLeverage, formatDate } =
+  const { calculateMaxEstimatedPayout, calculateMaxLeverage, formatDate,isOrderMade } =
     useContext(AppContext);
 
   // Handle the case when eventData is null

@@ -2,30 +2,22 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppContext } from "@/app/Context/AppContext";
+import Image from "next/image";
 
-interface QuotesData {
-  wager: number;
-  max_wager: number;
-  max_leverage: number;
-}
-
-interface MakeOrderProps {
-  qoutesData: QuotesData;
-}
-
-export default function MakeOrder({ qoutesData }: MakeOrderProps) {
-  const { setIsLoading } = useContext(AppContext);
+export default function MakeOrder() {
+  const {setIsLoading,orderDetails} = useContext(AppContext)
   const router = useRouter();
-  const [value, setValue] = useState<number>(qoutesData?.wager);
   const [leverage, setLeverage] = useState(1);
-  const maxTradeSize = qoutesData?.max_wager;
-  const maxLeverage = qoutesData?.max_leverage;
+  const [value, setValue] = useState<number>(10);
+  const maxTradeSize = orderDetails?.max_wager;
+  const maxLeverage = orderDetails?.max_leverage;
+
+
 
   useEffect(() => {
     setIsLoading(false);
   }, [setIsLoading]);
 
-  console.log("qoutesData", qoutesData);
 
   const handleTradeSize = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseFloat(e.target.value);
@@ -101,6 +93,12 @@ export default function MakeOrder({ qoutesData }: MakeOrderProps) {
           <div className="flex justify-between items-center gap-2">
             <div className="h-[19px] rounded-lg w-[80%] bg-[#00FFBB]"></div>
             <p className="text-[19px] font-light">80%</p>
+            <Image
+              src="/images/checkbox.png"
+              alt="checkbox"
+              height={20}
+              width={20}
+            />
           </div>
         </div>
       </div>
