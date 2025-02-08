@@ -11,7 +11,7 @@ import SearchBar from "@/components/SearchBar";
 import TopCategories from "@/components/TopCategoies";
 
 export default function Home() {
-  const { filter, setFilter,setIsLoading,setIsOrderMade} = useContext(AppContext);
+  const { filter, setFilter,setIsOrderMade} = useContext(AppContext);
   const { categories } = useContext(AppContext);
 
   useEffect(()=>{
