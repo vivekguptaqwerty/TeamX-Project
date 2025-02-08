@@ -204,8 +204,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     };
 
     try {
-      console.log("order payload",orderPayload);
-      
       const response = await fetch(`${API_BASE_URL}/quotes`, {
         method: "POST",
         headers: {
@@ -219,10 +217,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         throw new Error(errorText || "Order placement failed");
       }
       const responseData = (await response.json()) as OrderResponse;
-      console.log(responseData);
       setOrderDetails(responseData);
     } catch (error) {
-      console.error("Order placement failed:", error);
       throw error;
     } finally {
       setIsLoading(false);
