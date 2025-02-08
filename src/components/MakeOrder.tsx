@@ -94,7 +94,7 @@ export default function MakeOrder() {
             <div className="h-[19px] rounded-lg w-[80%] bg-[#00FFBB]"></div>
             <p className="text-[19px] font-light">80%</p>
             <Image
-              src="/images/checkbox.png"
+              src="/Images/checkbox.png"
               alt="checkbox"
               height={20}
               width={20}
