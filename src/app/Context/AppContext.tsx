@@ -9,6 +9,13 @@ interface Category {
 
 type Categories = (Category | string)[];
 
+interface BannerItem {
+  name: string;
+  slug: string;
+  image_url: string;
+  title: string;
+}
+
 interface TraderInfo {
   max_leverage: number;
   estimated_payout: number;
@@ -49,20 +56,26 @@ interface AppContextProps {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   categories: Categories;
   setCategories: React.Dispatch<React.SetStateAction<Categories>>;
-  bannerData: string[];
-  setBannerData: React.Dispatch<React.SetStateAction<string[]>>;
+  bannerData: BannerItem[];
+  setBannerData: React.Dispatch<React.SetStateAction<BannerItem[]>>;
   findHeadingWithSlug: (slug: string) => string | undefined;
   getTimeRemaining: (endTime: string) => string;
   calculateMaxLeverage: (outcomes: { trader_info?: TraderInfo }[]) => number;
-  calculateMaxEstimatedPayout: (outcomes: { trader_info?: TraderInfo }[]) => number;
+  calculateMaxEstimatedPayout: (
+    outcomes: { trader_info?: TraderInfo }[]
+  ) => number;
   formatDate: (isoDateString: string) => string;
   authToken: string | null;
   setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
-  makeOrder: (outcomeId: string, eventId: string, amount: number) => Promise<void>;
+  makeOrder: (
+    outcomeId: string,
+    eventId: string,
+    amount: number
+  ) => Promise<void>;
   isOrderMade: boolean;
   orderDetails: OrderResponse;
   setOrderDetails: React.Dispatch<React.SetStateAction<OrderResponse>>;
-  API_BASE_URL:string
+  API_BASE_URL: string;
 }
 
 const API_BASE_URL = "https://test-api.everyx.io";
@@ -117,7 +130,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [search, setSearch] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [categories, setCategories] = useState<Categories>([]);
-  const [bannerData, setBannerData] = useState<string[]>([]);
+  const [bannerData, setBannerData] = useState<BannerItem[]>([]);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [isOrderMade, setIsOrderMade] = useState<boolean>(false);
   const [orderDetails, setOrderDetails] = useState<OrderResponse>({
@@ -145,7 +158,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const makeOrder = async (outcomeId: string, eventId: string, amount: number) => {
+  const makeOrder = async (
+    outcomeId: string,
+    eventId: string,
+    amount: number
+  ) => {
     setIsLoading(true);
     setIsOrderMade(true);
 
@@ -213,18 +230,26 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Function to calculate the max leverage from a set of outcomes
-  const calculateMaxLeverage = (outcomes?: { trader_info?: TraderInfo }[]): number => {
+  const calculateMaxLeverage = (
+    outcomes?: { trader_info?: TraderInfo }[]
+  ): number => {
     return Math.max(
       0,
-      ...((outcomes ?? []).map((outcome) => outcome.trader_info?.max_leverage ?? 0))
+      ...(outcomes ?? []).map(
+        (outcome) => outcome.trader_info?.max_leverage ?? 0
+      )
     );
   };
 
   // Function to calculate the max estimated payout from a set of outcomes
-  const calculateMaxEstimatedPayout = (outcomes?: { trader_info?: TraderInfo }[]): number => {
+  const calculateMaxEstimatedPayout = (
+    outcomes?: { trader_info?: TraderInfo }[]
+  ): number => {
     return Math.max(
       0,
-      ...((outcomes ?? []).map((outcome) => outcome.trader_info?.estimated_payout ?? 0))
+      ...(outcomes ?? []).map(
+        (outcome) => outcome.trader_info?.estimated_payout ?? 0
+      )
     );
   };
 
@@ -270,8 +295,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     isOrderMade,
     orderDetails,
     setOrderDetails,
-    API_BASE_URL
+    API_BASE_URL,
   };
 
-  return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
+  );
 };
