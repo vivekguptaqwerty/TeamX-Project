@@ -11,7 +11,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { setIsLoggedIn } = useContext(AppContext);
+  const { setIsLoggedIn, setAuthToken } = useContext(AppContext);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,15 +44,9 @@ export default function Login() {
         );
       }
 
-      // Set cookie with 30-day expiration
-      const expirationDate = new Date();
-      expirationDate.setDate(expirationDate.getDate() + 30);
-
-      document.cookie = `authToken=${
-        data.token
-      }; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict; Secure`;
-
-      setIsLoggedIn(true);
+      document.cookie = `authToken=${data.token}`;
+      setAuthToken(data.token); // Update authToken in context
+      setIsLoggedIn(true); // Update login status
       router.push("/home");
     } catch (error) {
       console.error("Login Error:", error);
@@ -117,7 +111,7 @@ export default function Login() {
           Login
         </button>
         <p className="text-white text-[12px] text-center mt-5">
-          New here?{" "}
+          New here?
           <Link className="underline" href="/auth/signup">
             Create an account
           </Link>

@@ -8,7 +8,6 @@ import HeadingSlider from "@/components/HeadingSlider";
 import ImageSlider from "@/components/ImageSlider";
 import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
-;
 
 export default function Home() {
   const { filter, setFilter, search } = useContext(AppContext);

@@ -2,16 +2,16 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { CiCircleInfo } from "react-icons/ci";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import LoadingPage from "@/components/LoadingPage";
-// import { AppContext } from "./Context/AppContext";
+import { AppContext } from "./Context/AppContext";
 // import { useRouter } from "next/navigation";
 
 const LandingPage = () => {
-  // const { authToken } = useContext(AppContext);
+  const { authToken, setIsLoggedIn } = useContext(AppContext);
   const questions = [
     {
       question: "Q. What is EveryX?",
@@ -60,12 +60,7 @@ const LandingPage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-      // if (authToken) {
-      //   // If user is logged in
-      //   router.forward("/home");
-      // }
     }, 2000);
-
     return () => clearTimeout(timer);
   }, []);
 

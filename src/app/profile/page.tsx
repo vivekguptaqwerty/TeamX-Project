@@ -7,11 +7,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { AppContext } from "../Context/AppContext";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS for the toast styles
+import Loader from "@/components/Loader/Loader";
 const Profile: React.FC = () => {
   const router = useRouter();
   const { authToken } = useContext(AppContext);
-  console.log("authToken", authToken);
 
   const [profileImage, setProfileImage] = useState<string | "">("");
   const [UserName, setUserName] = useState<string | "">("");
@@ -19,6 +20,7 @@ const Profile: React.FC = () => {
   const [phone, setPhone] = useState<number | null>(null);
   const [email_verified, setEmail_Verified] = useState<boolean | null>(null);
   const [phone_verified, setPhone_verified] = useState<boolean | null>(null);
+  const [Loading, setLoading] = useState<boolean>(true);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -33,6 +35,7 @@ const Profile: React.FC = () => {
 
   const fetchUserProfile = async () => {
     try {
+      console.log("authToken in profile", authToken);
       const response = await fetch("https://test-api.everyx.io/me", {
         method: "GET",
         headers: {
@@ -57,9 +60,14 @@ const Profile: React.FC = () => {
       }
 
       console.log(data);
+      setLoading(false);
       return data;
     } catch (error) {
-      console.error("Error occurred at Profile Screen", error);
+      toast.error(
+        `Error Occured: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
     }
   };
 
@@ -74,7 +82,7 @@ const Profile: React.FC = () => {
         body: JSON.stringify({
           avatar: profileImage,
           display_name: UserName,
-          phone: phone,
+          phone: phone?.toString(),
         }),
       });
 
@@ -83,21 +91,36 @@ const Profile: React.FC = () => {
           `Failed to update profile: ${response.status} ${response.statusText}`
         );
       }
+
+      toast.success("Update Successful", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        theme: "dark",
+      });
       console.log("Update successful!");
     } catch (error) {
-      console.error("Error occurred at Profile Screen while Updating:", error);
+      toast.error(
+        `Error Occured: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+      // console.error("Error occurred at Profile Screen while Updating:", error);
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      if (authToken) {
+      if (authToken !== null) {
         await fetchUserProfile();
       }
     };
     fetchData();
   }, [authToken]);
 
+  if (Loading) {
+    return <Loader />;
+  }
   return (
     <>
       <Navbar home="Profile" />
@@ -181,6 +204,7 @@ const Profile: React.FC = () => {
                   placeholder="AlexKapawski@ibtex.org"
                   value={email}
                   className="flex-1 bg-transparent py-2 text-[12px] outline-none"
+                  readOnly={true}
                 />
                 {email_verified ? (
                   <span className="ml-2 text-green-400 flex items-center text-[9px]">
@@ -205,7 +229,7 @@ const Profile: React.FC = () => {
                     type="password"
                     placeholder="••••••••••"
                     className="flex-1 bg-transparent py-2 text-[12px] outline-none"
-                    readOnly
+                    readOnly={true}
                   />
                 </div>
                 <button

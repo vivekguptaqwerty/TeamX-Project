@@ -3,14 +3,15 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { AppContext } from "../Context/AppContext";
-import './menu.css';
+import "./menu.css";
 import { useRouter } from "next/navigation";
 
 export default function Menu() {
   const router = useRouter();
   const { selectedMenu, setSelectedMenu } = useContext(AppContext);
   const [languageState, setLanguageState] = useState(false);
-  const {isLoggedIn, setIsLoggedIn} = useContext(AppContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
+  const { authToken } = useContext(AppContext);
 
   const navbarItems = isLoggedIn
     ? [
@@ -24,6 +25,26 @@ export default function Menu() {
         { name: "Settings", link: "/setting" },
         { name: "Help", link: "/help" },
       ];
+
+  const handleLogotUser = async () => {
+    try {
+      const response = await fetch("https://test-api.everyx.io/tokens", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      if (response.ok) {
+        setIsLoggedIn(false);
+        document.cookie =
+          "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        router.push("/login");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -49,11 +70,15 @@ export default function Menu() {
           ))}
         </ul>
       </div>
-      
+
       {/* Language Toggle */}
       <div className="p-5 mt-60">
         <div className="flex justify-center gap-6 items-center mb-8 pl-[100px]">
-          <p className={`${!languageState ? "text-[#fff]" : "text-[#707070]"} text-[14px]`}>
+          <p
+            className={`${
+              !languageState ? "text-[#fff]" : "text-[#707070]"
+            } text-[14px]`}
+          >
             English
           </p>
           <label className="switch">
@@ -64,7 +89,11 @@ export default function Menu() {
             />
             <span className="slider round"></span>
           </label>
-          <p className={`${!languageState ? "text-[#707070]" : "text-[#fff]"} text-[14px]`}>
+          <p
+            className={`${
+              !languageState ? "text-[#707070]" : "text-[#fff]"
+            } text-[14px]`}
+          >
             Japanese
           </p>
         </div>
@@ -74,11 +103,9 @@ export default function Menu() {
           className="text-[#fff] text-sm border border-[#fff] w-full py-3 rounded-lg"
           onClick={() => {
             if (isLoggedIn) {
-              setIsLoggedIn(false); // Logout
-              router.push("/")
-            }
-            else{
-              router.push("/login")
+              handleLogotUser();
+            } else {
+              router.push("/login");
             }
           }}
         >
