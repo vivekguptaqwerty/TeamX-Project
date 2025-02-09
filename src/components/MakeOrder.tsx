@@ -1,4 +1,3 @@
-"use client";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppContext } from "@/app/Context/AppContext";
@@ -8,8 +7,8 @@ interface MakeOrderProps {
   selectedOrder: string;
 }
 
-export default function MakeOrder({selectedOrder}:MakeOrderProps) {
-  const { setIsLoading, orderDetails,makeOrder } = useContext(AppContext);
+export default function MakeOrder({ selectedOrder }: MakeOrderProps) {
+  const { setIsLoading, orderDetails, makeOrder } = useContext(AppContext);
   const router = useRouter();
   const [leverage, setLeverage] = useState(1);
   const [value, setValue] = useState<number>(10);
@@ -19,18 +18,12 @@ export default function MakeOrder({selectedOrder}:MakeOrderProps) {
   const outcomeId = orderDetails?.event_outcome_id;
 
   useEffect(() => {
-    setIsLoading(false);
-  }, [setIsLoading]);
-
-  useEffect(()=>{
-    if(value){
-      makeOrder(outcomeId,eventId,value)
-      .catch((error)=>{
-        console.error("Error updating order:",error)
-      })
+    if (value && eventId && outcomeId) {
+      makeOrder(outcomeId, eventId, value).catch((error) => {
+        console.error("Error updating order:", error);
+      });
     }
-  },[value,leverage])
-
+  }, [value, leverage]);
 
   const handleTradeSize = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseFloat(e.target.value);
@@ -82,7 +75,7 @@ export default function MakeOrder({selectedOrder}:MakeOrderProps) {
             <p className="text-[#FFAE2A] text-[23px]">+{orderDetails?.indicative_return.toFixed(0)}%</p>
           </div>
           <div className="flex items-center justify-center text-[#00FFB8] text-[22px] pt-3">
-            ${Math.round(orderDetails?.wager*(orderDetails?.indicative_return/100))}
+            ${Math.round(orderDetails?.wager * (orderDetails?.indicative_return / 100))}
           </div>
         </div>
         <div className="w-1/2 px-5 py-5 bg-[#131313] rounded-md flex flex-col">
@@ -91,10 +84,10 @@ export default function MakeOrder({selectedOrder}:MakeOrderProps) {
               New <br />
               Probability
             </p>
-            <p className="text-[#FFAE2A] text-[23px]">+{(orderDetails?.probability_change*100).toFixed(1)}%</p>
+            <p className="text-[#FFAE2A] text-[23px]">+{(orderDetails?.probability_change * 100).toFixed(1)}%</p>
           </div>
           <div className="flex items-center justify-center text-[#00FFB8] text-[22px] pt-3">
-            +{Math.round(orderDetails?.new_probability*100)}%
+            +{Math.round(orderDetails?.new_probability * 100)}%
           </div>
         </div>
       </div>
@@ -108,21 +101,14 @@ export default function MakeOrder({selectedOrder}:MakeOrderProps) {
               <div
                 className="h-[19px] rounded-lg bg-[#00FFBB]"
                 style={{
-                  width: `${Math.round(
-                    orderDetails?.current_probability * 100
-                  )}%`,
+                  width: `${Math.round(orderDetails?.current_probability * 100)}%`,
                 }}
               ></div>
             </div>
             <p className="text-[19px] font-light">
               {Math.round(orderDetails?.current_probability * 100)}%
             </p>
-            <Image
-              src="/Images/checkbox.png"
-              alt="checkbox"
-              height={20}
-              width={20}
-            />
+            <Image src="/Images/checkbox.png" alt="checkbox" height={20} width={20} />
           </div>
         </div>
       </div>
@@ -135,7 +121,8 @@ export default function MakeOrder({selectedOrder}:MakeOrderProps) {
           </div>
           {[20, 50, 100].map((item, index) => {
             return (
-              <button key={index}
+              <button
+                key={index}
                 onClick={() => handleTradeSizePlus(item)}
                 className="bg-[#1b1b1b] rounded-md py-1 px-2 font-semibold text text-[13px] hover:bg-[#2b2b2b]"
               >
@@ -160,9 +147,7 @@ export default function MakeOrder({selectedOrder}:MakeOrderProps) {
                 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-[#00FFB8] [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer"
           />
           <div className="flex flex-row-reverse">
-            <p className="text-[#00FFB8] text-xs mt-5">
-              Max trade size | ${maxTradeSize} MAX
-            </p>
+            <p className="text-[#00FFB8] text-xs mt-5">Max trade size | ${maxTradeSize} MAX</p>
           </div>
         </div>
       </div>
@@ -173,7 +158,8 @@ export default function MakeOrder({selectedOrder}:MakeOrderProps) {
           <div className="w-[60%] text-[19px] px-2">x{leverage}</div>
           {[20, 50, 100].map((item, index) => {
             return (
-              <button key={index}
+              <button
+                key={index}
                 onClick={() => handleLeveragePlus(item)}
                 className="bg-[#1b1b1b] rounded-md py-1 px-2 font-semibold text text-[13px] hover:bg-[#2b2b2b]"
               >
@@ -197,17 +183,12 @@ export default function MakeOrder({selectedOrder}:MakeOrderProps) {
                 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-[#00FFB8] [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer"
           />
           <div className="flex flex-row-reverse">
-            <p className="text-[#FF4E00] text-xs mt-5">
-              Max Available leverage | {maxLeverage}MAX
-            </p>
+            <p className="text-[#FF4E00] text-xs mt-5">Max Available leverage | {maxLeverage}MAX</p>
           </div>
         </div>
       </div>
 
-      <button
-        onClick={handleSubmit}
-        className="text-[#00FFB8] w-full border border-[#00FFB8] mt-8 py-3 rounded-2xl"
-      >
+      <button onClick={handleSubmit} className="text-[#00FFB8] w-full border border-[#00FFB8] mt-8 py-3 rounded-2xl">
         Proceed
       </button>
     </div>

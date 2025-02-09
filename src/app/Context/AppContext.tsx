@@ -189,10 +189,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     eventId: string,
     amount: number
   ) => {
-
     setIsLoading(true);
     setIsOrderMade(true);
-
+  
     const orderPayload: OrderPayload = {
       event_id: eventId,
       event_outcome_id: outcomeId,
@@ -202,7 +201,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       pledge: amount,
       wager: amount,
     };
-
+  
     try {
       const response = await fetch(`${API_BASE_URL}/quotes`, {
         method: "POST",
@@ -211,15 +210,15 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         },
         body: JSON.stringify(orderPayload),
       });
-
+  
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText || "Order placement failed");
       }
       const responseData = (await response.json()) as OrderResponse;
-      setOrderDetails(responseData);
+      setOrderDetails(responseData); // Update the orderDetails state with the latest data
     } catch (error) {
-      throw error;
+      console.error("Error making order:", error);
     } finally {
       setIsLoading(false);
     }
