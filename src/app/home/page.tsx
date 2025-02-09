@@ -9,7 +9,6 @@ import ImageSlider from "@/components/ImageSlider";
 import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
 import TopCategories from "@/components/TopCategoies";
-
 export default function Home() {
   const { filter, setFilter,setIsOrderMade} = useContext(AppContext);
   const { categories } = useContext(AppContext);
@@ -22,7 +21,7 @@ export default function Home() {
     <div className="w-full">
       <Navbar home="Home" />
       <HeadingSlider setFilter={setFilter} filter={filter} />
-      <ImageSlider/>
+      <ImageSlider />
       <SearchBar />
       <TopCategories />
       {categories.map((item, index) => {

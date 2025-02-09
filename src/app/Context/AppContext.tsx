@@ -290,7 +290,31 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+    const cookies = document.cookie.split("; ");
+    const tokenCookie = cookies.find((cookie) =>
+      cookie.startsWith("authToken=")
+    );
+
+    if (tokenCookie) {
+      const token = tokenCookie.split("=")[1]; // Extract the token
+      console.log("Auth token retrieved from cookies:", token); // Log token
+      setAuthToken(token);
+    } else {
+      console.log("No authToken found in cookies."); // Log if no token found
+    }
+  }, []); // Only run on mount
+
+  // This useEffect will run when authToken changes
+  useEffect(() => {
+    console.log("authToken changed:", authToken); // Log whenever authToken is updated
+    if (authToken) {
+      setIsLoggedIn(true); // Set isLoggedIn to true if token exists
+      console.log("User is logged in.");
+    } else {
+      setIsLoggedIn(false); // Set isLoggedIn to false if no token is found
+      console.log("User is not logged in.");
+    }
+  }, [authToken]); // Runs when authToken is updated
 
   const contextValue: AppContextProps = {
     filter,
