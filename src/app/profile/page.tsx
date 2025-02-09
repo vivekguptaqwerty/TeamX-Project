@@ -7,17 +7,30 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { AppContext } from "../Context/AppContext";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS for the toast styles
 import Loader from "@/components/Loader/Loader";
+const VerificationStatus: React.FC<{ isVerified: boolean | null }> = ({
+  isVerified,
+}) => (
+  <span
+    className={`ml-2 flex items-center text-[9px] ${
+      isVerified ? "text-green-400" : "text-red-400"
+    }`}
+  >
+    {isVerified ? "Verified" : "Not Verified"}
+  </span>
+);
+
 const Profile: React.FC = () => {
   const router = useRouter();
-  const { authToken } = useContext(AppContext);
+  const { authToken, API_BASE_URL } = useContext(AppContext);
 
-  const [profileImage, setProfileImage] = useState<string | "">("");
-  const [UserName, setUserName] = useState<string | "">("");
-  const [email, setEmail] = useState<string | "">("");
+  const [profileImage, setProfileImage] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<number | null>(null);
+
   const [email_verified, setEmail_Verified] = useState<boolean | null>(null);
   const [phone_verified, setPhone_verified] = useState<boolean | null>(null);
   const [Loading, setLoading] = useState<boolean>(true);
@@ -36,7 +49,7 @@ const Profile: React.FC = () => {
   const fetchUserProfile = async () => {
     try {
       console.log("authToken in profile", authToken);
-      const response = await fetch("https://test-api.everyx.io/me", {
+      const response = await fetch(`${API_BASE_URL}/me`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -73,7 +86,7 @@ const Profile: React.FC = () => {
 
   const UpdateProfile = async () => {
     try {
-      const response = await fetch("https://test-api.everyx.io/profile", {
+      const response = await fetch(`${API_BASE_URL}/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -81,15 +94,14 @@ const Profile: React.FC = () => {
         },
         body: JSON.stringify({
           avatar: profileImage,
-          display_name: UserName,
+
+          display_name: userName,
           phone: phone?.toString(),
         }),
       });
 
       if (!response.ok) {
-        throw new Error(
-          `Failed to update profile: ${response.status} ${response.statusText}`
-        );
+        throw new Error(`Failed to update profile: ${response.status}`);
       }
 
       toast.success("Update Successful", {
@@ -125,13 +137,12 @@ const Profile: React.FC = () => {
     <>
       <Navbar home="Profile" />
       <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-5">
-        <div className="max-w-md mx-auto ">
-          {/* Profile Photo */}
+        <div className="max-w-md mx-auto">
           <div className="flex flex-col items-center">
             <div className="relative w-20 h-20 mb-5">
               {profileImage ? (
                 <Image
-                  src={profileImage || "/placeholder.svg"}
+                  src={profileImage}
                   alt="Profile"
                   fill
                   className="rounded-full object-top object-cover"
@@ -155,44 +166,22 @@ const Profile: React.FC = () => {
             </label>
           </div>
 
-          {/* Form Fields */}
           <div className="space-y-6 px-5 my-11">
-            <div className="border-b border-gray-800">
-              <label className="block text-[12px] mb-1 opacity-[27%]">
-                Username
-              </label>
-              <input
-                type="text"
-                placeholder="Alex Kapawski"
-                value={UserName}
-                onChange={(e) => setUserName(e.target.value)}
-                className="w-full bg-transparent py-2 text-[12px] outline-none"
-              />
-            </div>
+            <FormField
+              label="Username"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="Alex Kapawski"
+            />
 
-            <div className="border-b border-gray-800">
-              <label className="block text-[12px] mb-1 opacity-[27%]">
-                Phone Number
-              </label>
-              <div className="flex items-center justify-between">
-                <input
-                  type="tel"
-                  placeholder="81 080-9662-4545"
-                  value={phone ?? ""}
-                  onChange={(e) => setPhone(Number(e.target.value))}
-                  className="flex-1 bg-transparent py-2 text-[12px] outline-none"
-                />
-                {phone_verified ? (
-                  <span className="ml-2 text-green-400 flex items-center text-[9px]">
-                    Verified
-                  </span>
-                ) : (
-                  <span className="ml-2 text-red-400 flex items-center text-[9px]">
-                    Not Verified
-                  </span>
-                )}
-              </div>
-            </div>
+            <FormField
+              label="Phone Number"
+              value={phone?.toString() ?? ""}
+              onChange={(e) => setPhone(Number(e.target.value))}
+              placeholder="81 080-9662-4545"
+              type="tel"
+              append={<VerificationStatus isVerified={phone_verified} />}
+            />
 
             <div className="border-b border-gray-800">
               <label className="block text-[12px] mb-1 opacity-[27%]">
@@ -223,7 +212,7 @@ const Profile: React.FC = () => {
                 Password
               </label>
               <div className="flex items-center justify-between">
-                <div className="flex-1 flex items-center border-b border-gray-800">
+                <div className="flex-1 flex items-center">
                   <FiLock className="w-4 h-4 text-gray-400 mr-2" />
                   <input
                     type="password"
@@ -235,9 +224,7 @@ const Profile: React.FC = () => {
                 <button
                   className="ml-2 text-[9px] underline"
                   type="button"
-                  onClick={() => {
-                    router.push("/profile/change-password");
-                  }}
+                  onClick={() => router.push("/profile/change-password")}
                 >
                   Change Password
                 </button>
@@ -245,7 +232,6 @@ const Profile: React.FC = () => {
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="space-y-4 pt-6">
             <button
               className="w-full py-3 px-4 border-[#2DC198] border-[0.25px] rounded-lg transition-colors text-[14px] text-[#2DC198]"
@@ -256,9 +242,7 @@ const Profile: React.FC = () => {
             <button
               className="w-full flex items-center justify-center transition-colors gap-2 underline text-white text-[12px]"
               type="button"
-              onClick={() => {
-                router.push("/deposit-withdrawal/history");
-              }}
+              onClick={() => router.push("/deposit-withdrawal/history")}
             >
               Back
             </button>
@@ -268,5 +252,40 @@ const Profile: React.FC = () => {
     </>
   );
 };
+
+interface FormFieldProps {
+  label: string;
+  value: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
+  type?: string;
+  readOnly?: boolean;
+  append?: React.ReactNode;
+}
+
+const FormField: React.FC<FormFieldProps> = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  readOnly,
+  append,
+}) => (
+  <div className="border-b border-gray-800">
+    <label className="block text-[12px] mb-1 opacity-[27%]">{label}</label>
+    <div className="flex items-center justify-between">
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        readOnly={readOnly}
+        className="flex-1 bg-transparent py-2 text-[12px] outline-none"
+      />
+      {append}
+    </div>
+  </div>
+);
 
 export default Profile;

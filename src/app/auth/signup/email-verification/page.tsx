@@ -1,19 +1,67 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
-import { useRouter } from "next/navigation";
 
 const Verification: React.FC = () => {
-  const router = useRouter();
+  const [email, setEmail] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
+  // Fetch registered email from API
   useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push("/auth/signup/success"); // Redirects to signup/success after 5 seconds
-    }, 5000);
+    const fetchRegisteredEmail = async () => {
+      try {
+        const response = await fetch("https://test-api.everyx.io/register");
 
-    return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
-  }, [router]);
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("API Response:", data); // Debugging: check the response format
+
+        if (!data.email) {
+          throw new Error("Email not found in response.");
+        }
+
+        setEmail(data.email);
+      } catch (err) {
+        console.error("Error fetching email:", err);
+        setError("Error fetching registered email.");
+      }
+    };
+
+    fetchRegisteredEmail();
+  }, []);
+
+  // Validate email only after email is fetched
+  useEffect(() => {
+    if (!email) return;
+
+    const validateEmail = async () => {
+      try {
+        const response = await fetch("https://test-api.everyx.io/register-validation", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Validation failed: ${response.statusText}`);
+        }
+
+        console.log("Email validated successfully.");
+      } catch (err) {
+        console.error("Email validation error:", err);
+      }
+    };
+
+    validateEmail();
+  }, [email]); // Runs only after email is set
+
 
   const handleResendEmail = () => {
     alert("Resending email...");
@@ -31,8 +79,12 @@ const Verification: React.FC = () => {
           We sent a confirmation email to:
         </p>
 
-        {/* Email Address */}
-        <p className="text-lg font-light mt-2">AlexKapawski@gmail.com</p>
+        {/* Display Registered Email or Error */}
+        {error ? (
+          <p className="text-red-500 text-lg font-light mt-2">{error}</p>
+        ) : (
+          <p className="text-lg font-light mt-2">{email || "Loading..."}</p>
+        )}
 
         {/* Instruction */}
         <div className="text-center text-sm leading-6 mt-10">

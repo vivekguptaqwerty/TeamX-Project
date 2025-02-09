@@ -11,8 +11,10 @@ import Loader from "@/components/Loader/Loader";
 
 const Setting: React.FC = () => {
   const router = useRouter();
-  const { authToken } = useContext(AppContext);
-  const [favoriteTags, setFavoriteTags] = useState<any[]>([]);
+  const { authToken, API_BASE_URL } = useContext(AppContext);
+  const [favoriteTags, setFavoriteTags] = useState<
+    { tag: { slug: string; name: string }; enabled: boolean }[]
+  >([]);
   const [notifications, setNotifications] = useState<
     Record<string, { name: string; enabled: boolean }>
   >({});
@@ -25,7 +27,9 @@ const Setting: React.FC = () => {
   const [updatedNotifications, setUpdatedNotifications] = useState<
     Record<string, boolean>
   >({});
-  const [updatedFavoriteTags, setUpdatedFavoriteTags] = useState<any[]>([]);
+  const [updatedFavoriteTags, setUpdatedFavoriteTags] = useState<
+    { tag: { slug: string; name: string }; enabled: boolean }[]
+  >([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const notificationNames: Record<string, string> = {
@@ -48,7 +52,7 @@ const Setting: React.FC = () => {
 
   const fetchSettings = async () => {
     try {
-      const response = await fetch("https://test-api.everyx.io/preferences", {
+      const response = await fetch(`${API_BASE_URL}/preferences`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -66,14 +70,21 @@ const Setting: React.FC = () => {
         string,
         { name: string; enabled: boolean }
       > = {};
-      data.notification_types.forEach((type: any) => {
-        type.notifications.forEach((notif: any) => {
-          notificationMap[notif.notification_code] = {
-            name: notificationNames[notif.notification_code] || type.name,
-            enabled: notif.enabled,
-          };
-        });
-      });
+      data.notification_types.forEach(
+        (type: {
+          name: string;
+          notifications: { notification_code: string; enabled: boolean }[];
+        }) => {
+          type.notifications.forEach(
+            (notif: { notification_code: string; enabled: boolean }) => {
+              notificationMap[notif.notification_code] = {
+                name: notificationNames[notif.notification_code] || type.name,
+                enabled: notif.enabled,
+              };
+            }
+          );
+        }
+      );
 
       setNotifications(notificationMap);
 
@@ -127,17 +138,14 @@ const Setting: React.FC = () => {
 
   const saveData = async () => {
     try {
-      const wagerResponse = await fetch(
-        "https://test-api.everyx.io/preferences/wager",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: JSON.stringify(wager),
-        }
-      );
+      const wagerResponse = await fetch(`${API_BASE_URL}/preferences/wager`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify(wager),
+      });
 
       if (!wagerResponse.ok) {
         throw new Error("Error saving wager settings");
@@ -146,7 +154,7 @@ const Setting: React.FC = () => {
       // Only save favorite tags that have changed
       for (const updatedTag of updatedFavoriteTags) {
         const favResponse = await fetch(
-          `https://test-api.everyx.io/preferences/favorite-tags/${updatedTag.tag.slug}`,
+          `${API_BASE_URL}/preferences/favorite-tags/${updatedTag.tag.slug}`,
           {
             method: "PUT",
             headers: {
@@ -166,7 +174,7 @@ const Setting: React.FC = () => {
       // Update notifications that have changed
       for (const key of Object.keys(updatedNotifications)) {
         const notifResponse = await fetch(
-          `https://test-api.everyx.io/preferences/notifications/${key}`,
+          `${API_BASE_URL}/preferences/notifications/${key}`,
           {
             method: "PUT",
             headers: {
@@ -191,8 +199,10 @@ const Setting: React.FC = () => {
       setUpdatedNotifications({});
       setUpdatedFavoriteTags([]);
     } catch (error) {
-      toast.error("Error saving settings: " + error.message);
-      console.error("Error saving settings:", error);
+      toast.error(
+        "Error saving settings: " +
+          (error instanceof Error ? error.message : "Unknown error")
+      );
     }
   };
 
@@ -279,9 +289,12 @@ const Setting: React.FC = () => {
               </label>
               <input
                 type="text"
-                value={wager[key]}
+                value={wager[key as keyof typeof wager]}
                 onChange={(e) =>
-                  setWager((prev) => ({ ...prev, [key]: e.target.value }))
+                  setWager((prev) => ({
+                    ...prev,
+                    [key as keyof typeof wager]: e.target.value,
+                  }))
                 }
                 placeholder={`Enter ${key.replace(/_/g, " ")}`}
                 className="w-full mt-2 bg-transparent border-b-[1px] text-[14px] text-white pb-1 border-[#707070] outline-none"

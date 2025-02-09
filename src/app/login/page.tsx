@@ -11,7 +11,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { setIsLoggedIn, setAuthToken } = useContext(AppContext);
+  const { setIsLoggedIn, setAuthToken, API_BASE_URL } = useContext(AppContext);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +27,7 @@ export default function Login() {
       formData.append("email", email);
       formData.append("password", password);
 
-      const response = await fetch("https://test-api.everyx.io/tokens", {
+      const response = await fetch(`${API_BASE_URL}/tokens`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

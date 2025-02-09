@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 const PasswordChange: React.FC = () => {
   const router = useRouter();
-  const { authToken } = useContext(AppContext);
+  const { authToken, API_BASE_URL } = useContext(AppContext);
 
   const [passwords, setPasswords] = useState({
     oldPassword: "",
@@ -47,7 +47,7 @@ const PasswordChange: React.FC = () => {
     }
 
     try {
-      const response = await fetch("https://test-api.everyx.io/passwords", {
+      const response = await fetch(`${API_BASE_URL}/passwords`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,11 @@ const PasswordChange: React.FC = () => {
       toast.success("Password changed successfully!");
       setPasswords({ oldPassword: "", newPassword: "", confirmPassword: "" });
     } catch (error) {
-      toast.error("Error changing password. Try again.");
+      toast.error(
+        `Error changing password. Try again: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
     }
   };
 
