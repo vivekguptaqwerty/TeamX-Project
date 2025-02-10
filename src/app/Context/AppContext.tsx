@@ -1,5 +1,6 @@
 "use client";
 import React, { createContext, useState, ReactNode, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 // Types and Interfaces
 interface Category {
@@ -142,6 +143,7 @@ export const AppContext = createContext<AppContextProps>(initialState);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   // State management
+  const router = useRouter();
   const [filter, setFilter] = useState<string>("");
   const [slugHeading, setSlugHeading] = useState<string>("");
   const [selectedMenu, setSelectedMenu] = useState<string>("Home");
@@ -189,8 +191,30 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     eventId: string,
     amount: number
   ) => {
+
+    if(!authToken){
+      return router.push("/login")
+    }
+
     setIsLoading(true);
     setIsOrderMade(true);
+    
+    // Clear the previous order details
+    setOrderDetails({
+      max_wager: 0,
+      min_wager: 0,
+      estimated_payout: 0,
+      estimated_probability: 0,
+      leverage: 1,
+      max_leverage: 1,
+      current_probability: 0,
+      indicative_return: 0,
+      new_probability: 0,
+      probability_change: 0,
+      wager: 0,
+      event_id: "",
+      event_outcome_id: ""
+    });
   
     const orderPayload: OrderPayload = {
       event_id: eventId,
@@ -216,7 +240,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         throw new Error(errorText || "Order placement failed");
       }
       const responseData = (await response.json()) as OrderResponse;
-      setOrderDetails(responseData); // Update the orderDetails state with the latest data
+      setOrderDetails(responseData); // Update with new data after clearing old data
     } catch (error) {
       console.error("Error making order:", error);
     } finally {

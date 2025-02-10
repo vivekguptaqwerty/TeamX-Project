@@ -2,7 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../Context/AppContext";
 import Link from "next/link";
 
@@ -11,7 +11,11 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { setIsLoggedIn, setAuthToken, API_BASE_URL } = useContext(AppContext);
+  const { setIsLoggedIn, setAuthToken, API_BASE_URL ,setIsLoading} = useContext(AppContext);
+
+  useEffect(()=>{
+    setIsLoading(false);
+  })
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

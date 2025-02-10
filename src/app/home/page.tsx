@@ -1,37 +1,113 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../Context/AppContext";
-import Category from "@/components/Category";
 import Footer from "@/components/Footer";
 import HeadingSlider from "@/components/HeadingSlider";
 import ImageSlider from "@/components/ImageSlider";
 import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
 import TopCategories from "@/components/TopCategoies";
-export default function Home() {
-  const { filter, setFilter,setIsOrderMade} = useContext(AppContext);
-  const { categories } = useContext(AppContext);
+import Category from "@/components/Category";
+import CategoryCard from "@/components/CategoryCard"; // Add this import
 
-  useEffect(()=>{
-    setIsOrderMade(false)
-  },[])
+interface TraderInfo {
+  max_leverage: number;
+  estimated_payout: number;
+  estimated_probability: number;
+}
+
+interface Outcome {
+  _id: string;
+  name: string;
+  trader_info: TraderInfo;
+}
+
+interface SearchResultItem {
+  _id: string;
+  name: string;
+  description: string;
+  category: {
+    name: string;
+  };
+  ends_at: string;
+  outcomes: Outcome[];
+  event_images_url: string[];
+}
+
+export default function Home() {
+  const { filter, setFilter, setIsOrderMade, API_BASE_URL, categories,search,setSearch} = useContext(AppContext);
+  const [searchData, setSearchData] = useState<SearchResultItem[]>([]);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsOrderMade(false);
+  }, [setIsOrderMade]);
+
+  useEffect(() => {
+    // Only search if search term is not empty
+    if (search.trim()) {
+      const fetchSearchResults = async () => {
+        try {
+          setIsSearching(true);
+          const response = await fetch(
+            `${API_BASE_URL}/search-events?sortby=relevance&keyword=${encodeURIComponent(search)}`
+          );
+
+          if (!response.ok) {
+            throw new Error('Search failed');
+          }
+
+          const data = await response.json();
+          console.log(data);
+          setSearchData(data);
+        } catch (error) {
+          console.error("Search error:", error);
+          setSearchData([]);
+        } finally {
+          setIsSearching(false);
+        }
+      };
+
+      // Debounce the search to prevent too many API calls
+      const debounceTimer = setTimeout(fetchSearchResults, 500);
+
+      // Cleanup function
+      return () => clearTimeout(debounceTimer);
+    } else {
+      // Clear search results if search is empty
+      setSearchData([]);
+    }
+  }, [search, API_BASE_URL]);
 
   return (
     <div className="w-full">
       <Navbar home="Home" />
       <HeadingSlider setFilter={setFilter} filter={filter} />
       <ImageSlider />
-      <SearchBar />
-      <TopCategories />
-      {categories.map((item, index) => {
-        // Check if the item is of type Category (it must have name and slug)
+      <SearchBar search={search} setSearch={setSearch} />
+      
+      {!search && <TopCategories />}
+      
+      {!search && categories.map((item, index) => {
         if (typeof item === "object") {
           return <Category key={index} item={item} />;
         }
-        // If the item is a string, we can handle it differently or skip it
-        return null; // Or return a default component if needed
+        return null;
       })}
+      
+      <div className="p-5">
+        {isSearching ? (
+          <div className="text-center text-gray-500 h-52 flex items-center justify-center">Searching...</div>
+        ) : searchData.length > 0 ? (
+          searchData.map((item) => (
+            <CategoryCard key={item._id} item={item} />
+          ))
+        ) : search.trim() ? (
+          <div className="text-center text-gray-500 h-52 flex items-center justify-center">No results found</div>
+        ) : null}
+      </div>
+      
       <Footer />
     </div>
   );

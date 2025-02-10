@@ -72,14 +72,10 @@ export default function CategoryCard({ item }: CategoryCardProps) {
   const handleNavigation = async () => {
     try {
       setIsLoading(true);
-      await router.push(`/events/${item?._id}`);
+      router.push(`/events/${item?._id}`);
     } catch (error) {
       console.error("Navigation error:", error);
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
-    }
+    } 
   };
 
   // console.log("item at categoryCard", item);

@@ -18,12 +18,18 @@ export default function MakeOrder({ selectedOrder }: MakeOrderProps) {
   const outcomeId = orderDetails?.event_outcome_id;
 
   useEffect(() => {
-    if (value && eventId && outcomeId) {
-      makeOrder(outcomeId, eventId, value).catch((error) => {
-        console.error("Error updating order:", error);
-      });
-    }
-  }, [value, leverage]);
+    // Debounce the order updates to prevent rapid firing
+    const debounceTimeout = setTimeout(() => {
+      if (value && eventId && outcomeId && value >= 10) {  // Add minimum value check
+        makeOrder(outcomeId, eventId, value).catch((error) => {
+          console.error("Error updating order:", error);
+        });
+      }
+    }, 500);  // Wait 500ms before making the API call
+  
+    // Cleanup timeout on each change
+    return () => clearTimeout(debounceTimeout);
+  }, [value]); // Remove leverage from dependencies since it's not used in makeOrder
 
   const handleTradeSize = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseFloat(e.target.value);

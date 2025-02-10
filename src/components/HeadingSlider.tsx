@@ -27,6 +27,7 @@ const HeadingSlider: React.FC<HeadingSliderProps> = ({ setFilter, filter }) => {
           <li
             key={index}
             onClick={() => {
+              setIsOrderMade(false)
               setIsLoading(true)
               setFilter(category.name); // Use category.name here
               router.push(`/explore/category/${category.slug}`); // Use category.slug here
