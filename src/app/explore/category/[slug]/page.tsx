@@ -34,7 +34,7 @@ interface Event {
 }
 
 export default function EventCategoryPage() {
-  const { filter, setFilter, findHeadingWithSlug,API_BASE_URL,setIsLoading } = useContext(AppContext);
+  const { filter, setFilter, findHeadingWithSlug,API_BASE_URL,setIsLoading,search,setSearch } = useContext(AppContext);
   const [events, setEvents] = useState<Event[]>([]);
   const { slug } = useParams();
 
@@ -74,7 +74,7 @@ export default function EventCategoryPage() {
     <div>
       <Navbar home={"Home"} />
       <HeadingSlider setFilter={setFilter} filter={filter} />
-      <SearchBar />
+      <SearchBar search={search} setSearch={setSearch} />
       <div className="p-5">
         <h1 className="text-xl mb-6">{heading || safeSlug}</h1>
         {events.length!==0? events.map((item) => (

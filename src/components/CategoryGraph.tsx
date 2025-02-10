@@ -44,7 +44,7 @@ export default function CategoryGraph({ eventData,setSelectedOrder }: CategoryIn
 
   return (
     <div className="mt-3">
-      <h1 className="font-bold px-5 text-[23px]">What do you predict ?</h1>
+      <h1 className="px-5 text-[23px]">What do you predict ?</h1>
       <div className="pl-5 pr-5 py-8 flex flex-col gap-5">
         {eventData?.outcomes.map((outcome: Outcome, index: number) => (
           <div key={outcome._id} className="flex flex-col gap-1">

@@ -132,7 +132,7 @@ const DrawGraph: React.FC<DrawGraphProps> = ({ data }) => {
   };
 
   return (
-    <div className="w-full  p-4 rounded-lg">
+    <div className="w-full rounded-lg">
       {/* Centered Tabs Container */}
       <div className="flex justify-center mb-4">
         <div className="inline-flex gap-1 p-1 bg-[#1A1A1A] rounded-lg">
