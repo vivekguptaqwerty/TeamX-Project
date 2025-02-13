@@ -40,14 +40,13 @@ interface OrderResponse {
   estimated_probability: number;
   leverage: number;
   max_leverage: number;
-  current_probability :number
-  indicative_return:number,
-  new_probability:number,
-  probability_change:number,
-  wager:number,
-  event_id:string,
-  event_outcome_id:string
-
+  current_probability: number;
+  indicative_return: number;
+  new_probability: number;
+  probability_change: number;
+  wager: number;
+  event_id: string;
+  event_outcome_id: string;
 }
 
 interface AppContextProps {
@@ -79,13 +78,16 @@ interface AppContextProps {
   makeOrder: (
     outcomeId: string,
     eventId: string,
-    amount: number
+    amount: number,
+    leverage: number
   ) => Promise<void>;
   isOrderMade: boolean;
   setIsOrderMade: React.Dispatch<React.SetStateAction<boolean>>;
   orderDetails: OrderResponse;
   setOrderDetails: React.Dispatch<React.SetStateAction<OrderResponse>>;
   API_BASE_URL: string;
+  selectedOrder: string;
+  setSelectedOrder: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const API_BASE_URL = "https://test-api.everyx.io";
@@ -124,22 +126,22 @@ const initialState: AppContextProps = {
     estimated_probability: 0,
     leverage: 1,
     max_leverage: 1,
-    current_probability :0,
-    indicative_return:0,
-    new_probability:0,
-    probability_change:0,
-    wager:0,
-    event_id:"",
-    event_outcome_id:""
+    current_probability: 0,
+    indicative_return: 0,
+    new_probability: 0,
+    probability_change: 0,
+    wager: 0,
+    event_id: "",
+    event_outcome_id: "",
   },
-  setIsOrderMade:()=>{},
+  setIsOrderMade: () => {},
   setOrderDetails: () => {},
   API_BASE_URL,
+  selectedOrder: "",
+  setSelectedOrder: () => {},
 };
 
 export const AppContext = createContext<AppContextProps>(initialState);
-
-
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   // State management
@@ -154,6 +156,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [bannerData, setBannerData] = useState<BannerItem[]>([]);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [isOrderMade, setIsOrderMade] = useState<boolean>(false);
+  const [selectedOrder, setSelectedOrder] = useState<string>("");
   const [orderDetails, setOrderDetails] = useState<OrderResponse>({
     max_wager: 0,
     min_wager: 0,
@@ -161,13 +164,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     estimated_probability: 0,
     leverage: 1,
     max_leverage: 1,
-    current_probability :0,
-    indicative_return:0,
-    new_probability:0,
-    probability_change:0,
-    wager:0,
-    event_id:"",
-    event_outcome_id:""
+    current_probability: 0,
+    indicative_return: 0,
+    new_probability: 0,
+    probability_change: 0,
+    wager: 0,
+    event_id: "",
+    event_outcome_id: "",
   });
 
   // API Calls
@@ -189,43 +192,26 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const makeOrder = async (
     outcomeId: string,
     eventId: string,
-    amount: number
+    amount: number,
+    leverage: number
   ) => {
-
-    if(!authToken){
-      return router.push("/login")
+    if (!authToken) {
+      return router.push("/login");
     }
 
-    setIsLoading(true);
+    // setIsLoading(true);
     setIsOrderMade(true);
-    
-    // Clear the previous order details
-    setOrderDetails({
-      max_wager: 0,
-      min_wager: 0,
-      estimated_payout: 0,
-      estimated_probability: 0,
-      leverage: 1,
-      max_leverage: 1,
-      current_probability: 0,
-      indicative_return: 0,
-      new_probability: 0,
-      probability_change: 0,
-      wager: 0,
-      event_id: "",
-      event_outcome_id: ""
-    });
-  
+
     const orderPayload: OrderPayload = {
       event_id: eventId,
       event_outcome_id: outcomeId,
       force_leverage: false,
-      leverage: 1,
+      leverage: leverage,
       loan: 0,
       pledge: amount,
       wager: amount,
     };
-  
+
     try {
       const response = await fetch(`${API_BASE_URL}/quotes`, {
         method: "POST",
@@ -234,7 +220,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         },
         body: JSON.stringify(orderPayload),
       });
-  
+
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText || "Order placement failed");
@@ -369,6 +355,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     orderDetails,
     setOrderDetails,
     API_BASE_URL,
+    selectedOrder,
+    setSelectedOrder
   };
 
   return (

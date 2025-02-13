@@ -47,7 +47,7 @@ export default function Login() {
           data.message || "Unauthorized. Please check your credentials."
         );
       }
-
+      
       document.cookie = `authToken=${data.token}`;
       setAuthToken(data.token); // Update authToken in context
       setIsLoggedIn(true); // Update login status

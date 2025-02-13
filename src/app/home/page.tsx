@@ -36,11 +36,12 @@ interface SearchResultItem {
 }
 
 export default function Home() {
-  const { filter, setFilter, setIsOrderMade, API_BASE_URL, categories,search,setSearch} = useContext(AppContext);
+  const { filter, setFilter, setIsOrderMade, API_BASE_URL, categories,search,setSearch,setIsLoading} = useContext(AppContext);
   const [searchData, setSearchData] = useState<SearchResultItem[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsLoading(false);
     setIsOrderMade(false);
   }, [setIsOrderMade]);
 

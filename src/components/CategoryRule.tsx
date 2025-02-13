@@ -2,7 +2,7 @@ export default function CategoryRule() {
   return (
     <div className="px-5 mt-10">
       <h1 className="text-[23px] mb-8">Rule</h1>
-      <p className="text-[15px] font-light text-[#b9b9b9]">
+      <p className="text-[15px] font-light text-[#9d9d9d]">
         This market will resolve to &quot;Yes&quot; if both of the following two
         conditions are met: <br /><br />
         1) Donald J. Trump wins the 2024 US Presidential
