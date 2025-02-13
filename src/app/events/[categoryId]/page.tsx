@@ -11,6 +11,7 @@ import MakeOrder from "@/components/MakeOrder";
 import CategoryRule from "@/components/CategoryRule";
 import DrawGraph from "@/components/DrawGraph";
 
+
 // EventData interface
 interface EventData {
   _id: string;
@@ -52,12 +53,11 @@ interface EventHistoryParams {
 }
 
 export default function EventCategoryPageDetails() {
-  const { filter, setFilter, setIsLoading, isOrderMade, API_BASE_URL } =
+  const { filter, setFilter, setIsLoading, API_BASE_URL } =
     useContext(AppContext);
   const [eventData, setEventData] = useState<EventData | null>(null);
   const params = useParams();
   const categoryId = params?.categoryId as string | undefined;
-  const [selectedOrder, setSelectedOrder] = useState<string>("");
   const [graphData, setGraphData] = useState<GraphData[]>([]);
   const [isLoadingGraph, setIsLoadingGraph] = useState(true);
 
@@ -143,40 +143,32 @@ export default function EventCategoryPageDetails() {
   }, [eventData?._id, API_BASE_URL]);
 
   return (
-    <div>
+    <div className="relative">
       <Navbar home="Home" />
       <HeadingSlider filter={filter} setFilter={setFilter} />
-
       {eventData ? (
         <>
           <CategoryInfo eventData={eventData} />
-          {!isOrderMade && (
-            <CategoryGraph
-              eventData={eventData}
-              setSelectedOrder={setSelectedOrder}
-            />
-          )}
-          {!isOrderMade && (
-            <div className="px-5">
-              <h1 className="text-[23px] mb-8 mt-5">Live Chart</h1>
-              {isLoadingGraph ? (
-                <div className="flex justify-center items-center h-40">
-                  <p className="text-[#00FFBB] text-lg">Loading graph...</p>
-                </div>
-              ) : (
-                <DrawGraph data={graphData} />
-              )}
-            </div>
-          )}
-          {!isOrderMade && <CategoryRule />}
+          <CategoryGraph
+            eventData={eventData}
+          />
+          <div className="px-5">
+            <h1 className="text-[23px] mb-8 mt-5">Live Chart</h1>
+            {isLoadingGraph ? (
+              <div className="flex justify-center items-center h-40">
+                <p className="text-[#00FFBB] text-lg">Loading graph...</p>
+              </div>
+            ) : (
+              <DrawGraph data={graphData} />
+            )}
+          </div>
+          <CategoryRule />
         </>
       ) : (
         <p className="text-center text-gray-500">Loading event details...</p>
       )}
-
-      {isOrderMade && <MakeOrder selectedOrder={selectedOrder} />}
-
       <Footer />
+      <MakeOrder/>
     </div>
   );
 }
