@@ -85,6 +85,8 @@ interface AppContextProps {
   setIsOrderMade: React.Dispatch<React.SetStateAction<boolean>>;
   orderDetails: OrderResponse;
   setOrderDetails: React.Dispatch<React.SetStateAction<OrderResponse>>;
+  selectedOrder: string;
+  setSelectedOrder: React.Dispatch<React.SetStateAction<string>>
   API_BASE_URL: string;
 
   userProfile: UserProfile | null;
