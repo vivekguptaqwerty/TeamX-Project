@@ -67,7 +67,7 @@ const About: React.FC = () => {
           informed predictions and strategic decision-making.
           <br />
           <br />
-          ©2025 EveryX. All rights reserved.
+          ©2025 EveryX. All rights.
         </p>
       </div>
       <Footer />
