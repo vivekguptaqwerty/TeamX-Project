@@ -1,5 +1,6 @@
 "use client";
 import React, { createContext, useState, ReactNode, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 // Types and Interfaces
 interface Category {
@@ -39,6 +40,13 @@ interface OrderResponse {
   estimated_probability: number;
   leverage: number;
   max_leverage: number;
+  current_probability: number;
+  indicative_return: number;
+  new_probability: number;
+  probability_change: number;
+  wager: number;
+  event_id: string;
+  event_outcome_id: string;
 }
 
 interface AppContextProps {
@@ -70,12 +78,15 @@ interface AppContextProps {
   makeOrder: (
     outcomeId: string,
     eventId: string,
-    amount: number
+    amount: number,
+    leverage: number
   ) => Promise<void>;
   isOrderMade: boolean;
+  setIsOrderMade: React.Dispatch<React.SetStateAction<boolean>>;
   orderDetails: OrderResponse;
   setOrderDetails: React.Dispatch<React.SetStateAction<OrderResponse>>;
   API_BASE_URL: string;
+
   userProfile: UserProfile | null;
   userStats: UserStats | null;
 }
@@ -118,6 +129,10 @@ interface UserStats {
   expected_fund_available_24hr_change: number;
   expected_cumulative_profit: number;
   timestamp: string;
+
+  selectedOrder: string;
+  setSelectedOrder: React.Dispatch<React.SetStateAction<string>>;
+
 }
 
 const API_BASE_URL = "https://test-api.everyx.io";
@@ -156,17 +171,31 @@ const initialState: AppContextProps = {
     estimated_probability: 0,
     leverage: 1,
     max_leverage: 1,
+    current_probability: 0,
+    indicative_return: 0,
+    new_probability: 0,
+    probability_change: 0,
+    wager: 0,
+    event_id: "",
+    event_outcome_id: "",
   },
+  setIsOrderMade: () => {},
   setOrderDetails: () => {},
   API_BASE_URL,
+
   userProfile: null,
   userStats: null,
+
+  selectedOrder: "",
+  setSelectedOrder: () => {},
+
 };
 
 export const AppContext = createContext<AppContextProps>(initialState);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   // State management
+  const router = useRouter();
   const [filter, setFilter] = useState<string>("");
   const [slugHeading, setSlugHeading] = useState<string>("");
   const [selectedMenu, setSelectedMenu] = useState<string>("Home");
@@ -177,6 +206,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [bannerData, setBannerData] = useState<BannerItem[]>([]);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [isOrderMade, setIsOrderMade] = useState<boolean>(false);
+  const [selectedOrder, setSelectedOrder] = useState<string>("");
   const [orderDetails, setOrderDetails] = useState<OrderResponse>({
     max_wager: 0,
     min_wager: 0,
@@ -184,6 +214,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     estimated_probability: 0,
     leverage: 1,
     max_leverage: 1,
+    current_probability: 0,
+    indicative_return: 0,
+    new_probability: 0,
+    probability_change: 0,
+    wager: 0,
+    event_id: "",
+    event_outcome_id: "",
   });
 
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -208,16 +245,21 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const makeOrder = async (
     outcomeId: string,
     eventId: string,
-    amount: number
+    amount: number,
+    leverage: number
   ) => {
-    setIsLoading(true);
+    if (!authToken) {
+      return router.push("/login");
+    }
+
+    // setIsLoading(true);
     setIsOrderMade(true);
 
     const orderPayload: OrderPayload = {
       event_id: eventId,
       event_outcome_id: outcomeId,
       force_leverage: false,
-      leverage: 1,
+      leverage: leverage,
       loan: 0,
       pledge: amount,
       wager: amount,
@@ -237,11 +279,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         throw new Error(errorText || "Order placement failed");
       }
       const responseData = (await response.json()) as OrderResponse;
-      console.log(responseData);
-      setOrderDetails(responseData);
+      setOrderDetails(responseData); // Update with new data after clearing old data
     } catch (error) {
-      console.error("Order placement failed:", error);
-      throw error;
+      console.error("Error making order:", error);
     } finally {
       setIsLoading(false);
     }
@@ -407,11 +447,17 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setAuthToken,
     makeOrder,
     isOrderMade,
+    setIsOrderMade,
     orderDetails,
     setOrderDetails,
     API_BASE_URL,
+
     userProfile,
     userStats,
+
+    selectedOrder,
+    setSelectedOrder
+
   };
 
   return (

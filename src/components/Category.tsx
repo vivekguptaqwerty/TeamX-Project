@@ -84,7 +84,7 @@ export default function Category({ item }: CategoryProps) {
         </button>
       </div>
       <div className="flex flex-col gap-6">
-        {events.map((eventItem) => (
+        {events.slice(0,3).map((eventItem) => (
           <CategoryCard key={eventItem._id} item={eventItem} />
         ))}
       </div>

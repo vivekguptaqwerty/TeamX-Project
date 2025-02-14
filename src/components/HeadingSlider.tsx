@@ -9,7 +9,7 @@ interface HeadingSliderProps {
 
 const HeadingSlider: React.FC<HeadingSliderProps> = ({ setFilter, filter }) => {
   const router = useRouter();
-  const { categories } = useContext(AppContext);
+  const { categories,setIsLoading,setIsOrderMade } = useContext(AppContext);
 
   // Safely process categories (string or Category objects)
   const processedCategories = categories.map((category) => {
@@ -27,6 +27,8 @@ const HeadingSlider: React.FC<HeadingSliderProps> = ({ setFilter, filter }) => {
           <li
             key={index}
             onClick={() => {
+              setIsOrderMade(false)
+              setIsLoading(true)
               setFilter(category.name); // Use category.name here
               router.push(`/explore/category/${category.slug}`); // Use category.slug here
             }}

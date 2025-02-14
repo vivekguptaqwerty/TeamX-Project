@@ -1,10 +1,12 @@
-import { AppContext } from "@/app/Context/AppContext";
 import Image from "next/image";
-import { useContext } from "react";
 
-export default function SearchBar() {
-  const { search, setSearch } = useContext(AppContext);
 
+interface searchProps {
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function SearchBar({ search, setSearch }: searchProps) {
   return (
     <div className="flex gap-3 px-4 py-2 rounded-2xl bg-[#161616] mx-5 mt-7 items-center">
       {/* Search Icon */}
