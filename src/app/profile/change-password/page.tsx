@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { AppContext } from "@/app/Context/AppContext";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 const PasswordChange: React.FC = () => {
   const router = useRouter();
+  const { userProfile } = useContext(AppContext);
   const { authToken, API_BASE_URL } = useContext(AppContext);
 
   const [passwords, setPasswords] = useState({
@@ -78,7 +80,22 @@ const PasswordChange: React.FC = () => {
     <>
       <Navbar home="Profile" />
       <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-5">
-        <p className="text-center text-[17px] font-medium">Change Password</p>
+        <div className="flex justify-center">
+          <div className="w-20 h-20 rounded-full overflow-hidden">
+            {userProfile && (
+              <Image
+                src={userProfile?.avatar}
+                alt="User Profile Pic"
+                className="object-cover rounded-full"
+                width={80}
+                height={80}
+              />
+            )}
+          </div>
+        </div>
+        <p className="text-center text-[17px] font-medium pt-5">
+          Change Password
+        </p>
 
         <div className="space-y-6 px-5 my-32">
           {["oldPassword", "newPassword", "confirmPassword"].map(

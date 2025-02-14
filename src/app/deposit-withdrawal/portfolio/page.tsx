@@ -1,14 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import React from "react";
-import ProfileImage from "../../../../public/Images/profileImage.png";
-import settingIcon from "../../../../public/Icons/settingIcon.png";
+import React, { useContext, useState } from "react";
 import CashWithdrawalCategories from "@/components/CashWithdrawalCategories";
-import { useRouter } from "next/navigation";
 import CurrentCashBalanceCard from "@/components/CurrentCashBalance";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { AppContext } from "@/app/Context/AppContext";
+import Loader from "@/components/Loader/Loader";
 
 interface BetEntry {
   id: string;
@@ -19,7 +17,6 @@ interface BetEntry {
 }
 
 const Portfolio: React.FC = () => {
-  const router = useRouter();
   const bets: BetEntry[] = [
     {
       id: "1",
@@ -47,26 +44,23 @@ const Portfolio: React.FC = () => {
     },
   ];
 
+  const [loading, setLoading] = useState(true);
+  const { userStats, userProfile } = useContext(AppContext);
+
+  React.useEffect(() => {
+    if (userStats && userProfile) {
+      setLoading(false);
+    }
+  }, [userStats, userProfile]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <>
       <Navbar home="Portfolio" />
       <div className="bg-[#0E0E0E] w-full min-h-screen text-white px-5 pt-4 pb-5">
-        <div className="flex justify-center items-center mt-5 relative">
-          {/* Parent container with relative positioning */}
-          <Image
-            src={ProfileImage}
-            alt="User Profile Pic"
-            className="relative rounded-full"
-          />
-          <Image
-            src={settingIcon}
-            alt="Setting icon"
-            className="absolute top-1 left-[65%]"
-            onClick={() => {
-              router.push("/profile");
-            }}
-          />
-        </div>
         <CurrentCashBalanceCard />
         <div className="my-10">
           <CashWithdrawalCategories />
