@@ -4,6 +4,7 @@ import React, { Suspense } from "react";
 import FailedIcon from "../../../../../public/Icons/FailedIcon.png";
 import Navbar from "@/components/Navbar";
 import { useRouter, useSearchParams } from "next/navigation";
+import CurrentCashBalanceCard from "@/components/CurrentCashBalance";
 
 const FailedContent: React.FC = () => {
   const router = useRouter();
@@ -14,11 +15,7 @@ const FailedContent: React.FC = () => {
     <>
       <Navbar home="Withdrawal" />
       <div className="bg-[#0E0E0E] w-full min-h-screen text-white pt-5 flex flex-col">
-        <p className="text-[15px] text-center mt-5">Current Cash Balance</p>
-        <div className="flex justify-center mt-5 items-baseline font-bold">
-          <span className="text-[34px]">$300 .</span>
-          <span className="text-[30px]"> 00</span>
-        </div>
+        <CurrentCashBalanceCard />
         <div className="bg-[#262626] bg-opacity-[31%] flex-1 flex flex-col items-center rounded-t-3xl mt-10 py-2 px-5">
           <div className="w-16 h-[3px] bg-[#707070] rounded-xl"></div>
           <div className="mt-10 flex items-center justify-center w-full px-5">

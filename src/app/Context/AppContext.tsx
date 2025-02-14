@@ -76,6 +76,48 @@ interface AppContextProps {
   orderDetails: OrderResponse;
   setOrderDetails: React.Dispatch<React.SetStateAction<OrderResponse>>;
   API_BASE_URL: string;
+  userProfile: UserProfile | null;
+  userStats: UserStats | null;
+}
+
+interface UserProfile {
+  id: string;
+  displayName: string;
+  avatar: string;
+  email: string;
+  emailVerified: boolean;
+  firstName: string;
+  fullName: string;
+  identityVerified: boolean;
+  lastName: string;
+  phone: string;
+  phoneVerified: boolean;
+  referralCode: string;
+  referralCodeExpiresAt: string;
+  referralCodeQuota: number;
+}
+
+interface UserStats {
+  user_id: string;
+  num_trophies: number;
+  num_ranking: number;
+  rate_winning: number;
+  rate_return: number;
+  wager_value: number;
+  wager_value_24hr_change: number;
+  rate_wager_value_24hr_change: number;
+  fund_available: number;
+  fund_available_24hr_change: number;
+  profit: number;
+  best_case_payoff: number;
+  best_case_fund_available: number;
+  best_case_fund_available_24hr_change: number;
+  best_case_cumulative_profit: number;
+  expected_payoff: number;
+  expected_fund_available: number;
+  expected_fund_available_24hr_change: number;
+  expected_cumulative_profit: number;
+  timestamp: string;
 }
 
 const API_BASE_URL = "https://test-api.everyx.io";
@@ -117,6 +159,8 @@ const initialState: AppContextProps = {
   },
   setOrderDetails: () => {},
   API_BASE_URL,
+  userProfile: null,
+  userStats: null,
 };
 
 export const AppContext = createContext<AppContextProps>(initialState);
@@ -141,6 +185,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     leverage: 1,
     max_leverage: 1,
   });
+
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [userStats, setUserStats] = useState<UserStats | null>(null);
 
   // API Calls
   const fetchCategories = async () => {
@@ -263,6 +310,49 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const getProfileData = async (): Promise<void> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserProfile(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch profile data:", error);
+    }
+  };
+
+  const getUserStatsData = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/dashboard`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("userStats data at the appcontext", data);
+        setUserStats(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch the userStats:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (authToken) {
+      getProfileData();
+      getUserStatsData();
+    }
+  }, [authToken]);
+
   useEffect(() => {
     fetchCategories();
     const cookies = document.cookie.split("; ");
@@ -320,6 +410,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     orderDetails,
     setOrderDetails,
     API_BASE_URL,
+    userProfile,
+    userStats,
   };
 
   return (
